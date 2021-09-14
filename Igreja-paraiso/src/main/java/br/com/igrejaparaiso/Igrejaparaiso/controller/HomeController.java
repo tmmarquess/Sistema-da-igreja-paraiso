@@ -8,10 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    
+
     @GetMapping("/")
     public ModelAndView home(){
-        ModelAndView modelo = new ModelAndView("home");
+        //ModelAndView modelo = new ModelAndView("home");
+        ModelAndView modelo = new ModelAndView("redirect:/membros/");
         return modelo;
     }
 }

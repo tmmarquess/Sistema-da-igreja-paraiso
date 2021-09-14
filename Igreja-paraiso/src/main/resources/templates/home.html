@@ -5,18 +5,87 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <link rel="stylesheet" href="../static/style.css">
   <title>Igreja Paraíso</title>
 </head>
-<body>
-  <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a href="#" class="navbar-brand">Igreja Paraíso</a>
+<body>  
+  <header class="p-3 bg-dark text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          logotipo
+        </a>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+        </ul>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2">Login</button>
+          <button type="button" class="btn btn-warning">Sign-up</button>
+        </div>
+      </div>
     </div>
-  </nav>
+  </header>
 
   <main class="container">
-    <h1>Página Home :)</h1>
+    <br>
+    <br>
+    <br>
+    <div class="row align-content-center">
+      <div class="col-3 offset-1" >
+        <p class="align-middle" id="texto-inicial">Facilitando para você e para a sua membresia</p>
+        <p id="texto">Fornecendo uma melhor comunicação para com seus membros assim como um controle financeiro para auxiliar o seu setor administrativo.</p>
+      </div>
+      
+      
+      <div id="carouselExampleIndicators" class="carousel slide col-6 offset-2" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="../static/akira-hojo-_86u_Y0oAaM-unsplash.jpg" class="img-fluid" alt="..." >
+          </div>
+          <div class="carousel-item">
+            <img src="../static/akira-hojo-_86u_Y0oAaM-unsplash.jpg" class="img-fluid" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../static/akira-hojo-_86u_Y0oAaM-unsplash.jpg" class="img-fluid" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-4 offset-4 text-center" id="final">
+      <p>Quer adotar em sua Igreja?<br><a href="">Entre em contato conosco</a></p>
+    </div></div>
   </main>
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+      <span class="text-muted">© 2021 Company, Inc</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>

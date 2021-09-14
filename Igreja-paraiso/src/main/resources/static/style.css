@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+p#texto-inicial{
+    font-size: 35px;
+    text-align: left;
+}
+
+main{
+    width: auto;
+    height: fit-content;
+}
+
+div#final{
+    padding: 10px 20px;
+}
+
+p#texto{
+    text-align: justify;
+}
+
+p#texto-inicial{
+    text-align: center;
+}
