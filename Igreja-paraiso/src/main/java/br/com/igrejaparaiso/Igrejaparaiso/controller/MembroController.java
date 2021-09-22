@@ -50,7 +50,7 @@ public class MembroController {
 
     @PostMapping("/cadastrar")
     public ModelAndView cadastrar(Membro cli){
-        ModelAndView modelo = new ModelAndView("redirect:/membros/");
+        ModelAndView modelo = new ModelAndView("redirect:/login/");
         repositorio.save(cli);
         return modelo;
     }
