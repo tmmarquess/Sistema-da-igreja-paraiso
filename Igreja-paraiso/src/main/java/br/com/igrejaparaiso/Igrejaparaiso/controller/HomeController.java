@@ -46,7 +46,7 @@ public class HomeController {
                     return modelo;
                 }
             }
-        }
+        }   
         modelo.setViewName("redirect:/login/");
         modelo.addObject("erro","Email ou senha incorretos");
         return modelo;
