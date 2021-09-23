@@ -1,6 +1,5 @@
 package br.com.igrejaparaiso.Igrejaparaiso.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,23 +32,18 @@ public class HomeController {
      modelo.addObject("erro",erro);
      return modelo;
     }
-    
+
     @PostMapping("/login")
     public ModelAndView autenticar(Membro login){
         ModelAndView modelo = new ModelAndView();
-        List<Membro> todos = repositorio.findAll();
-        for (Membro membro : todos) {
-            if(membro.getEmail().equals(login.getEmail())){
-                if(membro.getSenha().equals(login.getSenha())){
-                    modelo.addObject("usuarioAtivo", membro);
-                    modelo.setViewName("logado");
-                    return modelo;
-                }
-            }
-        }   
-        modelo.setViewName("redirect:/login/");
-        modelo.addObject("erro","Email ou senha incorretos");
+        Membro teste = repositorio.findByEmailAndSenha(login.getEmail(),login.getSenha());
+        if(teste == null){
+            modelo.setViewName("redirect:/login/");
+            modelo.addObject("erro","Email ou senha incorretos");
+        }else{
+            modelo.setViewName("logado");
+            modelo.addObject("user",teste);
+        }
         return modelo;
-        
     }
 }

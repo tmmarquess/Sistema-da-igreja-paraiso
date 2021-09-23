@@ -19,6 +19,37 @@
 <body>  
   <main class="container">
    <h1>Logado!</h1>
+   <div class="row">
+    <div class="col-sm-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">numero</th>
+            <th scope="col">Data de Nascimento</th>
+            <th scope="col">Email</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="membro : ${user}">
+            <td th:text="${membro.id}"></td>
+            <td>
+              <a th:text="${membro.nome}" th:href="@{/membros/{id} (id=${membro.id})}"></a>
+            </td>
+            <td th:text="${membro.numero}"></td>
+            <td th:text="${membro.dataNasc}"></td>
+            <td th:text="${membro.email}"></td>
+            <td>
+              <a th:href="@{/membros/{id}/editar (id=${membro.id})}" class="btn btn-warning">Editar</a>
+              <a th:href="@{/membros/{id}/excluir (id=${membro.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>

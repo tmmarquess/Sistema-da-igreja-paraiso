@@ -7,5 +7,5 @@ import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 
 public interface membroRepository extends JpaRepository<Membro,Long> {
 
- //List<Membro> findByemailAndsenha(String email,String senha);
+ Membro findByEmailAndSenha(String email,String senha);
 }
