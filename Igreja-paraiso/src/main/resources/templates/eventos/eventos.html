@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="<http://www.thymeleaf.org>">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <title>Listagem de nomes</title>
+</head>
+<body>
+  <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Lista de eventos</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1>Listagem de eventos</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="col-3">Nome</th>
+              <th scope="col" class="col-3">data</th>
+              <th scope="col" class="col-3">Horário</th>
+              <th scope="col" class="col-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="evento : ${eventos}">
+              <td>
+                <a th:text="${evento.nome}" th:href="@{/eventos/{id} (id=${evento.id})}"></a>
+              </td>
+              <td th:text="${evento.data}"></td>
+              <td th:text="${evento.horario}"></td>
+              <td>
+                <a th:href="@{/eventos/{id}/editar (id=${evento.id})}" class="btn btn-warning">Editar</a>
+                <a th:href="@{/eventos/{id}/excluir (id=${evento.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <a th:href="@{/eventos/cadastrar}" class="btn btn-primary">Cadastrar novo evento</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+</body>
+</html>

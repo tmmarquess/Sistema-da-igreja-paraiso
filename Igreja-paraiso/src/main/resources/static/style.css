@@ -19,5 +19,11 @@ p#texto{
 }
 
 p#texto-inicial{
-    text-align: center;
+    text-align: left;
 }
+#footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:0px;   /* Height of the footer */
+ }
