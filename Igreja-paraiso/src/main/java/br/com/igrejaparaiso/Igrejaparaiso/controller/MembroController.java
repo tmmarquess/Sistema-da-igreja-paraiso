@@ -14,19 +14,19 @@ import br.com.igrejaparaiso.Igrejaparaiso.repository.membroRepository;
 @Controller
 @RequestMapping("/membros")
 public class MembroController {
-    
+
     @Autowired
     membroRepository repositorio;
 
     @GetMapping("/")
-    public ModelAndView membros(){
+    public ModelAndView membros() {
         ModelAndView modelo = new ModelAndView("membros/membros.html");
         modelo.addObject("membros", repositorio.findAll());
         return modelo;
     }
 
     @GetMapping("/{id}")
-    public ModelAndView detalhar(@PathVariable long id){
+    public ModelAndView detalhar(@PathVariable long id) {
         ModelAndView modelo = new ModelAndView("membros/detalhemembro.html");
 
         modelo.addObject("membro", repositorio.getById(id));
@@ -44,12 +44,12 @@ public class MembroController {
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
         ModelAndView modelo = new ModelAndView("membros/cadastro.html");
-        modelo.addObject("membro",new Membro());
+        modelo.addObject("membro", new Membro());
         return modelo;
     }
 
     @PostMapping("/cadastrar")
-    public ModelAndView cadastrar(Membro cli){
+    public ModelAndView cadastrar(Membro cli) {
         ModelAndView modelo = new ModelAndView("redirect:/login/");
         repositorio.save(cli);
         return modelo;
@@ -59,7 +59,7 @@ public class MembroController {
     public ModelAndView editar(@PathVariable long id) {
         ModelAndView modelo = new ModelAndView("membros/editar.html");
 
-        modelo.addObject("membro",repositorio.getById(id));
+        modelo.addObject("membro", repositorio.getById(id));
 
         return modelo;
     }

@@ -1,156 +1,92 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="<http://www.thymeleaf.org>">
+<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-  <script src="../../static/script.js"></script>
-  <script>
-    function limpa_formulário_cep() {
-    //Limpa valores do formulário de cep.
-    document.getElementById('rua').value = ("");
-    document.getElementById('bairro').value = ("");
-    document.getElementById('cidade').value = ("");
-    document.getElementById('uf').value = ("");
-}
-
-function meu_callback(conteudo) {
-    if (!("erro" in conteudo)) {
-        //Atualiza os campos com os valores.
-        document.getElementById('rua').value = (conteudo.logradouro);
-        document.getElementById('bairro').value = (conteudo.bairro);
-        document.getElementById('cidade').value = (conteudo.localidade);
-        document.getElementById('uf').value = (conteudo.uf);
-    } //end if.
-    else {
-        //CEP não Encontrado.
-        limpa_formulário_cep();
-        alert("CEP não encontrado.");
-    }
-}
-
-function pesquisacep(valor) {
-
-    //Nova variável "cep" somente com dígitos.
-    var cep = valor.replace(/\D/g, '');
-
-    //Verifica se campo cep possui valor informado.
-    if (cep != "") {
-
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-
-        //Valida o formato do CEP.
-        if (validacep.test(cep)) {
-
-            //Preenche os campos com "..." enquanto consulta webservice.
-            document.getElementById('rua').value = "...";
-            document.getElementById('bairro').value = "...";
-            document.getElementById('cidade').value = "...";
-            document.getElementById('uf').value = "...";
-
-            //Cria um elemento javascript.
-            var script = document.createElement('script');
-
-            //Sincroniza com o callback.
-            script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-
-            //Insere script no documento e carrega o conteúdo.
-            document.body.appendChild(script);
-
-        } //end if.
-        else {
-            //cep é inválido.
-            limpa_formulário_cep();
-            alert("Formato de CEP inválido.");
-        }
-    } //end if.
-    else {
-        //cep sem valor, limpa formulário.
-        limpa_formulário_cep();
-    }
-};
-  </script>
-  <title>Editar Cliente</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script th:src="@{/js/valida-cep.js}"></script>
+    <link rel="stylesheet" href="../../static/css/cadastroCli.css">
+    <link rel="stylesheet" th:href="@{/css/cadastroCli.css}">
+    <title>Alterar dados</title>
 </head>
+
 <body>
-  <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a href="#" class="navbar-brand">Página Home :)</a>
-    </div>
-  </nav>
-
-  <main class="container">
-    <h1 class="col-md-4 offset-md-4" style="text-align: center;">Editar Membro</h1>
-
-    <form style="text-align: center;" class="col align-self-center" method="POST" th:object="${membro}">
-        <input type="hidden" name="id" th:field="*{id}">
-        <div class="col-md-4 offset-md-4">
-            <label for="name" class="form-label">Nome Completo:</label>
-            <input type="text" class="form-control" id="nome" th:field="*{nome}">
+    <div class="form">
+        <form method="POST" th:object="${membro}">
+            <input type="hidden" name="id" th:field="*{id}">
             <br>
-          </div>
-          <div class="col-md-4 offset-md-4">
-              <label for="text" class="form-label">Telefone:</label>
-              <input type="text" class="form-control" id="numero" th:field="*{numero}">
-              <br>
-            </div>
-            <div class="col-md-4 offset-md-4">
-              <label for="date" class="form-label">Data de Nascimento:</label>
-              <input type="date" class="form-control" id="dataNasc" th:field="*{dataNasc}">
-              <br>
-            </div>
-            <div class="col-md-4 offset-md-4">
-              <label for="email" class="form-label">email:</label>
-              <input type="email" class="form-control" id="email" th:field="*{email}">
-              <br>
-            </div>
-            <div class="col-md-4 offset-md-4">
-              <label for="date" class="form-label">Senha:</label>
-              <input type="password" class="form-control" id="senha" th:field="*{senha}">
-              <br>
-            </div>
-            <div class="col-md-4 offset-md-4">
-                <label for="text" class="form-label">CEP:</label>
-                <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
-              onblur="pesquisacep(this.value);" th:field="*{cep}"  class="form-control">
-                <br>
-              </div>
-              <div class="col-md-4 offset-md-4">
-                  <label for="name" class="form-label">Logradouro:</label>
-                  <input name="rua" type="text" id="rua" size="60" th:field="*{logradouro}"  class="form-control" >
-                  <br>
-                </div>
-                <div class="col-md-4 offset-md-4">
-                  <label for="date" class="form-label">Nº:</label>
-                  <input type="text" class="form-control" id="numEnd" th:field="*{numeroEnd}">
-                  <br>
-                </div>
-                <div class="col-md-4 offset-md-4">
-                    <label for="text" class="form-label">Complemento:</label>
-                    <input type="text" class="form-control" id="complemento" th:field="*{complemento}">
-                    <br>
-                  </div>
-                  <div class="col-md-4 offset-md-4">
-                      <label for="name" class="form-label">Bairro:</label>
-                      <input name="bairro" type="text" id="bairro" size="40" th:field="*{bairro}"  class="form-control" >
-                      <br>
-                    </div>
-                    <div class="col-md-4 offset-md-4">
-                      <label for="date" class="form-label">UF:</label>
-                      <input name="uf" type="text" id="uf" size="2" th:field="*{estado}"  class="form-control" >
-                      <br>
-                    </div>
-                    <div class="col-md-4 offset-md-4">
-                        <label for="text" class="form-label">Cidade:</label>
-                        <input name="cidade" type="text" id="cidade" size="40" th:field="*{cidade}"  class="form-control" >
-                        <br>
-                      </div>
-          <button type="submit" class="btn btn-primary">Editar</button>
-      </form>
-  </main>
+            <h1>Editar Conta</h1><br>
+            <h2>Dados Pessoais</h2><br>
+            <label for="nome">Nome:</label>
+            <input type="text" size="40" placeholder=" Nome Completo" th:field="*{nome}">
+            <label for="nmembro">Telefone:</label>
+            <input type="text" size="20" placeholder=" Número de Membro" th:field="*{numero}"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" size="40" placeholder=" Endereço de Email" th:field="*{email}">
+            <label for="senha">Senha:</label>
+            <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}"> <br><br>
+            <label for="data">Data de Nascimento:</label>
+            <input type="date" name="data" id="data" th:field="*{dataNasc}"><br><br>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+            <br>
+            <h2>Endereço</h2><br>
+            <label for="uf">Estado:</label>
+            <input type="text" id="uf" th:field="*{estado}">
+            <!-- 
+            <select name="estado" id="uf">
+                <option value="0">Escolha sua Região</option>
+            <optgroup label="Norte"></optgroup>
+                <option value="1">Acre</option>
+                <option value="2">Amapá</option>
+                <option value="3">Amazonas</option>
+                <option value="4">Pará</option>
+                <option value="5">Rondônia</option>
+                <option value="6">Roraima</option>
+                <option value="7">Tocantins</option>
+            <optgroup label="Nordeste"></optgroup>
+                <option value="8">Alagoas</option>
+                <option value="9">Bahia</option>
+                <option value="10">Ceará</option>
+                <option value="11">Maranhão</option>
+                <option value="12">Paraíba</option>
+                <option value="13">Pernambuco</option>
+                <option value="14">Piauí</option>
+                <option value="15">Rio Grande do Norte</option>
+                <option value="16">Sergipe</option>
+            <optgroup label="Centro-Oeste"></optgroup>
+                <option value="17">Goiás</option>
+                <option value="18">Mato Grosso</option>
+                <option value="19">Mato Grosso do Sul</option>
+                <option value="20">Distrito Federal</option>
+            <optgroup label="Sudeste"></optgroup>
+                <option value="21">Espírito Santo</option>
+                <option value="22">Minas Gerais</option>
+                <option value="23">Rio de janeiro</option>
+                <option value="24">São Paulo</option>
+                <optgroup label="Sul"></optgroup>
+                <option value="25">Paraná</option>
+                <option value="26">Rio Grande do Sul</option>
+                <option value="27">Santa Catarina</option>
+            </select> -->
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" th:field="*{cidade}">
+            <label for="cep">CEP:</label>
+            <input type="text" size="10" id="cep" onblur="pesquisacep(this.value);" placeholder=" 00000-000"
+                th:field="*{cep}"><br><br>
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" th:field="*{bairro}">
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" size="30" placeholder=" Logradouro" th:field="*{logradouro}"><br><br>
+            <label for="num">N°:</label>
+            <input type="text" size="5" placeholder=" Número" th:field="*{numeroEnd}">
+            <label for="comp">Complemento:</label>
+            <input type="text" size="20" placeholder=" Andar, Apartamento, Bloco" th:field="*{complemento}"><br><br><br>
+            <input type="button" value="Voltar" onclick="window.history.back()"> &nbsp; &nbsp;
+            <input type="submit" value="Editar"> <br><br>
+        </form>
+
+    </div>
 </body>
+
 </html>
