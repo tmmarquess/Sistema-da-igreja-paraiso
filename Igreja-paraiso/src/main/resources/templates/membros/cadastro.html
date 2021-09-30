@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script th:src="@{/js/valida-cep.js}"></script>
+    <script th:src="@{/js/verificar-campos.js}"></script>
     <link rel="stylesheet" href="../../static/css/cadastroCli.css">
+    <link rel="stylesheet" href="cadastroCli.css">
     <link rel="stylesheet" th:href="@{/css/cadastroCli.css}">
     <title>Cadastro</title>
 </head>
@@ -18,13 +20,13 @@
             <h1>Criar Conta</h1><br>
             <h2>Dados Pessoais</h2><br>
             <label for="nome">Nome:</label>
-            <input type="text" size="40" placeholder=" Nome Completo" th:field="*{nome}">
+            <input type="text" size="40" placeholder=" Nome Completo" th:field="*{nome}" id="nome">
             <label for="nmembro">Telefone:</label>
-            <input type="text" size="20" placeholder=" Número de Membro" th:field="*{numero}"><br><br>
+            <input type="text" size="20" placeholder=" Número de Membro" th:field="*{numero}" id="tel"><br><br>
             <label for="email">Email:</label>
-            <input type="email" size="40" placeholder=" Endereço de Email" th:field="*{email}">
+            <input type="email" size="40" placeholder=" Endereço de Email" th:field="*{email}" id="email">
             <label for="senha">Senha:</label>
-            <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}"> <br><br>
+            <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
             <label for="data">Data de Nascimento:</label>
             <input type="date" name="data" id="data" th:field="*{dataNasc}"><br><br>
 
@@ -78,13 +80,12 @@
             <label for="rua">Rua:</label>
             <input type="text" id="rua" size="30" placeholder=" Logradouro" th:field="*{logradouro}"><br><br>
             <label for="num">N°:</label>
-            <input type="text" size="5" placeholder=" Número" th:field="*{numeroEnd}">
-            <label for="comp">Complemento:</label>
+            <input type="text" size="5" placeholder=" Número" th:field="*{numeroEnd}" id="numero">
+            <label for="comp" id="dif">Complemento:</label>
             <input type="text" size="20" placeholder=" Andar, Apartamento, Bloco" th:field="*{complemento}"><br><br><br>
             <input type="button" value="Voltar" onclick="window.history.back()"> &nbsp; &nbsp;
-            <input type="submit" value="Cadastrar"> <br><br>
+            <input onclick="return verificaCampos()" value="Cadastrar" type="submit"> <br><br>
         </form>
-
     </div>
 </body>
 
