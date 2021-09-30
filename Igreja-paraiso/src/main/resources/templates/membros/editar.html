@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../static/css/editarCli.css">
     <link rel="stylesheet" href="editarCli.css">
     <link rel="stylesheet" th:href="@{/css/editarCli.css}">
-    <title>Cadastro</title>
+    <title>Editar</title>
 </head>
 
 <body>
@@ -85,7 +85,7 @@
             <label for="comp" id="dif">Complemento:</label>
             <input type="text" size="20" placeholder=" Andar, Apartamento, Bloco" th:field="*{complemento}"><br><br><br>
             <input type="button" value="Voltar" onclick="window.history.back()"> &nbsp; &nbsp;
-            <input onclick="return verificaCampos()" value="Cadastrar" type="submit"> <br><br>
+            <input onclick="return verificaCampos()" value="Editar" type="submit"> <br><br>
         </form>
     </div>
 </body>
