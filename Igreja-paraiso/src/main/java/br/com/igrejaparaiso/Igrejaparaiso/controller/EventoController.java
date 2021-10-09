@@ -36,7 +36,7 @@ public class EventoController {
 
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
-        ModelAndView modelo = new ModelAndView("eventos/cadastro.html");
+        ModelAndView modelo = new ModelAndView("eventos/formulario.html");
         modelo.addObject("evento",new Evento());
         return modelo;
     }
@@ -50,7 +50,7 @@ public class EventoController {
     
     @GetMapping("/{id}/editar")
     public ModelAndView editar(@PathVariable long id) {
-        ModelAndView modelo = new ModelAndView("eventos/editar.html");
+        ModelAndView modelo = new ModelAndView("eventos/formulario.html");
 
         modelo.addObject("evento",repositorio.getById(id));
 

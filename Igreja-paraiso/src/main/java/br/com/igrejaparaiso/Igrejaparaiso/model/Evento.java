@@ -1,5 +1,7 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +18,7 @@ public class Evento {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;   
+    private Long id;   
     
     @Column(nullable = false)
     private String nome;
@@ -26,7 +28,7 @@ public class Evento {
 
     @Column(nullable = false)
     @DateTimeFormat(iso = ISO.DATE)
-    private String data;
+    private LocalDate data; // datas PRECISAM SER LocalDate
 
     @Column(nullable = false)
     private String horario;
@@ -34,7 +36,7 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(long id, String nome, String descricao, String data, String horario) {
+    public Evento(Long id, String nome, String descricao, LocalDate data, String horario) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -42,11 +44,11 @@ public class Evento {
         this.horario = horario;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,11 +68,11 @@ public class Evento {
         this.descricao = descricao;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

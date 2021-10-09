@@ -8,17 +8,14 @@
   <title>Listagem de nomes</title>
 </head>
 <body>
-  <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a href="#" class="navbar-brand">Lista de eventos</a>
-    </div>
-  </nav>
+  <div th:replace="~{fragments/_navbar :: nav-log}"></div>
 
   <main class="container">
     <h1>Listagem de eventos</h1>
     <div class="row">
       <div class="col-sm-12">
-        <table class="table">
+        <h5 th:if="${#lists.isEmpty(eventos)}">Não há Eventos Cadastrados!</h5>
+        <table class="table" th:unless="${#lists.isEmpty(eventos)}">
           <thead>
             <tr>
               <th scope="col" class="col-3">Nome</th>
@@ -32,8 +29,8 @@
               <td>
                 <a th:text="${evento.nome}" th:href="@{/eventos/{id} (id=${evento.id})}"></a>
               </td>
-              <td th:text="${evento.data}"></td>
-              <td th:text="${evento.horario}"></td>
+              <td th:text="${#temporals.format(evento.data,'dd/MM/yyyy')}"></td><!-- ${evento.data}  -->
+              <td th:text="${evento.horario}"></td> 
               <td>
                 <a th:href="@{/eventos/{id}/editar (id=${evento.id})}" class="btn btn-warning">Editar</a>
                 <a th:href="@{/eventos/{id}/excluir (id=${evento.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>

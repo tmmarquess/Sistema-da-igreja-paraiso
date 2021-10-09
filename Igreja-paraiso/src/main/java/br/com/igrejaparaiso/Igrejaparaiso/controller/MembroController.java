@@ -43,7 +43,7 @@ public class MembroController {
 
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {
-        ModelAndView modelo = new ModelAndView("membros/cadastro.html");
+        ModelAndView modelo = new ModelAndView("membros/formulario.html");
         modelo.addObject("membro", new Membro());
         return modelo;
     }
@@ -57,7 +57,7 @@ public class MembroController {
 
     @GetMapping("/{id}/editar")
     public ModelAndView editar(@PathVariable long id) {
-        ModelAndView modelo = new ModelAndView("membros/editar.html");
+        ModelAndView modelo = new ModelAndView("membros/formulario.html");
 
         modelo.addObject("membro", repositorio.getById(id));
 

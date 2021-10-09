@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../static/css/editarCli.css">
     <link rel="stylesheet" href="editarCli.css">
     <link rel="stylesheet" th:href="@{/css/editarCli.css}">
-    <title>Editar</title>
+    <title th:text="${membro.id == null ? 'cadastrar':'editar'}"></title>></title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
         <form method="POST" th:object="${membro}">
             <input type="hidden" name="id" th:field="*{id}">
             <br>
-            <h1>Editar Conta</h1><br>
+            <h1 th:text="${membro.id == null ? 'Criar Conta':'Editar Conta'}"></h1><br>
             <h2>Dados Pessoais</h2><br>
             <label for="nome">Nome:</label>
             <input type="text" size="40" placeholder=" Nome Completo" th:field="*{nome}" id="nome">
@@ -35,42 +35,6 @@
             <h2>Endereço</h2><br>
             <label for="uf">Estado:</label>
             <input type="text" id="uf" th:field="*{estado}">
-            <!-- 
-            <select name="estado" id="uf">
-                <option value="0">Escolha sua Região</option>
-            <optgroup label="Norte"></optgroup>
-                <option value="1">Acre</option>
-                <option value="2">Amapá</option>
-                <option value="3">Amazonas</option>
-                <option value="4">Pará</option>
-                <option value="5">Rondônia</option>
-                <option value="6">Roraima</option>
-                <option value="7">Tocantins</option>
-            <optgroup label="Nordeste"></optgroup>
-                <option value="8">Alagoas</option>
-                <option value="9">Bahia</option>
-                <option value="10">Ceará</option>
-                <option value="11">Maranhão</option>
-                <option value="12">Paraíba</option>
-                <option value="13">Pernambuco</option>
-                <option value="14">Piauí</option>
-                <option value="15">Rio Grande do Norte</option>
-                <option value="16">Sergipe</option>
-            <optgroup label="Centro-Oeste"></optgroup>
-                <option value="17">Goiás</option>
-                <option value="18">Mato Grosso</option>
-                <option value="19">Mato Grosso do Sul</option>
-                <option value="20">Distrito Federal</option>
-            <optgroup label="Sudeste"></optgroup>
-                <option value="21">Espírito Santo</option>
-                <option value="22">Minas Gerais</option>
-                <option value="23">Rio de janeiro</option>
-                <option value="24">São Paulo</option>
-                <optgroup label="Sul"></optgroup>
-                <option value="25">Paraná</option>
-                <option value="26">Rio Grande do Sul</option>
-                <option value="27">Santa Catarina</option>
-            </select> -->
             <label for="cidade">Cidade:</label>
             <input type="text" id="cidade" th:field="*{cidade}">
             <label for="cep">CEP:</label>
@@ -85,7 +49,7 @@
             <label for="comp" id="dif">Complemento:</label>
             <input type="text" size="20" placeholder=" Andar, Apartamento, Bloco" th:field="*{complemento}"><br><br><br>
             <input type="button" value="Voltar" onclick="window.history.back()"> &nbsp; &nbsp;
-            <input onclick="return verificaCampos()" value="Editar" type="submit"> <br><br>
+            <input onclick="return verificaCampos()" type="submit" th:value="${membro.id == null ? 'cadastrar' : 'editar'}"><br><br>
         </form>
     </div>
 </body>

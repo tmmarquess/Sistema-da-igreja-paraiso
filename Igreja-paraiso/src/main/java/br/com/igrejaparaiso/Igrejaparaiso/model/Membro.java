@@ -18,7 +18,7 @@ public class Membro {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String nome;
@@ -59,7 +59,7 @@ public class Membro {
 
 
     
-    public Membro(long id, String nome, String numero, LocalDate dataNasc, String email, String senha, String cep,
+    public Membro(Long id, String nome, String numero, LocalDate dataNasc, String email, String senha, String cep,
             String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
         this.id = id;
         this.nome = nome;
@@ -77,6 +77,7 @@ public class Membro {
     }
 
     public Membro() {
+        id = null;
     }
 
     @Override
@@ -178,11 +179,11 @@ public class Membro {
         return true;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
