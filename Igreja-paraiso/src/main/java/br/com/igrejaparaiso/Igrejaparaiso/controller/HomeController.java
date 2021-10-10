@@ -25,25 +25,5 @@ public class HomeController {
         //ModelAndView modelo = new ModelAndView("redirect:/membros/");
         return modelo;
     }
-    @GetMapping("/login")
-    public ModelAndView login(@RequestParam(required=false, defaultValue = "") String erro){
-     ModelAndView modelo = new ModelAndView("Login");
-     modelo.addObject("user", new Membro());
-     modelo.addObject("erro",erro);
-     return modelo;
-    }
 
-    @PostMapping("/login")
-    public ModelAndView autenticar(Membro login){
-        ModelAndView modelo = new ModelAndView();
-        Membro teste = repositorio.findByEmailAndSenha(login.getEmail(),login.getSenha());
-        if(teste == null){
-            modelo.setViewName("redirect:/login/");
-            modelo.addObject("erro","Email ou senha incorretos");
-        }else{
-            modelo.setViewName("logado");
-            modelo.addObject("user",teste);
-        }
-        return modelo;
-    }
 }

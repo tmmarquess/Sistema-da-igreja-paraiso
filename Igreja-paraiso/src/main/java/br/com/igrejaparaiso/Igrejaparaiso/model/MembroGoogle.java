@@ -1,5 +1,7 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,12 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.cloud.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table
-public class Membro {
+public class MembroGoogle {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +30,7 @@ public class Membro {
 
     @Column(nullable = false,name = "data_nascimento")
     @DateTimeFormat(iso = ISO.DATE)
-    private String dataNasc;
+    private Date dataNasc;
 
     @Column(nullable = false)
     private String email;
@@ -57,12 +61,12 @@ public class Membro {
 
 
     
-    public Membro(String id, String nome, String numero, String dataNasc, String email, String senha, String cep,
+    public MembroGoogle(String id, String nome, String numero, LocalDate dataNasc, String email, String senha, String cep,
             String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
         this.id = id;
         this.nome = nome;
         this.numero = numero;
-        this.dataNasc = dataNasc;
+        setDataNascLocal(dataNasc);
         this.email = email;
         this.senha = senha;
         this.cep = cep;
@@ -74,7 +78,7 @@ public class Membro {
         this.cidade = cidade;
     }
 
-    public Membro() {
+    public MembroGoogle() {
         //id = null;
     }
 
@@ -86,101 +90,6 @@ public class Membro {
                 + "]";
     }
 
-
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
-        result = prime * result + ((cep == null) ? 0 : cep.hashCode());
-        result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
-        result = prime * result + ((complemento == null) ? 0 : complemento.hashCode());
-        result = prime * result + ((dataNasc == null) ? 0 : dataNasc.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
-        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        result = prime * result + ((numero == null) ? 0 : numero.hashCode());
-        result = prime * result + numeroEnd;
-        result = prime * result + ((senha == null) ? 0 : senha.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Membro other = (Membro) obj;
-        if (bairro == null) {
-            if (other.bairro != null)
-                return false;
-        } else if (!bairro.equals(other.bairro))
-            return false;
-        if (cep == null) {
-            if (other.cep != null)
-                return false;
-        } else if (!cep.equals(other.cep))
-            return false;
-        if (cidade == null) {
-            if (other.cidade != null)
-                return false;
-        } else if (!cidade.equals(other.cidade))
-            return false;
-        if (complemento == null) {
-            if (other.complemento != null)
-                return false;
-        } else if (!complemento.equals(other.complemento))
-            return false;
-        if (dataNasc == null) {
-            if (other.dataNasc != null)
-                return false;
-        } else if (!dataNasc.equals(other.dataNasc))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (estado == null) {
-            if (other.estado != null)
-                return false;
-        } else if (!estado.equals(other.estado))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (logradouro == null) {
-            if (other.logradouro != null)
-                return false;
-        } else if (!logradouro.equals(other.logradouro))
-            return false;
-        if (nome == null) {
-            if (other.nome != null)
-                return false;
-        } else if (!nome.equals(other.nome))
-            return false;
-        if (numero == null) {
-            if (other.numero != null)
-                return false;
-        } else if (!numero.equals(other.numero))
-            return false;
-        if (numeroEnd != other.numeroEnd)
-            return false;
-        if (senha == null) {
-            if (other.senha != null)
-                return false;
-        } else if (!senha.equals(other.senha))
-            return false;
-        return true;
-    }
 
     public String getId() {
         return id;
@@ -206,11 +115,19 @@ public class Membro {
         this.numero = numero;
     }
 
-    public String getDataNasc() {
+    public LocalDate getDataNascLocal() {
+        return LocalDate.parse(dataNasc.getYear()+"-"+dataNasc.getMonth()+"-"+dataNasc.getDayOfMonth());
+    }
+
+    public void setDataNascLocal(LocalDate dataNasc) {
+        this.dataNasc = Date.fromYearMonthDay(dataNasc.getYear(), dataNasc.getMonthValue(), dataNasc.getDayOfMonth());
+    }
+
+    public Date getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(String dataNasc) {
+    public void setDataNasc(Date dataNasc) {
         this.dataNasc = dataNasc;
     }
 
