@@ -30,7 +30,7 @@
         </div>
         <div class="card-body">
           <p class="card-text" >Horario: <span th:text="${evento.horario}"></span></p>
-          <p class="card-text" >Data: <span th:text="${evento.data}"></span></p>
+          <p class="card-text" >Data: <span th:text="${#temporals.format(evento.data,'dd/MM/yyyy')}"></span></p>
           <p class="card-text" >Descrição: <span th:text="${evento.descricao}"></span></p>
           <a th:href="@{/eventos/{id}/editar (id=${evento.id})}" class="btn btn-warning">Editar</a>
                 <a th:href="@{/eventos/{id}/excluir (id=${evento.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>

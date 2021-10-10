@@ -30,7 +30,7 @@
         </div>
         <div class="card-body">
           <p class="card-text" >Numero: <span th:text="${membro.numero}"></span></p>
-          <p class="card-text" >Data de Nascimento: <span th:text="${membro.dataNasc}"></span></p>
+          <p class="card-text" >Data de Nascimento: <span th:text="${#temporals.format(membro.dataNasc,'dd/MM/yyyy')}"></span></p>
           <p class="card-text" >Email: <span th:text="${membro.email}"></span></p>
           <p class="card-text" >CEP: <span th:text="${membro.cep}"></span></p>
           <p class="card-text" >Logradouro: <span th:text="${membro.logradouro}"></span></p>

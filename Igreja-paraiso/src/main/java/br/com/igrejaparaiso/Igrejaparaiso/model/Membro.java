@@ -1,7 +1,5 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table
@@ -18,7 +15,7 @@ public class Membro {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(nullable = false)
     private String nome;
@@ -27,8 +24,8 @@ public class Membro {
     private String numero;
 
     @Column(nullable = false,name = "data_nascimento")
-    @DateTimeFormat(iso = ISO.DATE)
-    private LocalDate dataNasc;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private String dataNasc;
 
     @Column(nullable = false)
     private String email;
@@ -59,7 +56,7 @@ public class Membro {
 
 
     
-    public Membro(Long id, String nome, String numero, LocalDate dataNasc, String email, String senha, String cep,
+    public Membro(String id, String nome, String numero, String dataNasc, String email, String senha, String cep,
             String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
         this.id = id;
         this.nome = nome;
@@ -77,7 +74,7 @@ public class Membro {
     }
 
     public Membro() {
-        id = null;
+        //id = null;
     }
 
     @Override
@@ -87,6 +84,8 @@ public class Membro {
                 + logradouro + ", nome=" + nome + ", numero=" + numero + ", numeroEnd=" + numeroEnd + ", senha=" + senha
                 + "]";
     }
+
+
 
     @Override
     public int hashCode() {
@@ -99,7 +98,7 @@ public class Membro {
         result = prime * result + ((dataNasc == null) ? 0 : dataNasc.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         result = prime * result + ((numero == null) ? 0 : numero.hashCode());
@@ -152,7 +151,10 @@ public class Membro {
                 return false;
         } else if (!estado.equals(other.estado))
             return false;
-        if (id != other.id)
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
             return false;
         if (logradouro == null) {
             if (other.logradouro != null)
@@ -179,11 +181,11 @@ public class Membro {
         return true;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -203,11 +205,11 @@ public class Membro {
         this.numero = numero;
     }
 
-    public LocalDate getDataNasc() {
+    public String getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(LocalDate dataNasc) {
+    public void setDataNasc(String dataNasc) {
         this.dataNasc = dataNasc;
     }
 

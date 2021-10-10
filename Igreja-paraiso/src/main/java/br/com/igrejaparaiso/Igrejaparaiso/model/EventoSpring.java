@@ -1,5 +1,7 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,10 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table
-public class Evento {
+public class EventoSpring{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,20 +27,20 @@ public class Evento {
     private String descricao;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String data; // datas PRECISAM SER String
+    @DateTimeFormat(iso = ISO.DATE)
+    private LocalDate data; // datas PRECISAM SER LocalDate
 
     @Column(nullable = false)
     private String horario;
 
-    public Evento() {
+    public EventoSpring() {
     }
 
-    public Evento(String id, String nome, String descricao, String data, String horario) {
+    public EventoSpring(String id, String nome, String descricao, String data, String horario) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
-        this.data = data;
+        setDataLocal(data);
         this.horario = horario;
     }
 
@@ -65,11 +68,19 @@ public class Evento {
         this.descricao = descricao;
     }
 
-    public String getData() {
+    public String getDataLocal() {
+        return data.toString();
+    }
+
+    public void setDataLocal(String data) {
+        this.data = LocalDate.parse(data);
+    }
+
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -101,7 +112,7 @@ public class Evento {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Evento other = (Evento) obj;
+        EventoSpring other = (EventoSpring) obj;
         if (data == null) {
             if (other.data != null)
                 return false;
@@ -129,11 +140,6 @@ public class Evento {
             return false;
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "Evento [data=" + data + ", descricao=" + descricao + ", horario=" + horario + ", id=" + id + ", nome="
-                + nome + "]";
-    }
+    
 
 }
