@@ -2,59 +2,32 @@ package br.com.igrejaparaiso.Igrejaparaiso.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
-@Entity
-@Table
 public class MembroSpring {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     private String numero;
 
-    @Column(nullable = false,name = "data_nascimento")
-    @DateTimeFormat(iso = ISO.DATE)
     private LocalDate dataNasc;
 
-    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
     private String cep;
 
-    @Column(nullable = false)
     private String logradouro;
 
-    @Column(nullable = false)
     private int numeroEnd;
 
-    @Column(nullable = true)
     private String complemento;
 
-    @Column(nullable = false)
     private String bairro;
 
-    @Column(nullable = false)
     private String estado;
 
-    @Column(nullable = false)
     private String cidade;
 
 

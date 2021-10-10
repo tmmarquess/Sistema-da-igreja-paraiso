@@ -3,7 +3,6 @@ package br.com.igrejaparaiso.Igrejaparaiso.controller;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Evento;
 import br.com.igrejaparaiso.Igrejaparaiso.model.EventoParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.EventoSpring;
-import br.com.igrejaparaiso.Igrejaparaiso.repository.eventoRepository;
 import br.com.igrejaparaiso.Igrejaparaiso.service.EventoService;
 
 @Controller
 @RequestMapping("/eventos")
 public class EventoController {
-
-    @Autowired
-    eventoRepository repositorio;
 
     EventoService service;
 

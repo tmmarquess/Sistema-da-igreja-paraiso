@@ -3,7 +3,6 @@ package br.com.igrejaparaiso.Igrejaparaiso.controller;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
-import br.com.igrejaparaiso.Igrejaparaiso.repository.membroRepository;
 import br.com.igrejaparaiso.Igrejaparaiso.service.MembroService;
 
 @RestController
 @RequestMapping("/membros")
 public class MembroController {
-
-    @Autowired
-    membroRepository repositorio;
 
     MembroService service;
 
@@ -43,11 +38,11 @@ public class MembroController {
     public ModelAndView autenticar(Membro login) throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView();
         Membro teste = service.login(login);
-        MembroSpring membro = MembroParse.toSpring(teste);
         if(teste == null){
-            modelo.setViewName("redirect:/login/");
+            modelo.setViewName("redirect:/membros/login/");
             modelo.addObject("erro","Email ou senha incorretos");
         }else{
+            MembroSpring membro = MembroParse.toSpring(teste);
             modelo.setViewName("logado");
             modelo.addObject("user",membro);
         }

@@ -1,33 +1,18 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
-@Table
 public class Evento {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;   
     
-    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     private String descricao;
 
-    @Column(nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String data; // datas PRECISAM SER String
 
-    @Column(nullable = false)
     private String horario;
 
     public Evento() {
