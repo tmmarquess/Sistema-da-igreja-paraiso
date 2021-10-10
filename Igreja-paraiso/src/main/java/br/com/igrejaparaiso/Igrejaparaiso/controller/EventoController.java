@@ -1,5 +1,8 @@
 package br.com.igrejaparaiso.Igrejaparaiso.controller;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.igrejaparaiso.Igrejaparaiso.model.Evento;
+import br.com.igrejaparaiso.Igrejaparaiso.model.EventoParse;
+import br.com.igrejaparaiso.Igrejaparaiso.model.EventoSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.repository.eventoRepository;
+import br.com.igrejaparaiso.Igrejaparaiso.service.EventoService;
 
 @Controller
 @RequestMapping("/eventos")
@@ -18,18 +24,32 @@ public class EventoController {
     @Autowired
     eventoRepository repositorio;
 
+    EventoService service;
+
+    public EventoController(EventoService serv){
+        service = serv;
+    }
+
     @GetMapping("/")
-    public ModelAndView eventos(){
+    public ModelAndView eventos() throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView("eventos/eventos.html");
-        modelo.addObject("eventos",repositorio.findAll());
+
+        ArrayList<Evento> antes = service.getAllEventos();
+        ArrayList<EventoSpring> eventos = new ArrayList<>();
+        for(Evento evento : antes){
+            eventos.add(EventoParse.toSpring(evento));
+        }
+
+        modelo.addObject("eventos",eventos);
         return modelo;
     }
 
     @GetMapping("/{id}")
-    public ModelAndView detalhar(@PathVariable long id){
+    public ModelAndView detalhar(@PathVariable String id) throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView("eventos/detalheevento.html");
+        EventoSpring evento = EventoParse.toSpring(service.getEventoById(id));
 
-        modelo.addObject("evento", repositorio.getById(id));
+        modelo.addObject("evento", evento);
 
         return modelo;
     }
@@ -44,15 +64,15 @@ public class EventoController {
     @PostMapping("/cadastrar")
     public ModelAndView cadastrar(Evento eve){
         ModelAndView modelo = new ModelAndView("redirect:/eventos/");
-        repositorio.save(eve);
+        service.cadastrar(eve);
         return modelo;
     }
     
     @GetMapping("/{id}/editar")
-    public ModelAndView editar(@PathVariable long id) {
+    public ModelAndView editar(@PathVariable String id) throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("eventos/formulario.html");
 
-        modelo.addObject("evento",repositorio.getById(id));
+        modelo.addObject("evento",service.getEventoById(id));
 
         return modelo;
     }
@@ -61,15 +81,15 @@ public class EventoController {
     public ModelAndView editar(Evento eve) {
         ModelAndView modelo = new ModelAndView("redirect:/eventos/");
 
-        repositorio.save(eve);
+        service.editar(eve);
 
         return modelo;
     }
 
     @GetMapping("/{id}/excluir")
-    public ModelAndView excluir(@PathVariable long id) {
+    public ModelAndView excluir(@PathVariable String id) {
         ModelAndView modelo = new ModelAndView("redirect:/eventos/");
-        repositorio.deleteById(id);
+        service.apagar(id);
         return modelo;
     }
 }

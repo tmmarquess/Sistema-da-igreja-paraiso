@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table
@@ -25,7 +24,7 @@ public class Membro {
     private String numero;
 
     @Column(nullable = false,name = "data_nascimento")
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String dataNasc;
 
     @Column(nullable = false)

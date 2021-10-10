@@ -1,5 +1,6 @@
 package br.com.igrejaparaiso.Igrejaparaiso.controller;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
+import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
+import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.repository.membroRepository;
-import br.com.igrejaparaiso.Igrejaparaiso.service.MembroGoogleService;
-import io.grpc.Server;
+import br.com.igrejaparaiso.Igrejaparaiso.service.MembroService;
 
 @RestController
 @RequestMapping("/membros")
@@ -23,9 +25,9 @@ public class MembroController {
     @Autowired
     membroRepository repositorio;
 
-    MembroGoogleService service;
+    MembroService service;
 
-    public MembroController(MembroGoogleService serv){
+    public MembroController(MembroService serv){
         service = serv;
     }
 
@@ -41,12 +43,13 @@ public class MembroController {
     public ModelAndView autenticar(Membro login) throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView();
         Membro teste = service.login(login);
+        MembroSpring membro = MembroParse.toSpring(teste);
         if(teste == null){
             modelo.setViewName("redirect:/login/");
             modelo.addObject("erro","Email ou senha incorretos");
         }else{
             modelo.setViewName("logado");
-            modelo.addObject("user",teste);
+            modelo.addObject("user",membro);
         }
         return modelo;
     }
@@ -54,16 +57,22 @@ public class MembroController {
     @GetMapping("/")
     public ModelAndView membros() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("membros/membros.html");
+        ArrayList<Membro> membrosGoogle = service.getAllMembros();
+        ArrayList<MembroSpring> membroSpring = new ArrayList<>();
+        for(Membro membro : membrosGoogle){
+            membroSpring.add(MembroParse.toSpring(membro));
+        }
 
-        modelo.addObject("membros", service.getAllMembros());
+        modelo.addObject("membros", membroSpring);
         return modelo;
     }
 
     @GetMapping("/{id}")
     public ModelAndView detalhar(@PathVariable String id) throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("membros/detalhemembro.html");
+        MembroSpring membro = MembroParse.toSpring(service.getMembroById(id));
 
-        modelo.addObject("membro", service.getMembroById(id));
+        modelo.addObject("membro", membro);
 
         return modelo;
     }

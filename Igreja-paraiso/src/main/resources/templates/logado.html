@@ -39,8 +39,8 @@
               <a th:text="${membro.nome}" th:href="@{/membros/{id} (id=${membro.id})}"></a>
             </td>
             <td th:text="${membro.numero}"></td>
-            <!--<td th:text="${#temporals.format(membro.dataNasc,'dd/MM/yyyy')}"></td>-->
-            <td th:text="${membro.dataNasc}"></td>
+            <!--<td th:text="${membro.dataNasc}"></td>-->
+            <td th:text="${#temporals.format(membro.dataNasc,'dd/MM/yyyy')}"></td>
             <td th:text="${membro.email}"></td>
             <td>
               <a th:href="@{/membros/{id}/editar (id=${membro.id})}" class="btn btn-warning">Editar</a>

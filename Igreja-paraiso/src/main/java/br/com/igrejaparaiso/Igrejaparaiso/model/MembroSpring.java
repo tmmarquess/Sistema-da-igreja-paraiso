@@ -9,14 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.google.cloud.Date;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table
-public class MembroGoogle {
+public class MembroSpring {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +28,7 @@ public class MembroGoogle {
 
     @Column(nullable = false,name = "data_nascimento")
     @DateTimeFormat(iso = ISO.DATE)
-    private Date dataNasc;
+    private LocalDate dataNasc;
 
     @Column(nullable = false)
     private String email;
@@ -61,7 +59,7 @@ public class MembroGoogle {
 
 
     
-    public MembroGoogle(String id, String nome, String numero, LocalDate dataNasc, String email, String senha, String cep,
+    public MembroSpring(String id, String nome, String numero, String dataNasc, String email, String senha, String cep,
             String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
         this.id = id;
         this.nome = nome;
@@ -78,7 +76,7 @@ public class MembroGoogle {
         this.cidade = cidade;
     }
 
-    public MembroGoogle() {
+    public MembroSpring() {
         //id = null;
     }
 
@@ -115,19 +113,19 @@ public class MembroGoogle {
         this.numero = numero;
     }
 
-    public LocalDate getDataNascLocal() {
-        return LocalDate.parse(dataNasc.getYear()+"-"+dataNasc.getMonth()+"-"+dataNasc.getDayOfMonth());
+    public String getDataNascLocal() {
+        return dataNasc.toString();
     }
 
-    public void setDataNascLocal(LocalDate dataNasc) {
-        this.dataNasc = Date.fromYearMonthDay(dataNasc.getYear(), dataNasc.getMonthValue(), dataNasc.getDayOfMonth());
+    public void setDataNascLocal(String dataNasc) {
+        this.dataNasc = LocalDate.parse(dataNasc);
     }
 
-    public Date getDataNasc() {
+    public LocalDate getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(Date dataNasc) {
+    public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
     }
 

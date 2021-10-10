@@ -1,7 +1,6 @@
 package br.com.igrejaparaiso.Igrejaparaiso.service;
 
 import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -10,29 +9,18 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.springframework.stereotype.Service;
 
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
-import br.com.igrejaparaiso.Igrejaparaiso.model.MembroGoogle;
 
-import javax.annotation.PostConstruct;
-import java.io.FileInputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class MembroGoogleService {
+public class MembroService {
     Firestore conex = FirestoreClient.getFirestore();
 
     public void cadastrar(Membro membro) {
