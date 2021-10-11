@@ -15,13 +15,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IgrejaParaisoApplication {
 
 	public static void main(String[] args) throws IOException {
-
+		
+		//carregando arquivo com as chaves de permissão de manipulação  do Firebase
 		FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
 
+		//criando conexão com o banco de dados da aplicação no Firebase
 		FirebaseOptions options;
 		options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				.setDatabaseUrl("https://sistema-da-igreja-paraiso-default-rtdb.firebaseio.com").build();
 
+		//verificando se as configurações ja foram inicializadas
 		boolean hasBeenInitialized = false;
 		List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
 		FirebaseApp finestayApp = null;
@@ -31,7 +34,7 @@ public class IgrejaParaisoApplication {
 				finestayApp = app;
 			}
 		}
-
+		//se não foram, inicializa as configurações
 		if (!hasBeenInitialized) {
 			finestayApp = FirebaseApp.initializeApp(options);
 		}
