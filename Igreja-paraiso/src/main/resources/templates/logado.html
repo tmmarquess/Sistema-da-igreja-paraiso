@@ -24,7 +24,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Id</th>
+            <th scope="col" th:unless="${membro.imagem == null}">Foto</th>
             <th scope="col">Nome</th>
             <th scope="col">numero</th>
             <th scope="col">Data de Nascimento</th>
@@ -34,7 +34,9 @@
         </thead>
         <tbody>
           <tr th:each="membro : ${user}">
-            <td th:text="${membro.id}"></td>
+            <div th:unless="${membro.imagem == null}">
+              <td><img th:src="@{/images/perfil.jpg}" alt="" width="100px"></td>
+            </div>
             <td>
               <a th:text="${membro.nome}" th:href="@{/membros/{id} (id=${membro.id})}"></a>
             </td>

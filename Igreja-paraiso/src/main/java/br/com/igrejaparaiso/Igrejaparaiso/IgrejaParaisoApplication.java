@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class IgrejaParaisoApplication {
 
+	private int maxUploadSizeInMb = 10 * 1024 * 1024;
 	public static void main(String[] args) throws IOException {
 		
 		//carregando arquivo com as chaves de permissão de manipulação  do Firebase
@@ -41,5 +42,4 @@ public class IgrejaParaisoApplication {
 
 		SpringApplication.run(IgrejaParaisoApplication.class, args);
 	}
-
 }

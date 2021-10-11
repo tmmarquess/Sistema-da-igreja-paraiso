@@ -15,7 +15,7 @@
 
 <body>
     <div class="form">
-        <form method="POST" th:object="${membro}">
+        <form method="POST" th:object="${membro}" action="/membros/cadastrar/" enctype="multipart/form-data">
             <input type="hidden" name="id" th:field="*{id}">
             <br>
             <h1 th:text="${membro.id == null ? 'Criar Conta':'Editar Conta'}"></h1><br>
@@ -28,18 +28,19 @@
             <input type="email" size="40" placeholder=" Endereço de Email" th:field="*{email}" id="email">
             <label for="senha">Senha:</label>
             <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
+            <label for="data">Foto de Perfil:</label>
+            <input type="file" name="file" accept=".jpg"><br><br>
             <label for="data">Data de Nascimento:</label>
             <input type="date" name="data" id="data" th:field="*{dataNasc}"><br><br>
 
             <br>
             <h2>Endereço</h2><br>
+            <label for="cep">CEP:</label>
+            <input type="text" size="10" id="cep" onblur="pesquisacep(this.value);" placeholder=" 00000-000" th:field="*{cep}">
             <label for="uf">Estado:</label>
             <input type="text" id="uf" th:field="*{estado}">
             <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" th:field="*{cidade}">
-            <label for="cep">CEP:</label>
-            <input type="text" size="10" id="cep" onblur="pesquisacep(this.value);" placeholder=" 00000-000"
-                th:field="*{cep}"><br><br>
+            <input type="text" id="cidade" th:field="*{cidade}"><br><br>
             <label for="bairro">Bairro:</label>
             <input type="text" id="bairro" th:field="*{bairro}">
             <label for="rua">Rua:</label>
@@ -52,6 +53,7 @@
             <input onclick="return verificaCampos()" type="submit" th:value="${membro.id == null ? 'cadastrar' : 'editar'}"><br><br>
         </form>
     </div>
+    <div th:utext="${emailrepetido}"></div>
 </body>
 
 </html>

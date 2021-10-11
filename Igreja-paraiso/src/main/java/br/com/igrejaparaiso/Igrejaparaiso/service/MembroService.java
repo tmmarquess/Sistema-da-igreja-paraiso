@@ -23,8 +23,20 @@ import java.util.concurrent.ExecutionException;
 public class MembroService {
     Firestore conex = FirestoreClient.getFirestore(); // gera uma conexão a qual irá fazer todo o CRUD
 
-    public void cadastrar(Membro membro) {
+    public boolean cadastrar(Membro membro) throws InterruptedException, ExecutionException {
+        
+        //resgata todos os membros e verifica se há emails repetidos
+        ArrayList<Membro> membros = getAllMembros(); boolean emailIgual = false;
+        for(Membro teste : membros){
+            if(teste.getEmail().equals(membro.getEmail())){
+                emailIgual = true;
+            }
+        }
 
+        if(emailIgual){
+            return false;
+        }
+        
         // cria um ID aleatório a partir da coleção "Membros" do banco de dados
         DocumentReference doc = conex.collection("Membros").document(); 
 
@@ -33,6 +45,8 @@ public class MembroService {
 
         // salva os dados do membro :)
         ApiFuture<WriteResult> writeResult = doc.set(membro); // salva os dados do membro :)
+
+        return true;
     }
 
     public ArrayList<Membro> getAllMembros() throws InterruptedException, ExecutionException {
@@ -65,7 +79,7 @@ public class MembroService {
         //recebe uma lista dos 'documentos' de membros resgatados (no caso só resgatou 1 membro)
         List<QueryDocumentSnapshot> querySnapshot = query.get().get().getDocuments();
 
-        ////transforma o documento em uma instância da classe Membro
+        //transforma o documento em uma instância da classe Membro
         for (DocumentSnapshot document : querySnapshot){
             membro = document.toObject(Membro.class);
         }
@@ -89,12 +103,16 @@ public class MembroService {
 
     public Membro login(Membro membro) throws InterruptedException, ExecutionException{
         
+        //faz referência á coleção 'Membros'
         CollectionReference membros = conex.collection("Membros");
 
+        //pesquisa os membros a partir do email e senha recebidos por parâmetro
         Query query = membros.whereEqualTo("email", membro.getEmail()).whereEqualTo("senha", membro.getSenha());
-        // retrieve query results asynchronously using query.get()
+
+        //recebe uma lista dos 'documentos' de membros resgatados
         List<QueryDocumentSnapshot> querySnapshot = query.get().get().getDocuments();
 
+        //transforma o documento em uma instância da classe Membro
         Membro resultado = null;
         for (DocumentSnapshot document : querySnapshot){
             resultado = document.toObject(Membro.class);

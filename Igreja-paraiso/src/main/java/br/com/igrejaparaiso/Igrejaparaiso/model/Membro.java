@@ -1,10 +1,16 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
+import java.util.Base64;
+
+import com.google.cloud.firestore.annotation.Exclude;
+
 public class Membro {
     
     private String id;
 
     private String nome;
+
+    private String imagem;
 
     private String numero;
 
@@ -30,22 +36,25 @@ public class Membro {
 
 
     
-    public Membro(String id, String nome, String numero, String dataNasc, String email, String senha, String cep,
-            String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
-        this.id = id;
-        this.nome = nome;
-        this.numero = numero;
-        this.dataNasc = dataNasc;
-        this.email = email;
-        this.senha = senha;
-        this.cep = cep;
-        this.logradouro = logradouro;
-        this.numeroEnd = numeroEnd;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.estado = estado;
-        this.cidade = cidade;
-    }
+
+
+    public Membro(String id, String nome, String imagem, String numero, String dataNasc, String email, String senha,
+        String cep, String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
+    this.id = id;
+    this.nome = nome;
+    this.imagem = imagem;
+    this.numero = numero;
+    this.dataNasc = dataNasc;
+    this.email = email;
+    this.senha = senha;
+    this.cep = cep;
+    this.logradouro = logradouro;
+    this.numeroEnd = numeroEnd;
+    this.complemento = complemento;
+    this.bairro = bairro;
+    this.estado = estado;
+    this.cidade = cidade;
+}
 
     public Membro() {
         //id = null;
@@ -54,12 +63,32 @@ public class Membro {
     @Override
     public String toString() {
         return "Membro [bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", complemento=" + complemento
-                + ", dataNasc=" + dataNasc + ", email=" + email + ", estado=" + estado + ", id=" + id + ", logradouro="
-                + logradouro + ", nome=" + nome + ", numero=" + numero + ", numeroEnd=" + numeroEnd + ", senha=" + senha
-                + "]";
+                + ", dataNasc=" + dataNasc + ", email=" + email + ", estado=" + estado + ", id=" + id + ", imagem="
+                + imagem + ", logradouro=" + logradouro + ", nome=" + nome + ", numero=" + numero + ", numeroEnd="
+                + numeroEnd + ", senha=" + senha + "]";
     }
 
 
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    @Exclude
+    public byte[] getImagemLocal() {
+        byte[] decodedBytes = Base64.getDecoder().decode(imagem);
+        return decodedBytes;
+    }
+
+    @Exclude
+    public void setImagemLocal(byte[] imagem) {
+        String encodedString = Base64.getEncoder().encodeToString(imagem);
+        this.imagem = encodedString;
+    }
 
     @Override
     public int hashCode() {
@@ -73,6 +102,7 @@ public class Membro {
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((estado == null) ? 0 : estado.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
         result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         result = prime * result + ((numero == null) ? 0 : numero.hashCode());
@@ -129,6 +159,11 @@ public class Membro {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
+            return false;
+        if (imagem == null) {
+            if (other.imagem != null)
+                return false;
+        } else if (!imagem.equals(other.imagem))
             return false;
         if (logradouro == null) {
             if (other.logradouro != null)
