@@ -213,7 +213,11 @@ public class MembroSpring {
     }
 
     public void setDataNascLocal(String dataNasc) {
-        this.dataNasc = LocalDate.parse(dataNasc);
+        if(dataNasc != null){
+            this.dataNasc = LocalDate.parse(dataNasc);
+        }else{
+            this.dataNasc = null;
+        }
     }
 
     public LocalDate getDataNasc() {

@@ -80,9 +80,9 @@ public class MembroController {
         MembroSpring membro = MembroParse.toSpring(service.getMembroById(id));
 
         Path path = Paths.get("src/main/resources/static/images/perfil.jpg");
-        if(membro.getImagem() != null){
-            Files.write(path, membro.getImagem());
-        }
+            if(membro.getImagem() != null){
+                Files.write(path, membro.getImagem());
+            }
 
         modelo.addObject("membro", membro);
 

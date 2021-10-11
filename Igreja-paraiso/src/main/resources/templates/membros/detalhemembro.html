@@ -12,6 +12,9 @@
       p.card-text > span{
         font-weight: normal;
       }
+      #fotoDePerfil{
+        border-radius: 10px;
+      }
   </style>
   <title>Listar membro</title>
 </head>
@@ -29,7 +32,7 @@
         <div class="card-header" th:text="${membro.nome}">
         </div>
         <div class="card-body">
-          <p class="card-text" th:unless="${membro.imagem == null}">Foto de Perfil: <td><img th:src="@{/images/perfil.jpg}" alt="" width="100px" ></td></p>
+          <p class="card-text" th:unless="${membro.imagem == null}">Foto de Perfil: <td><img th:src="@{/images/perfil.jpg}" id="fotoDePerfil" width="100px" ></td></p>
           <p class="card-text" >Numero: <span th:text="${membro.numero}"></span></p>
           <p class="card-text" >Data de Nascimento: <span th:text="${#temporals.format(membro.dataNasc,'dd/MM/yyyy')}"></span></p>
           <p class="card-text" >Email: <span th:text="${membro.email}"></span></p>
