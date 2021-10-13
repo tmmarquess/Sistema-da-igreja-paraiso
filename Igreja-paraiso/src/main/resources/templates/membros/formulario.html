@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script th:src="@{/js/valida-cep.js}"></script>
     <script th:src="@{/js/verificar-campos.js}"></script>
-    <script th:src="@{/js/smartcrop.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../../static/css/editarCli.css">
     <link rel="stylesheet" href="editarCli.css">
     <link rel="stylesheet" th:href="@{/css/editarCli.css}">
@@ -15,12 +16,11 @@
 </head>
 
 <body>
-    <div class="form">
+    <div class="form" style="margin-top: 0px;">
         <form method="POST" th:object="${membro}" enctype="multipart/form-data">
             <input type="hidden" name="id" th:field="*{id}">
-            <br>
-            <h1 th:text="${membro.id == null ? 'Criar Conta':'Editar Conta'}"></h1><br>
-            <h2>Dados Pessoais</h2><br>
+            <h1 th:text="${membro.id == null ? 'Criar Conta':'Editar Conta'}"></h1>
+            <h2>Dados Pessoais</h2>
             <label for="nome">Nome:</label>
             <input type="text" size="40" placeholder=" Nome Completo" th:field="*{nome}" id="nome">
             <label for="nmembro">Telefone:</label>
@@ -30,7 +30,7 @@
             <label for="senha">Senha:</label>
             <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
             <label for="data">Foto de Perfil:</label>
-            <input type="file" name="file" accept=".jpg" id="foto"><br><br>
+            <input type="file" id="foto" value="Choose a file" accept=".jpg" name="file" onchange="getValues()"><br><br>
             <label for="data">Data de Nascimento:</label>
             <input type="date" name="data" id="data" th:field="*{dataNasc}"><br><br>
 
@@ -56,7 +56,18 @@
                 th:value="${membro.id == null ? 'cadastrar' : 'editar'}"><br><br>
         </form>
     </div>
-    <div th:utext="${emailrepetido}"></div>
 </body>
+<script>
+    var emailRepetido = "[[${emailrepetido}]]";
+    if (emailRepetido != "") {
+        alert(emailRepetido);
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
 
 </html>

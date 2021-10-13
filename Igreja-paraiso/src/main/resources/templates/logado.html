@@ -24,7 +24,9 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col" th:unless="${membro.imagem == null}">Foto</th>
+            <div th:unless="${user.imagem == null}">
+              <th scope="col">Foto</th>
+            </div>
             <th scope="col">Nome</th>
             <th scope="col">numero</th>
             <th scope="col">Data de Nascimento</th>

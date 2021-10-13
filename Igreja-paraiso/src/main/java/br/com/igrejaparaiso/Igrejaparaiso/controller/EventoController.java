@@ -58,7 +58,7 @@ public class EventoController {
 
     @PostMapping("/cadastrar")
     public ModelAndView cadastrar(Evento eve){
-        ModelAndView modelo = new ModelAndView("redirect:/eventos/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/agenda/");
         service.cadastrar(eve);
         return modelo;
     }

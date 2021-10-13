@@ -87,13 +87,27 @@ public class MembroService {
         return membro;
     }
 
-    public void editar(Membro membro) {
+    public boolean editar(Membro membro) throws InterruptedException, ExecutionException {
+        
+        //resgata todos os membros e verifica se há emails repetidos
+        ArrayList<Membro> membros = getAllMembros(); boolean emailIgual = false;
+        for(Membro teste : membros){
+            if(teste.getEmail().equals(membro.getEmail()) && !teste.getId().equals(membro.getId())){
+                emailIgual = true;
+            }
+        }
+
+        if(emailIgual){
+            return false;
+        }
 
         //faz referência á coleção 'Membros' e resgata o 'documento' a partir da Id do membro
         DocumentReference doc = conex.collection("Membros").document(membro.getId()); // resgata o doc pelo ID
 
         //substitui os dados antigos pelos novos registrados na instância recebida por parâmetro
         ApiFuture<WriteResult> writeResult = doc.set(membro); // salva os dados do membro :)
+
+        return true;
     }
 
     public void apagar(String id){

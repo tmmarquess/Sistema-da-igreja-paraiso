@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/agenda.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <title>Agenda</title>
+</head>
+
+<body style="margin:auto;">
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <div class="col">
+              <a class="navbar-brand" th:href="@{/membros/{id}/ (id=${membro.id})}">
+                <img th:src="@{/images/perfil.jpg}" alt="" width="30" height="24" class="d-inline-block align-text-top" style="border-radius: 20px;">
+                <a th:href="@{/membros/{id}/editar (id=${membro.id})}">editar Conta</a>
+              </a>
+          </div>
+          <div class="col" th:text="${nomePagina}">
+          </div>
+          <div>
+              <a th:href="@{/}"><button class="btn btn-close"></button></a>
+          </div>
+        </div>
+      </nav>
+    <div class="divObjeto" th:data-objeto="${objetoJSON}"></div>
+    <div class="container">
+        <div class="row">
+            <a th:href="@{/eventos/cadastrar/}"><button class="btn btn-warning col-1">Adicionar Evento</button></a>
+            <div id="calendar" class="col-11"></div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/moment.min.js}"></script>
+    <script src="../../static/js/moment.min.js"></script>
+    <script th:src="@{/js/eventCalendarWidget.min.js}"></script>
+    <script src="../../static/js/eventCalendarWidget.min.js"></script>
+    <script>
+        //resgata a String do documento e à transforma em Objetos Javascript
+        const $div= document.querySelector('.divObjeto')
+        const stringJSONDoHTML = $div.dataset.objeto
+        const objeto = JSON.parse(stringJSONDoHTML)
+
+        //Transforma esses objetos em objetos que o calendário possa ler
+        var dataUtil = []
+        objeto.forEach(element => {
+            var aux = {eventName: element.nome, eventFrom: `${element.data} ${element.horario}:00`,eventTo:`${element.data} 23:59:59`, href: `[[@{/eventos/}]]${element.id}/`}
+            dataUtil.push(aux)
+        });
+        /*
+          {
+            [
+            'eventName' : 'some name',
+            'calendar' : 'some label',
+            'color' : 'blue','orange','green','yellow','red','coral','purple','lime','black' OR 'aqua'
+            'location' : 'any location',
+            'eventFrom' : '2020-05-31 17:00:00',
+            'eventTo' : '2020-05-31 21:30:00',
+            'href' : 'some URL'
+            ]
+           }
+        */
+
+        let calendar = new Calendar("#calendar", dataUtil);
+
+    </script>
+
+</body>
+
+</html>
