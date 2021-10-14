@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import com.google.gson.Gson;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.igrejaparaiso.Igrejaparaiso.model.Evento;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
@@ -40,7 +38,7 @@ public class MembroController {
 
     @GetMapping("/login")
     public ModelAndView login(@RequestParam(required = false, defaultValue = "") String erro) {
-        ModelAndView modelo = new ModelAndView("Login");
+        ModelAndView modelo = new ModelAndView("membros/Login.html");
         modelo.addObject("user", new Membro());
         modelo.addObject("erro", erro);
         return modelo;
@@ -64,21 +62,8 @@ public class MembroController {
                 Files.write(path, membro.getImagem());
             }
 
-            String json = "";
-            Gson gson = new Gson();
-            try {
-                ArrayList<Evento> allEventos = serviceEv.getAllEventos();
-                json +=gson.toJsonTree(allEventos);
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-    
-            modelo.addObject("objetoJSON", json);
-
-            modelo.addObject("nomePagina","Agenda");
-
-            modelo.setViewName("painel/Agenda.html");
-            modelo.addObject("membro", membro);
+            modelo.setViewName("redirect:/painel/");
+            modelo.addObject("id", membro.getId());
         }
         return modelo;
     }

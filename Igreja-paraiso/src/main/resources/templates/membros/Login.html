@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="../../static/css/login.css">
     <link rel="stylesheet" th:href="@{/css/login.css}">
     <title>Login</title>
 </head>
@@ -12,19 +12,20 @@
 <body>
     <div class="form">
         <form method = "POST"  th:object="${user}">
-            <br><h1>Fazer Login</h1><br>
+           <br><br><br><br><h1>Fazer Login</h1><br>
         <h5>Para acessar a área do membro, <br> entre em sua conta</h5><br><br><br>
             <label for="email">Email:</label>
-            <input type="text" th:field="*{email}"><br><br>
+            <input type="text" placeholder=" Digite seu email" th:field="*{email}"><br><br>
             <label for="senha">Senha:</label>
-            <input type="password" th:field="*{senha}">
+            <input type="password" id="senha" placeholder=" Digite sua senha" th:field="*{senha}"> 
             <br><br>
             <label for="wrong" style="color: rgb(143, 21, 21);" th:text="${erro}"></label>
             <br><br>
-             <input type="submit" value="Entrar"><br><br>
+            
+             <input type="submit" value="Entrar"><br><br><br>
 
         <h5>Não é cadastrado?</h5>
-        <h5><a th:href="@{/membros/cadastrar/}">Cadastre-se</a></h5>
+        <a th:href="@{/membros/cadastrar/}">Cadastre-se</a> 
         </form>
     </div>
 </body>
