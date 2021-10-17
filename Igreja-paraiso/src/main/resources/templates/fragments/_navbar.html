@@ -24,3 +24,19 @@
     </div>
   </div>
 </header>
+
+<nav class="navbar navbar-light bg-light" th:fragment="nav-painel">
+  <div class="container-fluid">
+      <div class="col">
+          <a class="navbar-brand" th:href="@{/membros/{id}/ (id=${membro.id})}">
+              <img th:src="@{/images/perfil.jpg}" alt="" width="32" height="32" class="rounded-circle me-2">
+              <a th:href="@{/membros/{id}/editar (id=${membro.id})}">editar Conta</a>
+          </a>
+      </div>
+      <div class="col" th:text="${nomePagina}">
+      </div>
+      <div>
+          <a th:href="@{/painel/logout/}"><button class="btn btn-close"></button></a>
+      </div>
+  </div>
+</nav>

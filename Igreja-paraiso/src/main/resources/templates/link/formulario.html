@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <title th:text="${link.id == null ? 'Cadastrar link' : 'Editar link'}"></title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a th:href="@{/}" class="navbar-brand">Home</a>
+        </div>
+      </nav>
+    
+      <main class="container">
+        <h1 class="col-md-4 offset-md-4" style="text-align: center;" th:text="${link.id == null ? 'Adicionar link' : 'Editar link'}"></h1>
+        <form style="text-align: center;" class="col align-self-center" method="POST" th:object="${link}">
+          <input type="hidden" name="id" th:field="*{id}">
+            <div class="col-md-4 offset-md-4">
+              <label for="name" class="form-label">Tema do Culto:</label>
+              <input type="text" class="form-control" id="nome" th:field="*{titulo}">
+              <br>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <label for="text" class="form-label">Link:</label>
+                <input type="text" class="form-control" id="hora" th:field="*{link}">
+                <br>
+              </div>
+              <div class="col-md-4 offset-md-4">
+                <label for="date" class="form-label">Data:</label>
+                <input type="date" class="form-control" id="data" th:field="*{data}">
+                <br>
+              </div>
+            <button type="submit" class="btn btn-primary" th:text="${link.id == null ? 'Cadastrar' : 'Editar'}">Cadastrar</button>
+          </form>
+      </main>
+</body>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</html>

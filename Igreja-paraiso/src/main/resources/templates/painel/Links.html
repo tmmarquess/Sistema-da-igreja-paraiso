@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <title>Links do Culto</title>
+
+    <style>
+        #links {
+            /*background: #fff;*/
+            color: white;
+            width: 37%;
+            height: 530px;
+            margin: 0 auto;
+            text-align: center;
+            /*border-radius: 30px;*/
+            margin-top: 50px;
+            box-shadow: 9px 8px 16px rgba(48, 46, 46, 0.671);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
+            <div id="links">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tema</th>
+                            <th scope="col">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="link : ${links}">
+                            <td>
+                                <a th:text="${link.titulo}" th:href="@{/link/{id} (id=${link.id})}"></a>
+                              </td>
+                              <td th:text="${#temporals.format(link.data,'dd/MM/yyyy')}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2 align-self-center">
+                <a th:href="@{/link/cadastrar/}">
+                    <button class="btn btn-warning">Adicionar Link</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

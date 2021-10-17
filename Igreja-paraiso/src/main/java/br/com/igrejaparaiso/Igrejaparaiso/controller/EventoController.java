@@ -83,7 +83,7 @@ public class EventoController {
 
     @GetMapping("/{id}/excluir")
     public ModelAndView excluir(@PathVariable String id) {
-        ModelAndView modelo = new ModelAndView("redirect:/eventos/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/");
         service.apagar(id);
         return modelo;
     }

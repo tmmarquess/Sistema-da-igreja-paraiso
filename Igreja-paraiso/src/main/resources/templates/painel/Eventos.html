@@ -11,58 +11,13 @@
 </head>
 
 <body style="margin:auto;">
-  <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <div class="col">
-        <a class="navbar-brand" th:href="@{/membros/{id}/ (id=${membro.id})}">
-          <img th:src="@{/images/perfil.jpg}" alt="" width="32" height="32" class="rounded-circle me-2">
-          <a th:href="@{/membros/{id}/editar (id=${membro.id})}">editar Conta</a>
-        </a>
-      </div>
-      <div class="col" th:text="${nomePagina}">
-      </div>
-      <div>
-        <a th:href="@{/}"><button class="btn btn-close"></button></a>
-      </div>
-    </div>
-  </nav>
+
+  <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+
   <div class="divObjeto" th:data-objeto="${objetoJSON}"></div>
   <div class="container-fluid">
     <div class="row">
-      <div class="d-flex flex-column flex-shrink-0 p-3 bg-light col-1" style="width: 280px; background-color: #F8F9FA;">
-        <ul class="nav nav-pills flex-column mb-auto">
-          <hr>
-          <li class="nav-item">
-            <a href="#" class="nav-link" aria-current="page">
-              Agenda
-            </a>
-          </li>
-          <hr>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              Pagamentos
-            </a>
-          </li>
-          <hr>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              Boletim
-            </a>
-          </li>
-          <hr>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              Aniversários
-            </a>
-          </li>
-          <hr>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              Células
-            </a>
-          </li>
-        </ul>
-      </div>
+      <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
       <div id="calendar" class="col-1"></div>
       <div class="col-2 align-self-center">
         <a th:href="@{/eventos/cadastrar/}">

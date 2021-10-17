@@ -104,7 +104,7 @@ public class MembroController {
 
     @GetMapping("/{id}/excluir")
     public ModelAndView excluir(@PathVariable String id) {
-        ModelAndView modelo = new ModelAndView("redirect:/membros/");
+        ModelAndView modelo = new ModelAndView("redirect:/membros/login/");
         service.apagar(id);
         return modelo;
     }
@@ -163,7 +163,7 @@ public class MembroController {
     @PostMapping("/{id}/editar")
     public ModelAndView editar(@RequestParam("file") MultipartFile file, Membro cli)
             throws InterruptedException, ExecutionException {
-        ModelAndView modelo = new ModelAndView("redirect:/membros/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/agenda/");
 
         if (!file.isEmpty()) {
             try {
