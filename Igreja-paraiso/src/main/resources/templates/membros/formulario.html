@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,15 +16,16 @@
 
 <body>
     <div class="form">
-        <form method = "post" th:object="${membro}" enctype="multipart/form-data">
+        <form method="post" th:object="${membro}" enctype="multipart/form-data">
 
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
             <input type="hidden" name="id" th:field="*{id}">
-           <br> <br><h1 th:text="${membro.id == null ? 'Criar Conta':'Editar Conta'}">Criar Conta</h1><br>
+            <br> <br>
+            <h1 th:text="${membro.id == null ? 'Criar Conta':'Editar Conta'}">Criar Conta</h1><br>
             <h2>Dados Pessoais</h2><br>
-            <label for = "nome">Nome:</label>
-            <input type ="text" size = "40" placeholder=" Nome Completo" th:field="*{nome}" id="nome">
+            <label for="nome">Nome:</label>
+            <input type="text" size="40" placeholder=" Nome Completo" th:field="*{nome}" id="nome">
             <label for="nmembro">Número:</label>
             <input type="text" size="20" placeholder=" Número de Membro" th:field="*{numero}" id="tel"><br><br>
             <label for="email">Email:</label>
@@ -31,15 +33,22 @@
             <label for="senha">Senha:</label>
             <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
             <label for="data">Data de Nascimento:</label>
-            <input type="date" name="data" id="data" th:field="*{dataNasc}"><br><br>
+            <input type="date" name="data" id="data" th:field="*{dataNasc}">
+            <label for="adm"  th:if="${membro.adm == true}">Admnistrador?</label>
+            <select name="adm" id="adm" th:field="*{adm}" th:if="${membro.adm == true}">
+                <option value="true">Sim</option>
+                <option value="false">não</option>
+            </select><br><br>
             <label for="foto">Foto de Perfil:</label>
             <input type="file" id="foto" value="Choose a file" accept=".jpg" name="file" onchange="getValues()"><br><br>
-            
-            <br><h2>Endereço</h2><br>
+
+            <br>
+            <h2>Endereço</h2><br>
             <label for="cep">CEP:</label>
-            <input type="text" size="10" placeholder=" 00000-000" id="cep" onblur="pesquisacep(this.value);"th:field="*{cep}">
+            <input type="text" size="10" placeholder=" 00000-000" id="cep" onblur="pesquisacep(this.value);"
+                th:field="*{cep}">
             <label for="uf">Estado:</label>
-            <input type="text"id="uf" th:field="*{estado}">
+            <input type="text" id="uf" th:field="*{estado}">
             <label for="cidade">Cidade:</label>
             <input type="text" id="cidade" th:field="*{cidade}">
             <br><br>
@@ -52,8 +61,9 @@
             <label for="comp">Complemento:</label>
             <input type="text" size="20" placeholder=" Andar, Apartamento, Bloco" th:field="*{complemento}"><br><br><br>
             <input type="button" value="Voltar" onclick="window.history.back()"> &nbsp; &nbsp;
-            <input type="submit"th:value="${membro.id == null ? 'cadastrar' : 'editar'}" onclick="return verificaCampos()">
-              <br><br>
+            <input type="submit" th:value="${membro.id == null ? 'cadastrar' : 'editar'}"
+                onclick="return verificaCampos()">
+            <br><br>
         </form>
 
     </div>
@@ -70,4 +80,5 @@
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

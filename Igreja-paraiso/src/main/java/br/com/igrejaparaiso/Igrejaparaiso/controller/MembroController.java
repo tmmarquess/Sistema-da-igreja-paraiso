@@ -85,7 +85,7 @@ public class MembroController {
         return modelo;
     }
 
-    @GetMapping("/cadastrar")
+    @GetMapping("/cadastro")
     public ModelAndView cadastrar() {
         ModelAndView modelo = new ModelAndView("membros/formulario.html");
         modelo.addObject("membro", new Membro());
@@ -93,7 +93,7 @@ public class MembroController {
         return modelo;
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/cadastro")
     public ModelAndView cadastrar(@RequestParam("file") MultipartFile file, Membro cli)
             throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("redirect:/membros/login/");
@@ -146,7 +146,11 @@ public class MembroController {
     @PostMapping("/{id}/editar")
     public ModelAndView editar(@RequestParam("file") MultipartFile file, Membro cli)
             throws InterruptedException, ExecutionException {
-        ModelAndView modelo = new ModelAndView("redirect:/painel/agenda/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String senhaEncriptada = encoder.encode(cli.getSenha());
+        cli.setSenha(senhaEncriptada);
 
         if (!file.isEmpty()) {
             try {

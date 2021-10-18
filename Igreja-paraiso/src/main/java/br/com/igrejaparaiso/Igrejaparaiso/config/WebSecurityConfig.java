@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         .antMatchers("/**/cadastrar/").hasAuthority(Perfil.ADMIN.toString())
         .antMatchers("/**/editar/").hasAuthority(Perfil.ADMIN.toString())
         .antMatchers("/**/excluir/").hasAuthority(Perfil.ADMIN.toString())
-        .antMatchers("/membros/cadastrar/").permitAll()
+        .antMatchers("/membros/cadastro/").permitAll()
         .anyRequest().authenticated();
 
         http.formLogin().loginPage("/membros/login/")
