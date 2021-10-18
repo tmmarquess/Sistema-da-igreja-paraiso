@@ -12,6 +12,8 @@ public class Membro {
 
     private String imagem;
 
+    private boolean adm;
+
     private String numero;
 
     private String dataNasc;
@@ -38,11 +40,12 @@ public class Membro {
     
 
 
-    public Membro(String id, String nome, String imagem, String numero, String dataNasc, String email, String senha,
+    public Membro(String id, String nome, String imagem, Boolean adm, String numero, String dataNasc, String email, String senha,
         String cep, String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
     this.id = id;
     this.nome = nome;
     this.imagem = imagem;
+    this.adm = adm;
     this.numero = numero;
     this.dataNasc = dataNasc;
     this.email = email;
@@ -62,13 +65,21 @@ public class Membro {
 
     @Override
     public String toString() {
-        return "Membro [bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", complemento=" + complemento
-                + ", dataNasc=" + dataNasc + ", email=" + email + ", estado=" + estado + ", id=" + id + ", imagem="
-                + imagem + ", logradouro=" + logradouro + ", nome=" + nome + ", numero=" + numero + ", numeroEnd="
-                + numeroEnd + ", senha=" + senha + "]";
+        return "Membro [adm=" + adm + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", complemento="
+                + complemento + ", dataNasc=" + dataNasc + ", email=" + email + ", estado=" + estado + ", id=" + id
+                + ", imagem=" + imagem + ", logradouro=" + logradouro + ", nome=" + nome + ", numero=" + numero
+                + ", numeroEnd=" + numeroEnd + ", senha=" + senha + "]";
     }
 
 
+
+    public boolean isAdm() {
+        return adm;
+    }
+
+    public void setAdm(boolean adm) {
+        this.adm = adm;
+    }
 
     public String getImagem() {
         return imagem;
@@ -94,6 +105,7 @@ public class Membro {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + (adm ? 1231 : 1237);
         result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
         result = prime * result + ((cep == null) ? 0 : cep.hashCode());
         result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
@@ -120,6 +132,8 @@ public class Membro {
         if (getClass() != obj.getClass())
             return false;
         Membro other = (Membro) obj;
+        if (adm != other.adm)
+            return false;
         if (bairro == null) {
             if (other.bairro != null)
                 return false;

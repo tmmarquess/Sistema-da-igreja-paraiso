@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="<http://www.thymeleaf.org>">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +8,17 @@
   <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <style>
-      p.card-text{
-        font-weight: bold;
-      }
-      p.card-text > span{
-        font-weight: normal;
-      }
+    p.card-text {
+      font-weight: bold;
+    }
+
+    p.card-text>span {
+      font-weight: normal;
+    }
   </style>
   <title>Listar link</title>
 </head>
+
 <body>
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
@@ -27,18 +30,24 @@
     <h1>Detalhes do link</h1>
 
     <div class="card">
-        <div class="card-header" th:text="${link.titulo}">
-        </div>
-        <div class="card-body">
-          <p class="card-text" >Link: <a th:href="${link.link}" th:text="${link.link}"></a></p>
-          <p class="card-text" >Data: <span th:text="${#temporals.format(link.data,'dd/MM/yyyy')}"></span></p>          
-          <a th:href="@{/link/{id}/editar (id=${link.id})}" class="btn btn-warning">Editar</a>
-                <a th:href="@{/link/{id}/excluir (id=${link.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>
-        </div>
+      <div class="card-header" th:text="${link.titulo}">
       </div>
-    
+      <div class="card-body">
+        <p class="card-text">Link: <a th:href="${link.link}" th:text="${link.link}"></a></p>
+        <p class="card-text">Data: <span th:text="${#temporals.format(link.data,'dd/MM/yyyy')}"></span></p>
+          <div  sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/link/{id}/editar (id=${link.id})}" class="btn btn-warning">Editar</a>
+            <a th:href="@{/link/{id}/excluir (id=${link.id})}" class="btn btn-danger"
+              onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>
+          </div>
+      </div>
+    </div>
+
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>

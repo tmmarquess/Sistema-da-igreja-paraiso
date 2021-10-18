@@ -134,4 +134,26 @@ public class MembroService {
 
         return resultado;
     }
+
+    public Membro getMembroByEmail(String email) throws InterruptedException, ExecutionException {
+        Membro membro = new Membro();
+
+        membro.setId(null);
+        
+        //faz referência á coleção 'Membros' do Banco de dados
+        CollectionReference membros = conex.collection("Membros");
+
+        //pesquisa todos o membro a partir da id recebida por parâmetro
+        Query query = membros.whereEqualTo("email", email);
+
+        //recebe uma lista dos 'documentos' de membros resgatados (no caso só resgatou 1 membro)
+        List<QueryDocumentSnapshot> querySnapshot = query.get().get().getDocuments();
+
+        //transforma o documento em uma instância da classe Membro
+        for (DocumentSnapshot document : querySnapshot){
+            membro = document.toObject(Membro.class);
+        }
+
+        return membro;
+    }
 }

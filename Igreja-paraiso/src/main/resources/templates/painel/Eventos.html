@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
 
 <body style="margin:auto;">
 
-  <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+ <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
 
   <div class="divObjeto" th:data-objeto="${objetoJSON}"></div>
   <div class="container-fluid">
@@ -20,7 +20,7 @@
       <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
       <div id="calendar" class="col-1"></div>
       <div class="col-2 align-self-center">
-        <a th:href="@{/eventos/cadastrar/}">
+        <a th:href="@{/eventos/cadastrar/}" sec:authorize="hasAuthority('ADMIN')">
           <button class="btn btn-warning">Adicionar Evento</button>
         </a>
       </div>

@@ -50,7 +50,7 @@
                 </table>
             </div>
             <div class="col-2 align-self-center">
-                <a th:href="@{/link/cadastrar/}">
+                <a th:href="@{/link/cadastrar/}"  sec:authorize="hasAuthority('ADMIN')">
                     <button class="btn btn-warning">Adicionar Link</button>
                 </a>
             </div>

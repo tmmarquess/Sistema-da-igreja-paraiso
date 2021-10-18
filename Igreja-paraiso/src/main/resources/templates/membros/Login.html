@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/login.css">
+    
     <link rel="stylesheet" th:href="@{/css/login.css}">
     <title>Login</title>
 </head>
 
 <body>
     <div class="form">
-        <form method = "POST"  th:object="${user}">
+        <form method = "POST" th:action="@{/membros/login/}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
            <br><br><br><br><h1>Fazer Login</h1><br>
         <h5>Para acessar a área do membro, <br> entre em sua conta</h5><br><br><br>
             <label for="email">Email:</label>
-            <input type="text" placeholder=" Digite seu email" th:field="*{email}"><br><br>
+            <input type="text" placeholder=" Digite seu email" name="username" required><br><br>
             <label for="senha">Senha:</label>
-            <input type="password" id="senha" placeholder=" Digite sua senha" th:field="*{senha}"> 
+            <input type="password" id="senha" placeholder=" Digite sua senha" name="password" required> 
             <br><br>
-            <label for="wrong" style="color: rgb(143, 21, 21);" th:text="${erro}"></label>
+            <label for="wrong" style="color: rgb(143, 21, 21);" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" th:if="${param.error != null}"></label>
             <br><br>
             
              <input type="submit" value="Entrar"><br><br><br>

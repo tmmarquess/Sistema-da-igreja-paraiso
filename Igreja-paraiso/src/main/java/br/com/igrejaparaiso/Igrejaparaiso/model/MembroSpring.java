@@ -12,6 +12,8 @@ public class MembroSpring {
 
     private byte[] imagem;
 
+    private boolean adm;
+
     private String numero;
 
     private LocalDate dataNasc;
@@ -36,11 +38,12 @@ public class MembroSpring {
 
 
     
-    public MembroSpring(String id, String nome, String imagem, String numero, String dataNasc, String email, String senha, String cep,
+    public MembroSpring(String id, String nome, String imagem, boolean adm, String numero, String dataNasc, String email, String senha, String cep,
             String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
         this.id = id;
         this.nome = nome;
         setImagemLocal(imagem);
+        this.adm = adm;
         this.numero = numero;
         setDataNascLocal(dataNasc);
         this.email = email;
@@ -60,10 +63,10 @@ public class MembroSpring {
 
     @Override
     public String toString() {
-        return "MembroSpring [bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", complemento=" + complemento
-                + ", dataNasc=" + dataNasc + ", email=" + email + ", estado=" + estado + ", id=" + id + ", imagem="
-                + Arrays.toString(imagem) + ", logradouro=" + logradouro + ", nome=" + nome + ", numero=" + numero
-                + ", numeroEnd=" + numeroEnd + ", senha=" + senha + "]";
+        return "MembroSpring [adm=" + adm + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade
+                + ", complemento=" + complemento + ", dataNasc=" + dataNasc + ", email=" + email + ", estado=" + estado
+                + ", id=" + id + ", imagem=" + Arrays.toString(imagem) + ", logradouro=" + logradouro + ", nome=" + nome
+                + ", numero=" + numero + ", numeroEnd=" + numeroEnd + ", senha=" + senha + "]";
     }
 
 
@@ -71,6 +74,7 @@ public class MembroSpring {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + (adm ? 1231 : 1237);
         result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
         result = prime * result + ((cep == null) ? 0 : cep.hashCode());
         result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
@@ -97,6 +101,8 @@ public class MembroSpring {
         if (getClass() != obj.getClass())
             return false;
         MembroSpring other = (MembroSpring) obj;
+        if (adm != other.adm)
+            return false;
         if (bairro == null) {
             if (other.bairro != null)
                 return false;
@@ -198,6 +204,14 @@ public class MembroSpring {
     public String getImagemLocal(){
         String encodedString = Base64.getEncoder().encodeToString(imagem);
         return encodedString;
+    }
+
+    public boolean isAdm() {
+        return adm;
+    }
+
+    public void setAdm(boolean adm) {
+        this.adm = adm;
     }
 
     public String getNumero() {
