@@ -25,4 +25,11 @@ public class HomeController {
         return modelo;
     }
 
+    @GetMapping("/static/**")
+    public ModelAndView redireciona(){
+        ModelAndView modelo = new ModelAndView("redirect:/painel/");
+
+        return modelo;
+    }
+
 }

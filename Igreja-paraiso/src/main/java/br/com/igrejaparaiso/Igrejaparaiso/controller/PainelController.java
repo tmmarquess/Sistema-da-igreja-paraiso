@@ -5,24 +5,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.igrejaparaiso.Igrejaparaiso.model.Comprovante;
+import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteParse;
+import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Evento;
+import br.com.igrejaparaiso.Igrejaparaiso.model.InformacoesBancarias;
 import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCulto;
 import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCultoParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCultoSpring;
+import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
+import br.com.igrejaparaiso.Igrejaparaiso.service.ComprovanteService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.EventoService;
+import br.com.igrejaparaiso.Igrejaparaiso.service.InformacoesBancariasService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.LinkService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.MembroService;
 
@@ -34,11 +47,15 @@ public class PainelController {
     MembroService membroserv;
     MembroSpring logado = null;
     LinkService link;
+    InformacoesBancariasService BankServ;
+    ComprovanteService compServ;
 
-    public PainelController(EventoService serv, MembroService mServ,LinkService link) {
+    public PainelController(EventoService serv, MembroService mServ,LinkService link,InformacoesBancariasService BankServ,ComprovanteService compServ) throws InterruptedException, ExecutionException {
         service = serv;
         membroserv = mServ;
         this.link = link;
+        this.BankServ = BankServ;
+        this.compServ = compServ;
     }
 
     @GetMapping("/")
@@ -95,6 +112,95 @@ public class PainelController {
 
         modelo.addObject("links",linksNovos);
         modelo.addObject("nomePagina", "Links dos cultos");
+        modelo.addObject("membro", logado);
+
+        return modelo;
+    }
+
+    @GetMapping("/pagamentos")
+    public ModelAndView pagamentos() throws InterruptedException, ExecutionException{
+        ModelAndView modelo = new ModelAndView("painel/pagamentos.html");
+        InformacoesBancarias inf = BankServ.getInformacoes();
+        ArrayList<Comprovante> antigo = compServ.getComprovantesByMembroId(logado.getId());
+        ArrayList<ComprovanteSpring> comps;
+
+        if(antigo!= null){
+            comps = new ArrayList<ComprovanteSpring>();
+            for(Comprovante parse : antigo){
+                comps.add(ComprovanteParse.toSpring(parse));
+            }
+            comps.sort(Comparator.comparing(ComprovanteSpring::getData));
+            Collections.reverse(comps);
+
+            modelo.addObject("comprovantes", comps);
+        }else{
+            modelo.addObject("comprovantes",new ComprovanteSpring());
+        }
+
+        modelo.addObject("nomePagina", "Pagamentos");
+        modelo.addObject("membro", logado);
+
+        if(inf == null){
+            modelo.addObject("informacoes", new InformacoesBancarias());
+        }else{
+            modelo.addObject("informacoes",inf);
+        }
+
+        modelo.addObject("comprovante",new Comprovante());
+
+        return modelo;
+    }
+
+    @PostMapping("/pagamentos/editadados/")
+    public ModelAndView editaPagamentos(InformacoesBancarias inform) throws InterruptedException, ExecutionException{
+        ModelAndView modelo = new ModelAndView("redirect:/painel/pagamentos/");
+
+        BankServ.cadastrar(inform);
+
+        TimeUnit.SECONDS.sleep(3);
+
+        return modelo;
+    }
+
+    @PostMapping("/pagamentos/uploadcomprovante")
+    public ModelAndView salvaPdf(@RequestParam("file") MultipartFile file, Comprovante comp) throws InterruptedException{
+        ModelAndView modelo = new ModelAndView("redirect:/painel/pagamentos/");
+
+        try {
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("src/main/resources/static/pdfs/" + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+            comp.setArquivoLocal(Files.readAllBytes(path));
+            Files.delete(path);
+
+            comp.setData(LocalDate.now().toString());
+
+            comp.setIdMembro(logado.getId());
+
+            compServ.cadastrar(comp);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return modelo;
+    }
+
+    @GetMapping("/aniversariantes")
+    public ModelAndView aniversariantes() throws InterruptedException, ExecutionException{
+        ModelAndView modelo = new ModelAndView("painel/aniversariantes.html");
+
+        ArrayList<Membro> aniversariantes = membroserv.getAniversariantes();
+
+        if(aniversariantes == null){
+            modelo.addObject("aniversariantes", new ArrayList<Membro>());
+        }else{
+            modelo.addObject("aniversariantes", aniversariantes);
+        }
+
+        modelo.addObject("nomePagina", "Aniversários");
+
         modelo.addObject("membro", logado);
 
         return modelo;

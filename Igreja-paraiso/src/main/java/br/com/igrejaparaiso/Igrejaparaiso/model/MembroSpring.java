@@ -198,6 +198,8 @@ public class MembroSpring {
         if(imagem != null){
             byte[] decodedBytes = Base64.getDecoder().decode(imagem);
             this.imagem = decodedBytes;
+        }else{
+            this.imagem = null;
         }
     }
 

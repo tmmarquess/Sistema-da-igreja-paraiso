@@ -15,6 +15,7 @@
  <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
 
   <div class="divObjeto" th:data-objeto="${objetoJSON}"></div>
+
   <div class="container-fluid">
     <div class="row">
       <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
@@ -26,10 +27,15 @@
       </div>
     </div>
   </div>
-  <script th:src="@{/js/moment.min.js}"></script>
+
+  <div th:replace="~{fragments/_footer :: footer}"></div>
+</body>
+<script th:src="@{/js/moment.min.js}"></script>
   <script src="../../static/js/moment.min.js"></script>
   <script th:src="@{/js/eventCalendarWidget.min.js}"></script>
   <script src="../../static/js/eventCalendarWidget.min.js"></script>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script src="../../static/js/bootstrap.bundle.min.js"></script>
   <script>
     //resgata a String do documento e à transforma em Objetos Javascript
     const $div = document.querySelector('.divObjeto')
@@ -39,7 +45,7 @@
     //Transforma esses objetos em objetos que o calendário possa ler
     var dataUtil = []
     objeto.forEach(element => {
-      var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horario}:00`, eventTo: `${element.data} 23:59:59`, href: `[[@{/eventos/}]]${element.id}/` }
+    var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horario}:00`, eventTo: `${element.data} 23:59:59`, href: `[[@{/eventos/}]]${element.id}/` }
       dataUtil.push(aux)
     });
     /*
@@ -59,7 +65,5 @@
     let calendar = new Calendar("#calendar", dataUtil);
 
   </script>
-
-</body>
 
 </html>

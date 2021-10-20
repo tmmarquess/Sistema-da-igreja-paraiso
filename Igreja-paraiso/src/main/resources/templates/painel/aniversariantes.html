@@ -32,27 +32,23 @@
         <div class="row">
             <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
             <div id="links">
-                <table class="table">
+                <table class="table" th:unless="${#lists.isEmpty(aniversariantes)}">
                     <thead>
                         <tr>
-                            <th scope="col">Tema</th>
-                            <th scope="col">Data</th>
+                            <th scope="col">nome</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="link : ${links}">
+                        <tr th:each="aniversariante : ${aniversariantes}">
                             <td>
-                                <a th:text="${link.titulo}" th:href="@{/link/{id} (id=${link.id})}"></a>
+                                <p th:text="${aniversariante.nome}" class="fw-bold"></p>
                               </td>
-                              <td th:text="${#temporals.format(link.data,'dd/MM/yyyy')}"></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="col-2 align-self-center" sec:authorize="hasAuthority('ADMIN')">
-                <a th:href="@{/link/cadastrar/}"  >
-                    <button class="btn btn-warning">Adicionar Link</button>
-                </a>
+                <div class="align-self-center" th:if="${#lists.isEmpty(aniversariantes)}">
+                    <h4 style="color: black; margin-top: 45%;">Não há aniversariantes Hoje :(</h4>
+                </div>
             </div>
         </div>
     </div>

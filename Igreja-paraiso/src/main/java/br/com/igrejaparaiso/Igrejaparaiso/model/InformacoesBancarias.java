@@ -1,24 +1,42 @@
 package br.com.igrejaparaiso.Igrejaparaiso.model;
 
-import java.util.Arrays;
-
 public class InformacoesBancarias {
+    private String id;
+
     private String agencia;
 
     private String conta;
 
-    private String chavePix[];
+    private String banco;
 
-    
+    private String pixEmail;
 
-    public InformacoesBancarias(String agencia, String conta, String[] chavePix) {
+    private String pixCnpj;
+
+    private String pixTel;
+
+
+
+    public InformacoesBancarias(String id, String agencia, String conta, String banco, String pixEmail, String pixCnpj,
+            String pixTel) {
+        this.id = id;
         this.agencia = agencia;
         this.conta = conta;
-        this.chavePix = chavePix;
+        this.banco = banco;
+        this.pixEmail = pixEmail;
+        this.pixCnpj = pixCnpj;
+        this.pixTel = pixTel;
     }
 
+    public InformacoesBancarias(){
+    }
+    
+    public String getId() {
+        return id;
+    }
 
-    public InformacoesBancarias() {
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAgencia() {
@@ -37,53 +55,44 @@ public class InformacoesBancarias {
         this.conta = conta;
     }
 
-    public String[] getChavePix() {
-        return chavePix;
+    public String getBanco() {
+        return banco;
     }
 
-    public void setChavePix(String[] chavePix) {
-        this.chavePix = chavePix;
+    public void setBanco(String banco) {
+        this.banco = banco;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((agencia == null) ? 0 : agencia.hashCode());
-        result = prime * result + Arrays.hashCode(chavePix);
-        result = prime * result + ((conta == null) ? 0 : conta.hashCode());
-        return result;
+    public String getPixEmail() {
+        return pixEmail;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        InformacoesBancarias other = (InformacoesBancarias) obj;
-        if (agencia == null) {
-            if (other.agencia != null)
-                return false;
-        } else if (!agencia.equals(other.agencia))
-            return false;
-        if (!Arrays.equals(chavePix, other.chavePix))
-            return false;
-        if (conta == null) {
-            if (other.conta != null)
-                return false;
-        } else if (!conta.equals(other.conta))
-            return false;
-        return true;
+    public void setPixEmail(String pixEmail) {
+        this.pixEmail = pixEmail;
+    }
+
+    public String getPixCnpj() {
+        return pixCnpj;
+    }
+
+    public void setPixCnpj(String pixCnpj) {
+        this.pixCnpj = pixCnpj;
+    }
+
+    public String getPixTel() {
+        return pixTel;
+    }
+
+    public void setPixTel(String pixTel) {
+        this.pixTel = pixTel;
     }
 
     @Override
     public String toString() {
-        return "InformacoesBancarias [Agencia=" + agencia + ", chavePix=" + Arrays.toString(chavePix) + ", conta="
-                + conta + "]";
+        return "InformacoesBancarias [agencia=" + agencia + ", banco=" + banco + ", conta=" + conta + ", id=" + id
+                + ", pixCnpj=" + pixCnpj + ", pixEmail=" + pixEmail + ", pixTel=" + pixTel + "]";
     }
+
 
     
 }

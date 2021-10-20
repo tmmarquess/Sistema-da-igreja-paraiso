@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.igrejaparaiso.Igrejaparaiso.model.CropImageToSquare;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
@@ -73,6 +75,8 @@ public class MembroController {
             Files.write(path, membro.getImagem());
         }
 
+        TimeUnit.SECONDS.sleep(3);
+
         modelo.addObject("membro", membro);
 
         return modelo;
@@ -116,6 +120,9 @@ public class MembroController {
                 //diminui o tamanho máximo da imagem pra 300x300
                 Thumbnails.of(path.toFile()).size(300, 300).allowOverwrite(true).toFile(path.toFile());
 
+                //corta a imagem em um quadrado
+                CropImageToSquare.crop(path);
+
                 cli.setImagemLocal(Files.readAllBytes(path));
                 Files.delete(path);
 
@@ -123,6 +130,9 @@ public class MembroController {
                 e.printStackTrace();
             }
         }
+
+        TimeUnit.SECONDS.sleep(3);
+        
         if (!service.cadastrar(cli)) {
             modelo.setViewName("membros/formulario.html");
             modelo.addObject("emailrepetido", "email já cadastrado");
@@ -162,12 +172,25 @@ public class MembroController {
                 //diminui o tamanho máximo da imagem pra 300x300
                 Thumbnails.of(path.toFile()).size(300, 300).allowOverwrite(true).toFile(path.toFile());
 
+                //corta a imagem em um quadrado
+                CropImageToSquare.crop(path);
+
                 cli.setImagemLocal(Files.readAllBytes(path));
                 Files.delete(path);
+
+                path = Paths.get("src/main/resources/static/images/perfil.jpg");
+                if (path.toFile().exists()) {
+                    Files.delete(path);
+                }
+                if (cli.getImagem() != null) {
+                    Files.write(path, cli.getImagemLocal());
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            TimeUnit.SECONDS.sleep(3);
         }
         if (!service.editar(cli)) {
             modelo.setViewName("membros/formulario.html");

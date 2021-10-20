@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 
 import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -155,5 +156,34 @@ public class MembroService {
         }
 
         return membro;
+    }
+
+    public ArrayList<Membro> getAniversariantes() throws InterruptedException, ExecutionException{
+        ArrayList<Membro> aniversariantes = new ArrayList<Membro>();
+
+        //busca no Banco de dados todos os 'documentos' da coleção 'Membros' e põe em ordem alfabética
+        ApiFuture<QuerySnapshot> future = conex.collection("Membros").orderBy("nome").get();
+
+        //recebe uma lista dos 'documentos' de membros resgatados 
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        LocalDate hoje = LocalDate.now();
+        Membro membro;
+        //transforma o documento em uma instância da classe Membro
+        for (DocumentSnapshot document : documents){
+            membro =  document.toObject(Membro.class);
+
+            LocalDate nascimento = LocalDate.parse(membro.getDataNasc());
+
+            if((nascimento.getDayOfMonth() == hoje.getDayOfMonth()) && (nascimento.getMonthValue() == hoje.getMonthValue())){
+                aniversariantes.add(membro);
+            }            
+        }
+
+        if(aniversariantes.isEmpty()){
+            return null;
+        }else{
+            return aniversariantes;
+        }
     }
 }

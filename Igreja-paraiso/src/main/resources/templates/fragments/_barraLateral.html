@@ -1,5 +1,5 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-light col-1" style="width: 280px;" th:fragment="painel-lateral">
-    <ul class="nav nav-pills flex-column mb-auto">
+<div class="vh-86 d-flex flex-column flex-shrink-0 p-3 bg-light col-2" th:fragment="painel-lateral">
+    <ul class="nav nav-pills flex-column mb-auto well">
       <hr>
       <li class="nav-item">
         <a th:href="@{/painel/eventos/}" th:class="${nomePagina == 'Eventos' ? 'nav-link' : 'nav-link link-dark'}">
@@ -8,7 +8,7 @@
       </li>
       <hr>
       <li>
-        <a href="#" class="nav-link link-dark">
+        <a th:href="@{/painel/pagamentos}" th:class="${nomePagina == 'Pagamentos' ? 'nav-link' : 'nav-link link-dark'}">
           Pagamentos
         </a>
       </li>
@@ -20,7 +20,7 @@
       </li>
       <hr>
       <li>
-        <a href="#" class="nav-link link-dark">
+        <a th:href="@{/painel/aniversariantes/}" th:class="${nomePagina == 'Aniversários' ? 'nav-link' : 'nav-link link-dark'}">
           Aniversários
         </a>
       </li>

@@ -1,33 +1,104 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <!--
+    <link rel="stylesheet" href="@{/css/login.css}">
+    -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            background: linear-gradient(175deg, #2c4278, rgb(193, 220, 255));
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        .form {
+            background: #fff;
+            width: 28%;
+            height: 480px;
+            margin: 0 auto;
+            text-align: center;
+            border-radius: 30px;
+            margin-top: 50px;
+
+        }
+
+        input,
+        select {
+            border-radius: 10px;
+            height: 30px;
+            border: none;
+        }
+
+        input[type="submit"] {
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            width: 260px;
+            height: 35px;
+        }
+
+        input[type="submit"]:hover {
+            background: rgb(0, 121, 161);
+            color: #fff;
+        }
+
+        input[type="text"] {
+            height: 35px;
+            width: 60%;
+            box-sizing: border-box;
+            padding-left: 8px;
+            border: unset;
+            outline: none;
+            background-color: rgb(228, 228, 228);
+        }
+
+        #senha {
+            height: 35px;
+            width: 60%;
+            box-sizing: border-box;
+            padding-left: 8px;
+            border: unset;
+            outline: none;
+            background-color: rgb(228, 228, 228);
+        }
+    </style>
     <title>Login</title>
 </head>
 
 <body>
     <div class="form">
-        <form method = "POST" th:action="@{/membros/login/}">
+        <form method="POST" th:action="@{/membros/login/}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-           <br><br><br><br><h1>Fazer Login</h1><br>
-        <h5>Para acessar a área do membro, <br> entre em sua conta</h5><br><br><br>
+            <br><br><br><br>
+            <h1>Fazer Login</h1><br>
+            <h5>Para acessar a área do membro, <br> entre em sua conta</h5><br><br><br>
             <label for="email">Email:</label>
             <input type="text" placeholder=" Digite seu email" name="username" required><br><br>
             <label for="senha">Senha:</label>
-            <input type="password" id="senha" placeholder=" Digite sua senha" name="password" required> 
+            <input type="password" id="senha" placeholder=" Digite sua senha" name="password" required>
             <br><br>
-            <label for="wrong" style="color: rgb(143, 21, 21);" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" th:if="${param.error != null}"></label>
+            <label for="wrong" style="color: rgb(143, 21, 21);"
+                th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" th:if="${param.error != null}"></label>
             <br><br>
-            
-             <input type="submit" value="Entrar"><br><br><br>
 
-        <h5>Não é cadastrado?</h5>        
+            <input type="submit" value="Entrar"><br><br><br>
+
+            <h5>Não é cadastrado?</h5>
         </form>
         <a th:href="@{/membros/cadastro/}">Cadastre-se</a>
     </div>
 </body>
+
 </html>

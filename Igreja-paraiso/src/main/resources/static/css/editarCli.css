@@ -93,3 +93,22 @@
         outline: none;
         background-color: rgb(228, 228, 228);
     }
+
+    #foto{
+        display: none;
+    }
+
+    #labelFoto{
+        background:rgb(190, 190, 190);
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+        width: 80px;
+        height: 35px;
+        margin: 0px;
+        padding: 10px;
+    }
+    #labelFoto:hover{
+        background: rgb(0, 121, 161);
+        color: #fff;
+    }

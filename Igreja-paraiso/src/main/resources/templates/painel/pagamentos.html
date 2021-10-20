@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <title>Pagamentos</title>
+    <style>
+        .links {
+            width: 35%;
+            height: 246px;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 2px 6px 16px rgba(48, 46, 46, 0.671);
+            overflow-y: auto;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #fileElem {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+
+    <div class="modal fade" id="ModalDadosB" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dados Bancários</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="my-form" id="formularioDados" method="post" th:action="@{/painel/pagamentos/editadados/}" th:object="${informacoes}">
+                    <div class="modal-body">
+                        <p class="fw-bold">Banco:
+                            <input type="text" th:if="${membro.adm == true}" th:field="*{banco}">
+                            <span th:unless="${membro.adm == true}" th:text="*{banco}" style="font-weight: normal;"></span>
+                        </p>
+                        <p class="fw-bold">Agencia:
+                            <input type="text" th:if="${membro.adm == true}" th:field="*{agencia}">
+                            <span th:unless="${membro.adm == true}" th:text="*{agencia}" style="font-weight: normal;"></span>
+                        </p>
+                        <p class="fw-bold">Conta:
+                            <input type="text" th:if="${membro.adm == true}" th:field="*{conta}">
+                            <span th:unless="${membro.adm == true}" th:text="*{conta}" style="font-weight: normal;"></span>
+                        </p>
+                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{pixCnpj}">
+                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{pixTel}">
+                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{pixEmail}">
+                    </div>
+                    <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar modificações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalPix" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chaves Pix</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="my-form" id="formularioDados" method="post" th:action="@{/painel/pagamentos/editadados/}" th:object="${informacoes}">
+                <div class="modal-body">
+                    
+                        <p class="fw-bold">CNPJ:
+                            <input type="text" th:if="${membro.adm == true}" th:field="*{pixCnpj}">
+                            <span th:unless="${membro.adm == true}" th:text="*{pixCnpj}" style="font-weight: normal;"></span>
+                        </p>
+                        <p class="fw-bold">Telefone:
+                            <input type="text" th:if="${membro.adm == true}" th:field="*{pixTel}">
+                            <span th:unless="${membro.adm == true}" th:text="*{pixTel}" style="font-weight: normal;"></span>
+                        </p>
+                        <p class="fw-bold">Email:
+                            <input type="text" th:if="${membro.adm == true}" th:field="*{pixEmail}">
+                            <span th:unless="${membro.adm == true}" th:text="*{pixEmail}" style="font-weight: normal;"></span>
+                        </p>
+                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{banco}">
+                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{agencia}">
+                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{conta}">
+                    
+                </div>
+                <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar modificações</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalArquivo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Comprovante de pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Nome: <span id="nomeFile"></span></p>
+                    <Label for="tipoDeComprovante">Dizimo ou Oferta?</Label>
+                    <select name="tipoDeComprovante" id="selectTipo">
+                        <option value="choose" selected disabled>Escolha um</option>
+                        <option value="dizimo">Dízimo</option>
+                        <option value="oferta">Oferta</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="submit()">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
+
+            <div class="col-10">
+
+                <div class="row">
+                    <div class="col-6 links">
+                        <br>
+                        <img th:src="@{/images/Credit-card.png}" alt="">
+                        <br>
+                        <p class="fw-bold">Transferência via DOC, TED ou depósito bancário</p>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalDadosB">Ver
+                            dados</button>
+                    </div>
+                    <div class="col-6 links">
+                        <br>
+                        <img th:src="@{/images/logo_pix.png}" alt="" height="105px">
+                        <br>
+                        <br>
+                        <p class="fw-bold">Pagamento via Pix</p>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalPix">Ver
+                            dados</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 links">
+                        <form class="my-form" id="formulario" method="post" enctype="multipart/form-data"
+                            th:action="@{/painel/pagamentos/uploadcomprovante/}" th:object="${comprovante}">
+                            <br>
+                            <img th:src="@{/images/uploadIcon.png}" alt="" height="100px">
+                            <p class="fw-bold">upload do comprovante</p>
+                            <input type="file" name="file" id="fileElem" accept="application/pdf" onchange="showModal(this)">
+                            <input type="hidden" id="tipoComp" th:field="*{tipo}">
+                            <label class="button btn btn-secondary" for="fileElem">Fazer upload do comprovante</label>
+                        </form>
+                    </div>
+                    <div class="col-6 links">
+                        <h5 style="margin-top: 5px;">Comprovantes</h5>
+                        <hr style="margin-bottom: 0px; margin-top: 10px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="comp : ${comprovantes}">
+                                    <td th:text="${comp.tipo}"></td>
+                                    <td th:text="${#temporals.format(comp.data,'dd/MM/yyyy')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div th:replace="~{fragments/_footer :: footer}"></div>
+</body>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+<script>
+
+    var myModal = new bootstrap.Modal(document.getElementById('ModalArquivo'), {
+        keyboard: false,
+        backdrop: 'static',
+        focus: true
+    })
+
+    function showModal(file){
+        let arquivo = file.files[0]
+        document.getElementById("nomeFile").innerText = arquivo.name
+        myModal.show()
+    }
+
+    function submit() {
+        tipo = document.getElementById("selectTipo").value
+
+        if(tipo == 'choose'){
+            alert("Escolha um tipo!")
+        }else{
+            document.getElementById("tipoComp").value = tipo;
+            document.getElementById("formulario").submit();
+        }        
+    }
+</script>
+
+</html>
