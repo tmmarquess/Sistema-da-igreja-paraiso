@@ -34,3 +34,6 @@ build/
 
 ### Firebase Keys ###
 !**/src/main/resources/serviceAccountKey.json
+
+### Imagem de perfil ###
+!**/src/main/resources/static/images/perfil.jpg
