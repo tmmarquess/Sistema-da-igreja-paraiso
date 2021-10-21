@@ -4,7 +4,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/agenda.css}">
+  <link rel="stylesheet" th:href="@{/css/eventos.css}">
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
   <title>Agenda</title>
@@ -17,13 +17,20 @@
   <div class="divObjeto" th:data-objeto="${objetoJSON}"></div>
 
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" >
       <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
-      <div id="calendar" class="col-1"></div>
-      <div class="col-2 align-self-center">
-        <a th:href="@{/eventos/cadastrar/}" sec:authorize="hasAuthority('ADMIN')">
-          <button class="btn btn-warning">Adicionar Evento</button>
-        </a>
+      <div style="overflow-y: auto;" class="col">
+
+        <div class="row">
+          <br>
+          <div id="calendar" class="col-1"></div>
+          
+          <div class="col-2 align-self-center" sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/eventos/cadastrar/}" >
+              <button class="btn btn-warning">Adicionar Evento</button>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

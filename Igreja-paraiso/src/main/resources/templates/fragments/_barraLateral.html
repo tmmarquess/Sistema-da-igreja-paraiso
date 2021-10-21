@@ -1,5 +1,10 @@
-<div class="vh-86 d-flex flex-column flex-shrink-0 p-3 bg-light col-2" th:fragment="painel-lateral">
+<div class="vh-86 d-flex flex-column flex-shrink-0 p-3 bg-light col-2" th:fragment="painel-lateral" style="box-shadow: 1px 1px 2px black;">
     <ul class="nav nav-pills flex-column mb-auto well">
+      <li class="nav-item">
+        <a th:href="@{/painel/agenda/}" th:class="${nomePagina == 'Agenda' ? 'nav-link' : 'nav-link link-dark'}">
+          Agenda
+        </a>
+      </li>
       <hr>
       <li class="nav-item">
         <a th:href="@{/painel/eventos/}" th:class="${nomePagina == 'Eventos' ? 'nav-link' : 'nav-link link-dark'}">

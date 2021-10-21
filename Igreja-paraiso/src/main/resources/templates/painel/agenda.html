@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.getElementsByTagName("html")[0].className += " js";</script>
+    <link rel="stylesheet" th:href="@{/css/agenda.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <title>Agenda</title>
+</head>
+
+<body>
+
+    <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
+            <div style="overflow-y: auto;" class="col">
+                <div class="row" style="height: 1px;">
+                    <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
+                        <div class="cd-schedule__timeline">
+                            <ul>
+                                <li><span>09:00</span></li>
+                                <li><span>09:30</span></li>
+                                <li><span>10:00</span></li>
+                                <li><span>10:30</span></li>
+                                <li><span>11:00</span></li>
+                                <li><span>11:30</span></li>
+                                <li><span>12:00</span></li>
+                                <li><span>12:30</span></li>
+                                <li><span>13:00</span></li>
+                                <li><span>13:30</span></li>
+                                <li><span>14:00</span></li>
+                                <li><span>14:30</span></li>
+                                <li><span>15:00</span></li>
+                                <li><span>15:30</span></li>
+                                <li><span>16:00</span></li>
+                                <li><span>16:30</span></li>
+                                <li><span>17:00</span></li>
+                                <li><span>17:30</span></li>
+                                <li><span>18:00</span></li>
+                            </ul>
+                        </div> <!-- .cd-schedule__timeline -->
+
+                        <div class="cd-schedule__events">
+                            <ul>
+
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Segunda</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs1}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                                th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                                onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                                <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                            </a>
+                                            <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Terça</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs2}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                                th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                                onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                                <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                            </a>
+                                            <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Quarta</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs3}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                                th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                                onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                                <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                            </a>
+                                            <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Quinta</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs4}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                            th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                            onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                            <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                        </a>
+                                        <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Sexta</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs5}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                            th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                            onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                            <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                        </a>
+                                        <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Sabado</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs6}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                            th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                            onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                            <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                        </a>
+                                        <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="cd-schedule__group">
+                                    <div class="cd-schedule__top-info"><span>Domingo</span></div>
+
+                                    <ul>
+                                        <li class="cd-schedule__event" th:each="agenda : ${evs7}">
+                                            <a th:data-start="${agenda.horaInicio}" th:data-end="${agenda.horaFim}"
+                                            th:data-event="${agenda.design}" href="#0" th:value="${agenda.id}"
+                                            onclick="showModal(this)" th:name="${agenda.nome}" th:dia-sem="${agenda.diaSemana}">
+                                            <em class="cd-schedule__name" th:text="${agenda.nome}">Abs Circuit</em>
+                                        </a>
+                                        <input type="hidden" th:value="${agenda.descricao}" th:id="${agenda.id}">
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="cd-schedule-modal">
+                            <header class="cd-schedule-modal__header">
+                                <div class="cd-schedule-modal__content">
+                                    <span class="cd-schedule-modal__date"></span>
+                                    <h3 class="cd-schedule-modal__name"></h3>
+                                </div>
+
+                                <div class="cd-schedule-modal__header-bg"></div>
+                            </header>
+
+                            <div class="cd-schedule-modal__body">
+                                <div class="cd-schedule-modal__event-info" style="width: 600px;">
+
+                                </div>
+                                <a href="#0" class="cd-schedule-modal__close text-replace">:)</a>
+                                <div class="cd-schedule-modal__body-bg"></div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="modalAgenda" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="fw-bold">Hora de início: <span id="horaInicio"
+                                                style="font-weight: normal;"></span></p>
+                                        <p class="fw-bold">Hora de Fim: <span id="horaFim"
+                                                style="font-weight: normal;"></span></p>
+                                        <p class="fw-bold">Descrição: <span id="desc"
+                                                style="font-weight: normal;"></span></p>
+                                    </div>
+                                    <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="abrirFormEditar()">Editar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modalFormEditar" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tituloModalForm">Editar Evento</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form  method="POST" th:object="${agenda}" th:action="@{/agenda/editar/}">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" id="idForm" th:field="*{id}">
+                                            <p class="fw-bold">Nome: <input type="text" required class="form-control" id="nomeForm" th:field="*{nome}"></p>
+                                            <p class="fw-bold">Dia da Semana:
+                                            <select id="diaSemanaForm" th:field="*{diaSemana}" required>
+                                                <option value="Segunda">Segunda</option>
+                                                <option value="Terça">Terça</option>
+                                                <option value="Quarta">Quarta</option>
+                                                <option value="Quinta">Quinta</option>
+                                                <option value="Sexta">Sexta</option>
+                                                <option value="Sabado">Sabado</option>
+                                                <option value="Domingo">Domingo</option>
+                                            </select></p>
+                                            <p class="fw-bold">Hora de início: <input type="time" required class="form-control" id="horaInForm" th:field="*{horaInicio}"></p>
+                                            <p class="fw-bold">Hora de Fim: <input type="time" required class="form-control" id="horaFimForm" th:field="*{horaFim}"></p>
+                                            <p class="fw-bold">Cor do Card:
+                                            <select id="corCardForm" th:field="*{design}" required>
+                                                <option value="event-1">Azul</option>
+                                                <option value="event-2">Roxo</option>
+                                                <option value="event-3">Verde Claro</option>
+                                                <option value="event-4">Amarelo</option>
+                                            </select></p>
+                                            <p class="fw-bold">Descrição: <textarea required class="form-control" aria-label="With textarea" th:field="*{descricao}" id="descForm"></textarea></p>
+                                        </div>
+                                        <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modalFormCadastrar" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tituloModalForm">Adicionar Evento</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form  method="POST" th:object="${agenda}" th:action="@{/agenda/cadastrar/}">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" id="idForm" th:field="*{id}">
+                                            <p class="fw-bold">Nome: <input type="text" required class="form-control" id="nomeForm" th:field="*{nome}"></p>
+                                            <p class="fw-bold">Dia da Semana:
+                                            <select id="diaSemanaForm" th:field="*{diaSemana}" required>
+                                                <option value="Segunda">Segunda</option>
+                                                <option value="Terça">Terça</option>
+                                                <option value="Quarta">Quarta</option>
+                                                <option value="Quinta">Quinta</option>
+                                                <option value="Sexta">Sexta</option>
+                                                <option value="Sabado">Sabado</option>
+                                                <option value="Domingo">Domingo</option>
+                                            </select></p>
+                                            <p class="fw-bold">Hora de início: <input type="time" required class="form-control" id="horaInForm" th:field="*{horaInicio}"></p>
+                                            <p class="fw-bold">Hora de Fim: <input type="time" required class="form-control" id="horaFimForm" th:field="*{horaFim}"></p>
+                                            <p class="fw-bold">Cor do Card:
+                                            <select id="corCardForm" th:field="*{design}" required>
+                                                <option value="event-1">Azul</option>
+                                                <option value="event-2">Roxo</option>
+                                                <option value="event-3">Verde Claro</option>
+                                                <option value="event-4">Amarelo</option>
+                                            </select></p>
+                                            <p class="fw-bold">Descrição: <textarea required class="form-control" aria-label="With textarea" th:field="*{descricao}" id="descForm"></textarea></p>
+                                        </div>
+                                        <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cd-schedule__cover-layer"></div>
+                    </div> <!-- .cd-schedule -->
+                </div>
+            </div>
+            <div class="col-2 align-self-center" sec:authorize="hasAuthority('ADMIN')">
+                <button class="btn btn-warning" onclick="abrirFormCadastrar()">Adicionar Evento</button>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{fragments/_footer :: footer}"></div>
+</body>
+
+<script th:src="@{/js/util.js}"></script> <!-- util functions included in the CodyHouse framework -->
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+
+
+    var myModal = new bootstrap.Modal(document.getElementById("modalAgenda"), {
+        keyboard: true,
+        backdrop: true,
+        focus: true
+    })
+
+    var modalForm = new bootstrap.Modal(document.getElementById("modalFormEditar"), {
+        keyboard: true,
+        backdrop: 'static',
+        focus: true
+    })
+    var modalFormCad = new bootstrap.Modal(document.getElementById("modalFormCadastrar"), {
+        keyboard: true,
+        backdrop: 'static',
+        focus: true
+    })
+
+    var id
+    var nome
+    var horaInicio
+    var horFim
+    var descricao
+    var diaSem
+    var corCard
+    function showModal(element) {
+        id = element.getAttribute("value")
+        nome = element.getAttribute("name")
+        diaSem = element.getAttribute("dia-sem")
+        horaInicio = element.getAttribute("data-start")
+        horFim = element.getAttribute("data-end")
+        corCard = element.getAttribute("data-event")
+        descricao = document.getElementById(id).value
+
+        document.getElementById("exampleModalLabel").innerText = nome
+        document.getElementById("horaInicio").innerText = horaInicio
+        document.getElementById("horaFim").innerText = horFim
+        document.getElementById("desc").innerText = descricao
+
+        myModal.show()
+    }
+
+    function abrirFormEditar(){
+
+        document.getElementById("idForm").value = id
+        document.getElementById("nomeForm").value = nome
+        document.getElementById("diaSemanaForm").value = diaSem
+        document.getElementById("horaInForm").value = horaInicio
+        document.getElementById("horaFimForm").value = horFim
+        document.getElementById("corCardForm").value = corCard
+        document.getElementById("descForm").value = descricao
+
+        myModal.hide()
+
+        modalForm.show()
+    }
+
+    function abrirFormCadastrar(){
+        modalFormCad.show()
+    }
+</script>
+
+</html>

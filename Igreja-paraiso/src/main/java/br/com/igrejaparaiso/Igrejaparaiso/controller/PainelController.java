@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.igrejaparaiso.Igrejaparaiso.model.Agenda;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Comprovante;
 import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteSpring;
@@ -33,6 +34,7 @@ import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCultoSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Membro;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
+import br.com.igrejaparaiso.Igrejaparaiso.service.AgendaService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.ComprovanteService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.EventoService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.InformacoesBancariasService;
@@ -49,18 +51,20 @@ public class PainelController {
     LinkService link;
     InformacoesBancariasService BankServ;
     ComprovanteService compServ;
+    AgendaService agendaService;
 
-    public PainelController(EventoService serv, MembroService mServ,LinkService link,InformacoesBancariasService BankServ,ComprovanteService compServ) throws InterruptedException, ExecutionException {
+    public PainelController(EventoService serv, MembroService mServ,LinkService link,InformacoesBancariasService BankServ,ComprovanteService compServ, AgendaService agendaService) throws InterruptedException, ExecutionException {
         service = serv;
         membroserv = mServ;
         this.link = link;
         this.BankServ = BankServ;
         this.compServ = compServ;
+        this.agendaService = agendaService;
     }
 
     @GetMapping("/")
     public ModelAndView redirecionar(Principal principal) throws InterruptedException, ExecutionException, IOException {
-        ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/agenda/");
 
         logado = MembroParse.toSpring(membroserv.getMembroByEmail(principal.getName()));
 
@@ -78,6 +82,11 @@ public class PainelController {
     @GetMapping("/eventos")
     public ModelAndView eventos() throws IOException {
         ModelAndView modelo = new ModelAndView("painel/Eventos.html");
+
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
 
         String json = "";
         Gson gson = new Gson();
@@ -101,6 +110,11 @@ public class PainelController {
     public ModelAndView LinksCulto() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("painel/Links.html");
 
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
         ArrayList<LinkDoCulto> links = link.getAllLinks();
         ArrayList<LinkDoCultoSpring> linksNovos = new ArrayList<LinkDoCultoSpring>();
 
@@ -120,6 +134,12 @@ public class PainelController {
     @GetMapping("/pagamentos")
     public ModelAndView pagamentos() throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView("painel/pagamentos.html");
+
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
         InformacoesBancarias inf = BankServ.getInformacoes();
         ArrayList<Comprovante> antigo = compServ.getComprovantesByMembroId(logado.getId());
         ArrayList<ComprovanteSpring> comps;
@@ -191,6 +211,11 @@ public class PainelController {
     public ModelAndView aniversariantes() throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView("painel/aniversariantes.html");
 
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
         ArrayList<Membro> aniversariantes = membroserv.getAniversariantes();
 
         if(aniversariantes == null){
@@ -202,6 +227,34 @@ public class PainelController {
         modelo.addObject("nomePagina", "Aniversários");
 
         modelo.addObject("membro", logado);
+
+        return modelo;
+    }
+
+    @GetMapping("/agenda")
+    public ModelAndView agenda() throws InterruptedException, ExecutionException{
+        ModelAndView modelo = new ModelAndView("painel/agenda.html");
+
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        ArrayList<ArrayList<Agenda>> todos = agendaService.getAllEvs();
+
+        modelo.addObject("evs1", todos.get(0));
+        modelo.addObject("evs2", todos.get(1));
+        modelo.addObject("evs3", todos.get(2));
+        modelo.addObject("evs4", todos.get(3));
+        modelo.addObject("evs5", todos.get(4));
+        modelo.addObject("evs6", todos.get(5));
+        modelo.addObject("evs7", todos.get(6));
+
+        modelo.addObject("nomePagina", "Agenda");
+
+        modelo.addObject("membro", logado);
+
+        modelo.addObject("agenda", new Agenda());
 
         return modelo;
     }
