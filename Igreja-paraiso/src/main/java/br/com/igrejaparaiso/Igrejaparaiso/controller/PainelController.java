@@ -104,6 +104,8 @@ public class PainelController {
 
         modelo.addObject("nomePagina", "Eventos");
 
+        modelo.addObject("evento", new Evento());
+
         return modelo;
     }
 

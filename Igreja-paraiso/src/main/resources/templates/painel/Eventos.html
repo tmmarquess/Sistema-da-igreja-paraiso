@@ -12,65 +12,98 @@
 
 <body style="margin:auto;">
 
- <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+  <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
 
   <div class="divObjeto" th:data-objeto="${objetoJSON}"></div>
 
   <div class="container-fluid">
-    <div class="row" >
+    <div class="row">
       <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
       <div style="overflow-y: auto;" class="col">
 
         <div class="row">
           <br>
           <div id="calendar" class="col-1"></div>
-          
+
           <div class="col-2 align-self-center" sec:authorize="hasAuthority('ADMIN')">
-            <a th:href="@{/eventos/cadastrar/}" >
-              <button class="btn btn-warning">Adicionar Evento</button>
-            </a>
+              <button class="btn btn-warning" onclick="abrirModalCad()">Adicionar Evento</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="modal fade" id="modalFormEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalForm">Cadastrar Evento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" th:object="${evento}" th:action="@{/eventos/cadastrar/}" id="formEditar">
+          <div class="modal-body">
+            <input type="hidden" id="idForm" th:field="*{id}">
+            <p class="fw-bold">Nome: <input type="text" required id="temaForm" th:field="*{nome}"></p>
+            <p class="fw-bold">Data: <input type="date" required id="dataForm" th:field="*{data}"></p>
+            <p class="fw-bold">Hora de Início: <input type="time" required id="dataForm" th:field="*{horaInicio}"></p>
+            <p class="fw-bold">Hora de Fim: <input type="time" required id="dataForm" th:field="*{horaFim}"></p>
+            <p class="fw-bold">Descrição: <textarea class="form-control" aria-label="With textarea" th:field="*{descricao}" id="linkForm" required></textarea></p>
+          </div>
+          <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
   <div th:replace="~{fragments/_footer :: footer}"></div>
 </body>
 <script th:src="@{/js/moment.min.js}"></script>
-  <script src="../../static/js/moment.min.js"></script>
-  <script th:src="@{/js/eventCalendarWidget.min.js}"></script>
-  <script src="../../static/js/eventCalendarWidget.min.js"></script>
-  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-  <script src="../../static/js/bootstrap.bundle.min.js"></script>
-  <script>
-    //resgata a String do documento e à transforma em Objetos Javascript
-    const $div = document.querySelector('.divObjeto')
-    const stringJSONDoHTML = $div.dataset.objeto
-    const objeto = JSON.parse(stringJSONDoHTML)
+<script src="../../static/js/moment.min.js"></script>
+<script th:src="@{/js/eventCalendarWidget.min.js}"></script>
+<script src="../../static/js/eventCalendarWidget.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+<script>
+  //resgata a String do documento e à transforma em Objetos Javascript
+  const $div = document.querySelector('.divObjeto')
+  const stringJSONDoHTML = $div.dataset.objeto
+  const objeto = JSON.parse(stringJSONDoHTML)
 
-    //Transforma esses objetos em objetos que o calendário possa ler
-    var dataUtil = []
-    objeto.forEach(element => {
+  //Transforma esses objetos em objetos que o calendário possa ler
+  var dataUtil = []
+  objeto.forEach(element => {
     var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horaInicio}:00`, eventTo: `${element.data} ${element.horaFim}:59`, href: `[[@{/eventos/}]]${element.id}/` }
-      dataUtil.push(aux)
-    });
-    /*
-      {
-        [
-        'eventName' : 'some name',
-        'calendar' : 'some label',
-        'color' : 'blue','orange','green','yellow','red','coral','purple','lime','black' OR 'aqua'
-        'location' : 'any location',
-        'eventFrom' : '2020-05-31 17:00:00',
-        'eventTo' : '2020-05-31 21:30:00',
-        'href' : 'some URL'
-        ]
-       }
-    */
+    dataUtil.push(aux)
+  });
+  /*
+    {
+      [
+      'eventName' : 'some name',
+      'calendar' : 'some label',
+      'color' : 'blue','orange','green','yellow','red','coral','purple','lime','black' OR 'aqua'
+      'location' : 'any location',
+      'eventFrom' : '2020-05-31 17:00:00',
+      'eventTo' : '2020-05-31 21:30:00',
+      'href' : 'some URL'
+      ]
+     }
+  */
 
-    let calendar = new Calendar("#calendar", dataUtil);
+  let calendar = new Calendar("#calendar", dataUtil);
 
-  </script>
+  var modalForm = new bootstrap.Modal(document.getElementById("modalFormEditar"), {
+    keyboard: true,
+    backdrop: 'static',
+    focus: true
+  })
+
+  function abrirModalCad() {
+    modalForm.show()
+  }
+
+</script>
 
 </html>
