@@ -33,7 +33,8 @@
       <div class="card-header" th:text="${evento.nome}">
       </div>
       <div class="card-body">
-        <p class="card-text">Horario: <span th:text="${evento.horario}"></span></p>
+        <p class="card-text">Hora de Início: <span th:text="${evento.horaInicio}"></span></p>
+        <p class="card-text">Hora de Fim: <span th:text="${evento.horaFim}"></span></p>
         <p class="card-text">Data: <span th:text="${#temporals.format(evento.data,'dd/MM/yyyy')}"></span></p>
         <p class="card-text">Descrição: <span th:text="${evento.descricao}"></span></p>
         <div sec:authorize="hasAuthority('ADMIN')">

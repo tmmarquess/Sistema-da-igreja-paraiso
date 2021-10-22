@@ -6,15 +6,15 @@
         </a>
       </li>
       <hr>
-      <li class="nav-item">
-        <a th:href="@{/painel/eventos/}" th:class="${nomePagina == 'Eventos' ? 'nav-link' : 'nav-link link-dark'}">
-          Eventos
+      <li>
+        <a th:href="@{/painel/aniversariantes/}" th:class="${nomePagina == 'Aniversários' ? 'nav-link' : 'nav-link link-dark'}">
+          Aniversários
         </a>
       </li>
       <hr>
-      <li>
-        <a th:href="@{/painel/pagamentos}" th:class="${nomePagina == 'Pagamentos' ? 'nav-link' : 'nav-link link-dark'}">
-          Pagamentos
+      <li class="nav-item">
+        <a th:href="@{/painel/eventos/}" th:class="${nomePagina == 'Eventos' ? 'nav-link' : 'nav-link link-dark'}">
+          Eventos
         </a>
       </li>
       <hr>
@@ -25,15 +25,17 @@
       </li>
       <hr>
       <li>
-        <a th:href="@{/painel/aniversariantes/}" th:class="${nomePagina == 'Aniversários' ? 'nav-link' : 'nav-link link-dark'}">
-          Aniversários
+        <a th:href="@{/painel/pagamentos}" th:class="${nomePagina == 'Pagamentos' ? 'nav-link' : 'nav-link link-dark'}">
+          Pagamentos
         </a>
       </li>
-      <hr>
-      <li>
-        <a href="#" class="nav-link link-dark">
-          Células
-        </a>
-      </li>
+      <div sec:authorize="hasAuthority('ADMIN')">
+        <hr>
+        <li>
+          <a th:href="@{/painel/membros}" th:class="${nomePagina == 'Membros' ? 'nav-link' : 'nav-link link-dark'}">
+            Membros
+          </a>
+        </li>
+      </div>
     </ul>
   </div>

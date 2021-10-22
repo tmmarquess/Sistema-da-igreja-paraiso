@@ -58,7 +58,7 @@ public class EventoController {
 
     @PostMapping("/cadastrar")
     public ModelAndView cadastrar(Evento eve){
-        ModelAndView modelo = new ModelAndView("redirect:/painel/agenda/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
         service.cadastrar(eve);
         return modelo;
     }
@@ -74,7 +74,7 @@ public class EventoController {
 
     @PostMapping("/{id}/editar")
     public ModelAndView editar(Evento eve) {
-        ModelAndView modelo = new ModelAndView("redirect:/eventos/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
 
         service.editar(eve);
 
@@ -83,7 +83,7 @@ public class EventoController {
 
     @GetMapping("/{id}/excluir")
     public ModelAndView excluir(@PathVariable String id) {
-        ModelAndView modelo = new ModelAndView("redirect:/painel/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
         service.apagar(id);
         return modelo;
     }

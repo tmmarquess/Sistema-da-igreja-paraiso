@@ -20,7 +20,8 @@
             <tr>
               <th scope="col" class="col-3">Nome</th>
               <th scope="col" class="col-3">data</th>
-              <th scope="col" class="col-3">Horário</th>
+              <th scope="col" class="col-3">Hora de início</th>
+              <th scope="col" class="col-3">Hora de Fim</th>
               <th scope="col" class="col-3">Ações</th>
             </tr>
           </thead>
@@ -30,7 +31,8 @@
                 <a th:text="${evento.nome}" th:href="@{/eventos/{id} (id=${evento.id})}"></a>
               </td>
               <td th:text="${#temporals.format(evento.data,'dd/MM/yyyy')}"></td>
-              <td th:text="${evento.horario}"></td> 
+              <td th:text="${evento.horaInicio}"></td> 
+              <td th:text="${evento.horaFim}"></td> 
               <td>
                 <a th:href="@{/eventos/{id}/editar (id=${evento.id})}" class="btn btn-warning">Editar</a>
                 <a th:href="@{/eventos/{id}/excluir (id=${evento.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Excluir</a>

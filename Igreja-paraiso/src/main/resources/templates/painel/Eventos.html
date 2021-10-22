@@ -52,7 +52,7 @@
     //Transforma esses objetos em objetos que o calendário possa ler
     var dataUtil = []
     objeto.forEach(element => {
-    var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horario}:00`, eventTo: `${element.data} 23:59:59`, href: `[[@{/eventos/}]]${element.id}/` }
+    var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horaInicio}:00`, eventTo: `${element.data} ${element.horaFim}:59`, href: `[[@{/eventos/}]]${element.id}/` }
       dataUtil.push(aux)
     });
     /*

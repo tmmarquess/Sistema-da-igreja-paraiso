@@ -48,5 +48,25 @@ public class ComprovanteService {
             return lista;
         }
     }
+
+    public Comprovante getComprovanteById(String id) throws InterruptedException, ExecutionException{
+        Comprovante comp = new Comprovante();
+        comp.setId(null);
+        
+        CollectionReference eventos = conex.collection("Comprovantes");
+
+        Query query = eventos.whereEqualTo("id", id);
+        // retrieve query results asynchronously using query.get()
+        List<QueryDocumentSnapshot> querySnapshot = query.get().get().getDocuments();
+
+        for (DocumentSnapshot document : querySnapshot){
+            comp = document.toObject(Comprovante.class);
+        }
+        if(comp.getId() == null){
+            return null;
+        }else{
+            return comp;
+        }
+    }
     
 }

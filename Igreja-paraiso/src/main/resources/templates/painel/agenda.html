@@ -42,6 +42,14 @@
                                 <li><span>17:00</span></li>
                                 <li><span>17:30</span></li>
                                 <li><span>18:00</span></li>
+                                <li><span>18:30</span></li>
+                                <li><span>19:00</span></li>
+                                <li><span>19:30</span></li>
+                                <li><span>20:00</span></li>
+                                <li><span>20:30</span></li>
+                                <li><span>21:00</span></li>
+                                <li><span>21:30</span></li>
+                                <li><span>22:00</span></li>
                             </ul>
                         </div> <!-- .cd-schedule__timeline -->
 
@@ -189,8 +197,10 @@
                                                 style="font-weight: normal;"></span></p>
                                     </div>
                                     <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
+                                        <a href="" id="linkExcluir">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Excluir</button>
+                                        </a>
                                         <button type="button" class="btn btn-primary" onclick="abrirFormEditar()">Editar</button>
                                     </div>
                                 </div>
@@ -333,6 +343,10 @@
         corCard = element.getAttribute("data-event")
         descricao = document.getElementById(id).value
 
+        
+        if("[[${membro.adm}]]" == "true"){
+            document.getElementById("linkExcluir").href= `[[@{/agenda/}]]${id}/excluir/`
+        }
         document.getElementById("exampleModalLabel").innerText = nome
         document.getElementById("horaInicio").innerText = horaInicio
         document.getElementById("horaFim").innerText = horFim

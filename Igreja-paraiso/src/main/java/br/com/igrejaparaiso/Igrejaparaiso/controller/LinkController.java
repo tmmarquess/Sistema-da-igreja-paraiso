@@ -10,6 +10,7 @@ import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCultoSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.service.LinkService;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class LinkController {
     }
 
     @PostMapping("/cadastrar")
-    public ModelAndView cadastrar(LinkDoCulto link){
+    public ModelAndView cadastrar(LinkDoCulto link) throws InterruptedException{
         ModelAndView modelo = new ModelAndView("redirect:/painel/links/");
 
         if(!link.getLink().startsWith("https://")){
@@ -42,6 +43,7 @@ public class LinkController {
         }
 
         service.cadastrar(link);
+        TimeUnit.SECONDS.sleep(2);
 
         return modelo;
     }

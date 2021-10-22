@@ -16,17 +16,20 @@ public class EventoSpring{
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate data; // datas PRECISAM SER LocalDate
 
-    private String horario;
+    private String horaInicio;
+
+    private String horaFim;
 
     public EventoSpring() {
     }
 
-    public EventoSpring(String id, String nome, String descricao, String data, String horario) {
+    public EventoSpring(String id, String nome, String descricao, String data, String horaInicio, String horaFim) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         setDataLocal(data);
-        this.horario = horario;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
     }
 
     public String getId() {
@@ -69,62 +72,30 @@ public class EventoSpring{
         this.data = data;
     }
 
-    public String getHorario() {
-        return horario;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHorario(String horario) {
-        this.horario = horario;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
-        result = prime * result + ((horario == null) ? 0 : horario.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        return result;
+    public String getHoraFim() {
+        return horaFim;
+    }
+
+    public void setHoraFim(String horaFim) {
+        this.horaFim = horaFim;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        EventoSpring other = (EventoSpring) obj;
-        if (data == null) {
-            if (other.data != null)
-                return false;
-        } else if (!data.equals(other.data))
-            return false;
-        if (descricao == null) {
-            if (other.descricao != null)
-                return false;
-        } else if (!descricao.equals(other.descricao))
-            return false;
-        if (horario == null) {
-            if (other.horario != null)
-                return false;
-        } else if (!horario.equals(other.horario))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (nome == null) {
-            if (other.nome != null)
-                return false;
-        } else if (!nome.equals(other.nome))
-            return false;
-        return true;
+    public String toString() {
+        return "EventoSpring [data=" + data + ", descricao=" + descricao + ", horaFim=" + horaFim + ", horaInicio="
+                + horaInicio + ", id=" + id + ", nome=" + nome + "]";
     }
+
+
+   
     
 
 }

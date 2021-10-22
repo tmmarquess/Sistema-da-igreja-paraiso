@@ -42,21 +42,112 @@
                     <tbody>
                         <tr th:each="link : ${links}">
                             <td>
-                                <a th:text="${link.titulo}" th:href="@{/link/{id} (id=${link.id})}"></a>
-                              </td>
-                              <td th:text="${#temporals.format(link.data,'dd/MM/yyyy')}"></td>
+                                <a th:text="${link.titulo}" href="#0" th:itemid="${link.id}"
+                                    th:itemTitulo="${link.titulo}" th:itemDate="${link.data}" th:itemHref="${link.link}"
+                                    onclick="abrirModalVisualizar(this)"></a>
+                            </td>
+                            <td th:text="${#temporals.format(link.data,'dd/MM/yyyy')}"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-2 align-self-center" sec:authorize="hasAuthority('ADMIN')">
-                <a th:href="@{/link/cadastrar/}"  >
-                    <button class="btn btn-warning">Adicionar Link</button>
-                </a>
+                <button class="btn btn-warning" onclick="abrirModalCad()">Adicionar Link</button>
+            </div>
+        </div>
+        <div class="modal fade" id="modalFormEditar" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalForm"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" th:object="${link}" th:action="@{/link/editar/}" id="formEditar">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="idForm" th:field="*{id}">
+                            <p class="fw-bold">Tema: <input type="text" required id="temaForm" th:field="*{titulo}"></p>
+                            <p class="fw-bold">Link: <input type="text" th:field="*{link}" id="linkForm" required></p>
+                            <p class="fw-bold">Data: <input type="date" required id="dataForm" th:field="*{data}"></p>
+                        </div>
+                        <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalShow" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalShow"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                        <div class="modal-body">
+                            <p class="fw-bold">Tema: <span id="temaShow" style="font-weight: normal;"></span></p>
+                            <p class="fw-bold">Link: <a id="linkShow" style="font-weight: normal;"></a></p>
+                            <p class="fw-bold">Data: <span id="dataShow" style="font-weight: normal;"></span></p>
+                        </div>
+                        <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" onclick="abrirModalEditar()">Editar</button>
+                        </div>
+                </div>
             </div>
         </div>
     </div>
     <div th:replace="~{fragments/_footer :: footer}"></div>
 </body>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    var modalForm = new bootstrap.Modal(document.getElementById("modalFormEditar"), {
+        keyboard: true,
+        backdrop: 'static',
+        focus: true
+    })
+    var modalShow = new bootstrap.Modal(document.getElementById("modalShow"), {
+        keyboard: true,
+        backdrop: 'static',
+        focus: true
+    })
+    
+    var id;
+    var titulo;
+    var link;
+    var data;
+
+    function abrirModalCad() {
+        document.getElementById("tituloModalForm").innerText= "Cadastrar Evento"
+        document.getElementById("formEditar").action = "[[@{/link/}]]cadastrar/"
+        modalForm.show()
+    }
+    function abrirModalEditar() {
+        document.getElementById("tituloModalForm").innerText= "Editar Evento"
+        document.getElementById("idForm").value = id
+        document.getElementById("temaForm").value = titulo
+        document.getElementById("linkForm").value = link
+        document.getElementById("dataForm").value = data
+
+        document.getElementById("formEditar").action = "[[@{/link/}]]"+id+"/editar/"
+        modalShow.hide()
+        modalForm.show()
+    }
+    function abrirModalVisualizar(element) {
+        id = element.getAttribute("itemid")
+        titulo = element.getAttribute("itemTitulo")
+        link = element.getAttribute("itemHref")
+        data = element.getAttribute("itemDate")
+        document.getElementById("tituloModalShow").innerText = titulo
+        document.getElementById("temaShow").innerText = titulo
+        document.getElementById("linkShow").href = link
+        document.getElementById("linkShow").innerText = link
+        document.getElementById("dataShow").innerText = data
+        modalShow.show()
+    }
+</script>
 
 </html>

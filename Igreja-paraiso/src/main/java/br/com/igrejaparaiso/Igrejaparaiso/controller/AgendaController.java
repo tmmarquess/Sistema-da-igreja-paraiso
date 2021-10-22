@@ -51,7 +51,7 @@ public class AgendaController {
         return modelo;
     }
 
-    @GetMapping("{id}/apagar")
+    @GetMapping("{id}/excluir")
     public ModelAndView apagar(@PathVariable String id) throws InterruptedException{
         ModelAndView modelo = new ModelAndView("redirect:/painel/agenda/");
 

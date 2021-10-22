@@ -13,17 +13,20 @@ public class Evento {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String data; // datas PRECISAM SER String
 
-    private String horario;
+    private String horaInicio;
+
+    private String horaFim;
 
     public Evento() {
     }
 
-    public Evento(String id, String nome, String descricao, String data, String horario) {
+    public Evento(String id, String nome, String descricao, String data, String horaInicio,String horaFim) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.data = data;
-        this.horario = horario;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
     }
 
     public String getId() {
@@ -58,12 +61,20 @@ public class Evento {
         this.data = data;
     }
 
-    public String getHorario() {
-        return horario;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHorario(String horario) {
-        this.horario = horario;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public String getHoraFim() {
+        return horaFim;
+    }
+
+    public void setHoraFim(String horaFim) {
+        this.horaFim = horaFim;
     }
 
     @Override
@@ -72,7 +83,8 @@ public class Evento {
         int result = 1;
         result = prime * result + ((data == null) ? 0 : data.hashCode());
         result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
-        result = prime * result + ((horario == null) ? 0 : horario.hashCode());
+        result = prime * result + ((horaFim == null) ? 0 : horaFim.hashCode());
+        result = prime * result + ((horaInicio == null) ? 0 : horaInicio.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         return result;
@@ -97,10 +109,15 @@ public class Evento {
                 return false;
         } else if (!descricao.equals(other.descricao))
             return false;
-        if (horario == null) {
-            if (other.horario != null)
+        if (horaFim == null) {
+            if (other.horaFim != null)
                 return false;
-        } else if (!horario.equals(other.horario))
+        } else if (!horaFim.equals(other.horaFim))
+            return false;
+        if (horaInicio == null) {
+            if (other.horaInicio != null)
+                return false;
+        } else if (!horaInicio.equals(other.horaInicio))
             return false;
         if (id == null) {
             if (other.id != null)
@@ -117,8 +134,8 @@ public class Evento {
 
     @Override
     public String toString() {
-        return "Evento [data=" + data + ", descricao=" + descricao + ", horario=" + horario + ", id=" + id + ", nome="
-                + nome + "]";
+        return "Evento [data=" + data + ", descricao=" + descricao + ", horaFim=" + horaFim + ", horaInicio="
+                + horaInicio + ", id=" + id + ", nome=" + nome + "]";
     }
 
 }

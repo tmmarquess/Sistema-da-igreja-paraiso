@@ -178,7 +178,9 @@
                             </thead>
                             <tbody>
                                 <tr th:each="comp : ${comprovantes}">
-                                    <td th:text="${comp.tipo}"></td>
+                                    <td>
+                                        <a th:href="@{/painel/pagamentos/{id}/ (id=${comp.id})}" th:text="${comp.tipo}"></a>
+                                    </td>
                                     <td th:text="${#temporals.format(comp.data,'dd/MM/yyyy')}"></td>
                                 </tr>
                             </tbody>

@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.gson.Gson;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,6 +128,7 @@ public class PainelController {
         modelo.addObject("links",linksNovos);
         modelo.addObject("nomePagina", "Links dos cultos");
         modelo.addObject("membro", logado);
+        modelo.addObject("link", new LinkDoCulto());
 
         return modelo;
     }
@@ -171,6 +173,24 @@ public class PainelController {
         return modelo;
     }
 
+    @GetMapping("/pagamentos/{id}")
+    public ModelAndView mostrarComprovante(@PathVariable String id) throws InterruptedException, ExecutionException, IOException{
+        ModelAndView modelo = new ModelAndView("redirect:/pdfs/comp.pdf");
+        ComprovanteSpring comprovante = ComprovanteParse.toSpring(compServ.getComprovanteById(id));
+
+        Path path = Paths.get("src/main/resources/static/pdfs/comp.pdf");
+        if (path.toFile().exists()) {
+            Files.delete(path);
+        }
+        if (comprovante.getArquivo() != null) {
+            Files.write(path, comprovante.getArquivo());
+        }
+
+        TimeUnit.SECONDS.sleep(5);
+
+        return modelo;
+    }
+
     @PostMapping("/pagamentos/editadados/")
     public ModelAndView editaPagamentos(InformacoesBancarias inform) throws InterruptedException, ExecutionException{
         ModelAndView modelo = new ModelAndView("redirect:/painel/pagamentos/");
@@ -200,6 +220,8 @@ public class PainelController {
             comp.setIdMembro(logado.getId());
 
             compServ.cadastrar(comp);
+
+            TimeUnit.SECONDS.sleep(3);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -256,6 +278,20 @@ public class PainelController {
 
         modelo.addObject("agenda", new Agenda());
 
+        return modelo;
+    }
+
+    @GetMapping("/membros")
+    public ModelAndView membros() throws InterruptedException, ExecutionException, IOException {
+        ModelAndView modelo = new ModelAndView("painel/membros.html");
+        ArrayList<Membro> membrosGoogle = membroserv.getAllMembros();
+        ArrayList<MembroSpring> membroSpring = new ArrayList<>();
+        for (Membro membro : membrosGoogle) {
+            membroSpring.add(MembroParse.toSpring(membro));
+        }
+        modelo.addObject("membros", membroSpring);
+        modelo.addObject("membro", logado);
+        modelo.addObject("nomePagina", "Membros");
         return modelo;
     }
 }
