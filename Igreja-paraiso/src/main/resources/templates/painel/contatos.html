@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <title>Contatos</title>
+
+    <style>
+        #links {
+            width: 37%;
+            height: 530px;
+            margin: 0 auto;
+            /*border-radius: 30px;*/
+            margin-top: 50px;
+            box-shadow: 9px 8px 16px rgba(48, 46, 46, 0.671);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/_navbar :: nav-painel}"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
+            <div id="links">
+                <h2 style="text-align: center;">Contatos</h2>
+                <br>
+                <div th:if="${membro.adm == true}">
+                    <form th:action="@{/contatos/cadastrar/}" method="post" th:object="${contatos}">
+                        <p class="fw-bold">Email: <input type="email"  id="telefone" th:field="*{email}"></p>
+                        
+                        <p class="fw-bold">Telefone: <input type="text" size="11" id="telefone" th:field="*{telefone}"></p>
+
+                        <p class="fw-bold">Instagram: <input type="text"   id="Instagram" th:field="*{instagram}"></p>
+
+                        <p class="fw-bold">Facebook: <input type="text"  id="Facebook" th:field="*{facebook}"></p>
+                        
+                        <p class="fw-bold">Cep: <input type="text"   placeholder=" 00000-000" id="cep" onblur="pesquisacep(this.value);" th:field="*{cep}"></p>
+                        
+                        <p class="fw-bold">Estado: <input type="text" id="uf" th:field="*{estado}"></p>
+                        
+                        <p class="fw-bold">Cidade: <input type="text" id="cidade" th:field="*{cidade}"></p>
+                        
+                        <p class="fw-bold">Bairro: <input type="text" id="bairro" th:field="*{bairro}"></p>
+                        
+                        <p class="fw-bold">Logradouro: <input type="text" id="rua" size="30" placeholder=" Logradouro" th:field="*{logradouro}"></p>
+                        
+                        <p class="fw-bold">Nº: <input type="text" size="5" placeholder=" Número" th:field="*{numeroEnd}" id="numero"></p>
+                        
+                        <p class="fw-bold">Complemento: <input type="text" size="20" th:field="*{complemento}"></p>
+                        
+                        <button type="submit" class="btn btn-primary">Salvar modificações</button>
+                    </form>
+                </div>
+                <div th:if="${membro.adm == false}">
+                    <p class="card-text fw-bold" th:if="${contatos.endereco != ''}">Endereço: <span style="font-weight: normal;" th:text="${contatos.endereco}"></span></p>
+                    <p class="card-text fw-bold" th:if="${contatos.email != ''}">Email: <span style="font-weight: normal;" th:text="${contatos.email}"></span></p>
+                    <p class="card-text fw-bold" th:if="${contatos.telefone != ''}">Telefone: <span style="font-weight: normal;" th:text="${contatos.telefone}"></span></p>
+                    <p class="card-text fw-bold" th:if="${contatos.instagram != ''}">Instagram: <a style="font-weight: normal;" th:href="${contatos.linkInstagram}"
+                            th:text="${contatos.instagram}"></a></p>
+                    <p class="card-text fw-bold" th:if="${contatos.facebook != ''}">Facebook: <a style="font-weight: normal;" th:href="${contatos.linkFacebook}"
+                            th:text="${contatos.facebook}"></a></p>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{fragments/_footer :: footer}"></div>
+</body>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+<script src="../../static/js/valida-cep.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/valida-cep.js}"></script>
+
+</html>

@@ -27,6 +27,7 @@ import br.com.igrejaparaiso.Igrejaparaiso.model.Agenda;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Comprovante;
 import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteSpring;
+import br.com.igrejaparaiso.Igrejaparaiso.model.Contatos;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Evento;
 import br.com.igrejaparaiso.Igrejaparaiso.model.InformacoesBancarias;
 import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCulto;
@@ -37,6 +38,7 @@ import br.com.igrejaparaiso.Igrejaparaiso.model.MembroParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.MembroSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.service.AgendaService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.ComprovanteService;
+import br.com.igrejaparaiso.Igrejaparaiso.service.ContatosService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.EventoService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.InformacoesBancariasService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.LinkService;
@@ -53,14 +55,16 @@ public class PainelController {
     InformacoesBancariasService BankServ;
     ComprovanteService compServ;
     AgendaService agendaService;
+    ContatosService servContatos;
 
-    public PainelController(EventoService serv, MembroService mServ,LinkService link,InformacoesBancariasService BankServ,ComprovanteService compServ, AgendaService agendaService) throws InterruptedException, ExecutionException {
+    public PainelController(EventoService serv, MembroService mServ,LinkService link,InformacoesBancariasService BankServ,ComprovanteService compServ, AgendaService agendaService,ContatosService servContatos) throws InterruptedException, ExecutionException {
         service = serv;
         membroserv = mServ;
         this.link = link;
         this.BankServ = BankServ;
         this.compServ = compServ;
         this.agendaService = agendaService;
+        this.servContatos = servContatos;
     }
 
     @GetMapping("/")
@@ -178,6 +182,12 @@ public class PainelController {
     @GetMapping("/pagamentos/{id}")
     public ModelAndView mostrarComprovante(@PathVariable String id) throws InterruptedException, ExecutionException, IOException{
         ModelAndView modelo = new ModelAndView("redirect:/pdfs/comp.pdf");
+
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
         ComprovanteSpring comprovante = ComprovanteParse.toSpring(compServ.getComprovanteById(id));
 
         Path path = Paths.get("src/main/resources/static/pdfs/comp.pdf");
@@ -286,6 +296,12 @@ public class PainelController {
     @GetMapping("/membros")
     public ModelAndView membros() throws InterruptedException, ExecutionException, IOException {
         ModelAndView modelo = new ModelAndView("painel/membros.html");
+
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
         ArrayList<Membro> membrosGoogle = membroserv.getAllMembros();
         ArrayList<MembroSpring> membroSpring = new ArrayList<>();
         for (Membro membro : membrosGoogle) {
@@ -294,6 +310,28 @@ public class PainelController {
         modelo.addObject("membros", membroSpring);
         modelo.addObject("membro", logado);
         modelo.addObject("nomePagina", "Membros");
+        return modelo;
+    }
+
+    @GetMapping("/contatos")
+    public ModelAndView contatos() throws InterruptedException, ExecutionException{
+        ModelAndView modelo = new ModelAndView("painel/contatos.html");
+
+        if(logado == null){
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        modelo.addObject("membro", logado);
+        modelo.addObject("nomePagina", "Contatos");
+
+        Contatos contatos = servContatos.getContatos();
+        if(contatos != null){
+            modelo.addObject("contatos", contatos);
+        }else{
+            modelo.addObject("contatos", new Contatos());
+        }
+
         return modelo;
     }
 }

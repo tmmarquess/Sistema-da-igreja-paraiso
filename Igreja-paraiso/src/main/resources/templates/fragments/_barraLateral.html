@@ -29,6 +29,14 @@
           Pagamentos
         </a>
       </li>
+      <div>
+        <hr>
+        <li>
+          <a th:href="@{/painel/contatos}" th:class="${nomePagina == 'Contatos' ? 'nav-link' : 'nav-link link-dark'}">
+            Contatos
+          </a>
+        </li>
+      </div>
       <div sec:authorize="hasAuthority('ADMIN')">
         <hr>
         <li>
