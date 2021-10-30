@@ -2,6 +2,7 @@ package br.com.igrejaparaiso.Igrejaparaiso.controller;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,9 +58,11 @@ public class EventoController {
     }
 
     @PostMapping("/cadastrar")
-    public ModelAndView cadastrar(Evento eve){
+    public ModelAndView cadastrar(Evento eve) throws InterruptedException{
         ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
         service.cadastrar(eve);
+
+        TimeUnit.SECONDS.sleep(2);
         return modelo;
     }
     
@@ -73,10 +76,11 @@ public class EventoController {
     }
 
     @PostMapping("/{id}/editar")
-    public ModelAndView editar(Evento eve) {
+    public ModelAndView editar(Evento eve) throws InterruptedException {
         ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
 
         service.editar(eve);
+        TimeUnit.SECONDS.sleep(2);
 
         return modelo;
     }

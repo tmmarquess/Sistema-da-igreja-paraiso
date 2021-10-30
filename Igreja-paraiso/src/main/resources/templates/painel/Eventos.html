@@ -36,7 +36,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="tituloModalForm">Cadastrar Evento</h5>
+          <h5 class="modal-title" id="tituloModalForm"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form method="POST" th:object="${evento}" th:action="@{/eventos/cadastrar/}" id="formEditar">
@@ -44,15 +44,37 @@
             <input type="hidden" id="idForm" th:field="*{id}">
             <p class="fw-bold">Nome: <input type="text" required id="temaForm" th:field="*{nome}"></p>
             <p class="fw-bold">Data: <input type="date" required id="dataForm" th:field="*{data}"></p>
-            <p class="fw-bold">Hora de Início: <input type="time" required id="dataForm" th:field="*{horaInicio}"></p>
-            <p class="fw-bold">Hora de Fim: <input type="time" required id="dataForm" th:field="*{horaFim}"></p>
-            <p class="fw-bold">Descrição: <textarea class="form-control" aria-label="With textarea" th:field="*{descricao}" id="linkForm" required></textarea></p>
+            <p class="fw-bold">Hora de Início: <input type="time" required id="horaInicioForm" th:field="*{horaInicio}"></p>
+            <p class="fw-bold">Hora de Fim: <input type="time" required id="horaFimForm" th:field="*{horaFim}"></p>
+            <p class="fw-bold">Descrição: <textarea class="form-control" aria-label="With textarea" th:field="*{descricao}" id="descForm" required></textarea></p>
           </div>
           <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Salvar</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="ModalFormVisualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalShow">Visua Evento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="fw-bold">Data: <span style="font-weight: normal;" id="dataShow"></span></p>
+          <p class="fw-bold">Hora de Início:<span style="font-weight: normal;" id="horaInShow"></span></p>
+          <p class="fw-bold">Hora de Fim: <span style="font-weight: normal;" id="horaFimShow"></span></p>
+          <p class="fw-bold">Descrição: <span style="font-weight: normal;" id="descShow"></span></p>
+        </div>
+        <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+          <a href="" id="linkExcluir" class="btn btn-danger"
+            onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Apagar</a>
+          <button type="button" class="btn btn-warning" onclick="abrirModalEditar()">Editar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +94,7 @@
   //Transforma esses objetos em objetos que o calendário possa ler
   var dataUtil = []
   objeto.forEach(element => {
-    var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horaInicio}:00`, eventTo: `${element.data} ${element.horaFim}:59`, href: `[[@{/eventos/}]]${element.id}/` }
+    var aux = { eventName: element.nome, eventFrom: `${element.data} ${element.horaInicio}:00`, eventTo: `${element.data} ${element.horaFim}:59`, href: `javascript:abrirModalView('${element.id}');`/*`[[@{/eventos/}]]${element.id}/`*/ }
     dataUtil.push(aux)
   });
   /*
@@ -97,9 +119,82 @@
     focus: true
   })
 
+  var modalvisualizar = new bootstrap.Modal(document.getElementById("ModalFormVisualizar"), {
+    keyboard: true,
+    backdrop: 'static',
+    focus: true
+  })
+  
+  var idAtual
+  var nomeAtual
+  var dataAtual
+  var horaInicioAtual
+  var horaFimAtual
+  var descAtual
+
   function abrirModalCad() {
+    document.getElementById("tituloModalForm").innerText = "Cadastrar Evento"
+    document.getElementById("formEditar").action = "[[@{/eventos/cadastrar/}]]"
+    document.getElementById("idForm").value = ""
+    document.getElementById("temaForm").value = ""
+    document.getElementById("dataForm").value = ""
+    document.getElementById("horaInicioForm").value = ""
+    document.getElementById("horaFimForm").value = ""
+    document.getElementById("descForm").value = ""
     modalForm.show()
   }
+
+  function abrirModalEditar(){
+    modalvisualizar.hide()
+
+    document.getElementById("tituloModalForm").innerText = "Editar Evento"
+    document.getElementById("formEditar").action = `/eventos/${idAtual}/editar/`
+
+    document.getElementById("idForm").value = idAtual
+    document.getElementById("temaForm").value = nomeAtual
+    document.getElementById("dataForm").value = dataAtual
+    document.getElementById("horaInicioForm").value = horaInicioAtual
+    document.getElementById("horaFimForm").value = horaFimAtual
+    document.getElementById("descForm").value = descAtual
+
+    modalForm.show()
+  }
+
+  function abrirModalView(id){
+
+    objeto.forEach(element => {
+      if(element.id == id){
+        idAtual = element.id
+        nomeAtual = element.nome
+        dataAtual = element.data
+        horaInicioAtual = element.horaInicio
+        horaFimAtual = element.horaFim
+        descAtual = element.descricao
+
+        if("[[${membro.adm}]]" == "true"){
+            document.getElementById("linkExcluir").href= `[[@{/eventos/}]]${idAtual}/excluir/`
+        }
+
+        document.getElementById("tituloModalShow").innerText = nomeAtual
+        document.getElementById("dataShow").innerText = dataAtual
+        document.getElementById("horaInShow").innerText = horaInicioAtual
+        document.getElementById("horaFimShow").innerText = horaFimAtual
+        document.getElementById("descShow").innerText = descAtual
+
+        modalvisualizar.show()
+      }
+    });
+
+  }
+
+/*
+            <input type="hidden" id="idForm" th:field="*{id}">
+            <p class="fw-bold">Nome: <input type="text" required id="temaForm" th:field="*{nome}"></p>
+            <p class="fw-bold">Data: <input type="date" required id="dataForm" th:field="*{data}"></p>
+            <p class="fw-bold">Hora de Início: <input type="time" required id="dataForm" th:field="*{horaInicio}"></p>
+            <p class="fw-bold">Hora de Fim: <input type="time" required id="dataForm" th:field="*{horaFim}"></p>
+            <p class="fw-bold">Descrição: <textarea class="form-control" aria-label="With textarea" th:field="*{descricao}" id="descForm" required></textarea></p>
+*/
 
 </script>
 
