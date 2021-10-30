@@ -12,6 +12,8 @@ public class MembroSpring {
 
     private byte[] imagem;
 
+    private String endereco;
+
     private boolean adm;
 
     private String numero;
@@ -38,11 +40,12 @@ public class MembroSpring {
 
 
     
-    public MembroSpring(String id, String nome, String imagem, boolean adm, String numero, String dataNasc, String email, String senha, String cep,
+    public MembroSpring(String id, String nome, String imagem, String endereco, boolean adm, String numero, String dataNasc, String email, String senha, String cep,
             String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
         this.id = id;
         this.nome = nome;
         setImagemLocal(imagem);
+        this.endereco = endereco;
         this.adm = adm;
         this.numero = numero;
         setDataNascLocal(dataNasc);
@@ -204,8 +207,23 @@ public class MembroSpring {
     }
 
     public String getImagemLocal(){
-        String encodedString = Base64.getEncoder().encodeToString(imagem);
+        String encodedString = null;
+        if(imagem != null){
+            encodedString = Base64.getEncoder().encodeToString(imagem);
+        }
         return encodedString;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setEnderecoPadrao(){
+        this.endereco = logradouro + ", "+numeroEnd+". "+bairro+". "+ (complemento.isEmpty() ? "":complemento+". ")+cidade+"/"+estado;
     }
 
     public boolean isAdm() {

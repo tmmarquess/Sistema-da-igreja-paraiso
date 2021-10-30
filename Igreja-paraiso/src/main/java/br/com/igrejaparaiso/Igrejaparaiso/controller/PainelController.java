@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,7 @@ import br.com.igrejaparaiso.Igrejaparaiso.model.Comprovante;
 import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteParse;
 import br.com.igrejaparaiso.Igrejaparaiso.model.ComprovanteSpring;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Contatos;
+import br.com.igrejaparaiso.Igrejaparaiso.model.CropImageToSquare;
 import br.com.igrejaparaiso.Igrejaparaiso.model.Evento;
 import br.com.igrejaparaiso.Igrejaparaiso.model.InformacoesBancarias;
 import br.com.igrejaparaiso.Igrejaparaiso.model.LinkDoCulto;
@@ -43,6 +46,7 @@ import br.com.igrejaparaiso.Igrejaparaiso.service.EventoService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.InformacoesBancariasService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.LinkService;
 import br.com.igrejaparaiso.Igrejaparaiso.service.MembroService;
+import net.coobird.thumbnailator.Thumbnails;
 
 @RestController
 @RequestMapping("/painel")
@@ -57,7 +61,9 @@ public class PainelController {
     AgendaService agendaService;
     ContatosService servContatos;
 
-    public PainelController(EventoService serv, MembroService mServ,LinkService link,InformacoesBancariasService BankServ,ComprovanteService compServ, AgendaService agendaService,ContatosService servContatos) throws InterruptedException, ExecutionException {
+    public PainelController(EventoService serv, MembroService mServ, LinkService link,
+            InformacoesBancariasService BankServ, ComprovanteService compServ, AgendaService agendaService,
+            ContatosService servContatos) throws InterruptedException, ExecutionException {
         service = serv;
         membroserv = mServ;
         this.link = link;
@@ -88,7 +94,7 @@ public class PainelController {
     public ModelAndView eventos() throws IOException {
         ModelAndView modelo = new ModelAndView("painel/Eventos.html");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -117,7 +123,7 @@ public class PainelController {
     public ModelAndView LinksCulto() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("painel/Links.html");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -125,13 +131,13 @@ public class PainelController {
         ArrayList<LinkDoCulto> links = link.getAllLinks();
         ArrayList<LinkDoCultoSpring> linksNovos = new ArrayList<LinkDoCultoSpring>();
 
-        for(LinkDoCulto link : links){
+        for (LinkDoCulto link : links) {
             linksNovos.add(LinkDoCultoParse.toSpring(link));
         }
 
         Collections.reverse(linksNovos);
 
-        modelo.addObject("links",linksNovos);
+        modelo.addObject("links", linksNovos);
         modelo.addObject("nomePagina", "Links dos cultos");
         modelo.addObject("membro", logado);
         modelo.addObject("link", new LinkDoCulto());
@@ -140,10 +146,10 @@ public class PainelController {
     }
 
     @GetMapping("/pagamentos")
-    public ModelAndView pagamentos() throws InterruptedException, ExecutionException{
+    public ModelAndView pagamentos() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("painel/pagamentos.html");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -152,38 +158,39 @@ public class PainelController {
         ArrayList<Comprovante> antigo = compServ.getComprovantesByMembroId(logado.getId());
         ArrayList<ComprovanteSpring> comps;
 
-        if(antigo!= null){
+        if (antigo != null) {
             comps = new ArrayList<ComprovanteSpring>();
-            for(Comprovante parse : antigo){
+            for (Comprovante parse : antigo) {
                 comps.add(ComprovanteParse.toSpring(parse));
             }
             comps.sort(Comparator.comparing(ComprovanteSpring::getData));
             Collections.reverse(comps);
 
             modelo.addObject("comprovantes", comps);
-        }else{
-            modelo.addObject("comprovantes",new ComprovanteSpring());
+        } else {
+            modelo.addObject("comprovantes", new ComprovanteSpring());
         }
 
         modelo.addObject("nomePagina", "Pagamentos");
         modelo.addObject("membro", logado);
 
-        if(inf == null){
+        if (inf == null) {
             modelo.addObject("informacoes", new InformacoesBancarias());
-        }else{
-            modelo.addObject("informacoes",inf);
+        } else {
+            modelo.addObject("informacoes", inf);
         }
 
-        modelo.addObject("comprovante",new Comprovante());
+        modelo.addObject("comprovante", new Comprovante());
 
         return modelo;
     }
 
     @GetMapping("/pagamentos/{id}")
-    public ModelAndView mostrarComprovante(@PathVariable String id) throws InterruptedException, ExecutionException, IOException{
+    public ModelAndView mostrarComprovante(@PathVariable String id)
+            throws InterruptedException, ExecutionException, IOException {
         ModelAndView modelo = new ModelAndView("redirect:/pdfs/comp.pdf");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -198,24 +205,35 @@ public class PainelController {
             Files.write(path, comprovante.getArquivo());
         }
 
-        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(2);
+
+        return modelo;
+    }
+
+    @GetMapping("/pagamentos/{id}/apagar")
+    public ModelAndView apagaComprovante(@PathVariable String id) throws InterruptedException {
+        ModelAndView modelo = new ModelAndView("redirect:/painel/pagamentos");
+
+        compServ.apagar(id);
+        TimeUnit.SECONDS.sleep(2);
 
         return modelo;
     }
 
     @PostMapping("/pagamentos/editadados/")
-    public ModelAndView editaPagamentos(InformacoesBancarias inform) throws InterruptedException, ExecutionException{
+    public ModelAndView editaPagamentos(InformacoesBancarias inform) throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("redirect:/painel/pagamentos/");
 
         BankServ.cadastrar(inform);
 
-        TimeUnit.SECONDS.sleep(3);
+        TimeUnit.SECONDS.sleep(2);
 
         return modelo;
     }
 
     @PostMapping("/pagamentos/uploadcomprovante")
-    public ModelAndView salvaPdf(@RequestParam("file") MultipartFile file, Comprovante comp) throws InterruptedException{
+    public ModelAndView salvaPdf(@RequestParam("file") MultipartFile file, Comprovante comp)
+            throws InterruptedException {
         ModelAndView modelo = new ModelAndView("redirect:/painel/pagamentos/");
 
         try {
@@ -242,19 +260,19 @@ public class PainelController {
     }
 
     @GetMapping("/aniversariantes")
-    public ModelAndView aniversariantes() throws InterruptedException, ExecutionException{
+    public ModelAndView aniversariantes() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("painel/aniversariantes.html");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
 
         ArrayList<Membro> aniversariantes = membroserv.getAniversariantes();
 
-        if(aniversariantes == null){
+        if (aniversariantes == null) {
             modelo.addObject("aniversariantes", new ArrayList<Membro>());
-        }else{
+        } else {
             modelo.addObject("aniversariantes", aniversariantes);
         }
 
@@ -266,10 +284,10 @@ public class PainelController {
     }
 
     @GetMapping("/agenda")
-    public ModelAndView agenda() throws InterruptedException, ExecutionException{
+    public ModelAndView agenda() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("painel/agenda.html");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -297,7 +315,7 @@ public class PainelController {
     public ModelAndView membros() throws InterruptedException, ExecutionException, IOException {
         ModelAndView modelo = new ModelAndView("painel/membros.html");
 
-        if(logado == null){
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -313,11 +331,155 @@ public class PainelController {
         return modelo;
     }
 
+    @GetMapping("/membros/{id}")
+    public ModelAndView membro(@PathVariable String id) throws InterruptedException, ExecutionException, IOException {
+        ModelAndView modelo = new ModelAndView("painel/membro.html");
+
+        if (logado == null) {
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        MembroSpring show = MembroParse.toSpring(membroserv.getMembroById(id));
+
+        modelo.addObject("membroShow", show);
+
+        Path path = Paths.get("src/main/resources/static/images/perfilShow.jpg");
+        if (path.toFile().exists()) {
+            Files.delete(path);
+        }
+        if (show.getImagem() != null) {
+            Files.write(path, show.getImagem());
+        }
+
+        TimeUnit.SECONDS.sleep(1);
+
+        modelo.addObject("membro", logado);
+        modelo.addObject("nomePagina", "Membro");
+
+        return modelo;
+    }
+
+    @GetMapping("/eu")
+    public ModelAndView eu() throws InterruptedException, ExecutionException, IOException {
+        ModelAndView modelo = new ModelAndView("painel/eu.html");
+
+        if (logado == null) {
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        modelo.addObject("membroShow", logado);
+
+        Path path = Paths.get("src/main/resources/static/images/perfilShow.jpg");
+        if (path.toFile().exists()) {
+            Files.delete(path);
+        }
+        if (logado.getImagem() != null) {
+            Files.write(path, logado.getImagem());
+        }
+
+        TimeUnit.SECONDS.sleep(1);
+
+        modelo.addObject("membro", logado);
+        modelo.addObject("nomePagina", "Eu");
+
+        return modelo;
+    }
+
+    @GetMapping("/eu/editar")
+    public ModelAndView editar() throws InterruptedException, ExecutionException {
+        ModelAndView modelo = new ModelAndView("membros/formulario.html");
+
+        if (logado == null) {
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        Membro membro = MembroParse.toGoogle(logado);
+
+        modelo.addObject("logado", membro);
+
+        modelo.addObject("membro", membro);
+
+        return modelo;
+    }
+
+    @PostMapping("/eu/editar")
+    public ModelAndView editar(@RequestParam("file") MultipartFile file, Membro cli)
+            throws InterruptedException, ExecutionException {
+        ModelAndView modelo = new ModelAndView("redirect:/painel/");
+
+        cli.setEnderecoPadrao();
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String senhaEncriptada = encoder.encode(cli.getSenha());
+        cli.setSenha(senhaEncriptada);
+
+        if (!file.isEmpty()) {
+            try {
+                // Get the file and save it somewhere
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get("src/main/resources/static/images/" + file.getOriginalFilename());
+                Files.write(path, bytes);
+
+                // diminui o tamanho máximo da imagem pra 300x300
+                Thumbnails.of(path.toFile()).size(300, 300).allowOverwrite(true).toFile(path.toFile());
+
+                // corta a imagem em um quadrado
+                CropImageToSquare.crop(path);
+
+                cli.setImagemLocal(Files.readAllBytes(path));
+                Files.delete(path);
+
+                path = Paths.get("src/main/resources/static/images/perfil.jpg");
+                if (path.toFile().exists()) {
+                    Files.delete(path);
+                }
+                if (cli.getImagem() != null) {
+                    Files.write(path, cli.getImagemLocal());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TimeUnit.SECONDS.sleep(2);
+        } else {
+            cli.setImagem(membroserv.getMembroById(cli.getId()).getImagem());
+        }
+        if (!membroserv.editar(cli)) {
+            modelo.setViewName("membros/formulario.html");
+            modelo.addObject("emailrepetido", "email já cadastrado");
+            modelo.addObject("membro", cli);
+        }
+
+        return modelo;
+    }
+
+    @GetMapping("/eu/excluir")
+    public ModelAndView excluir() {
+        ModelAndView modelo = new ModelAndView("redirect:/membros/login/");
+
+        if (logado == null) {
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        membroserv.apagar(logado.getId());
+        return modelo;
+    }
+
     @GetMapping("/contatos")
-    public ModelAndView contatos() throws InterruptedException, ExecutionException{
+    public ModelAndView contatos() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("painel/contatos.html");
 
-        if(logado == null){
+        if (logado == null) {
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        if (logado == null) {
             modelo.setViewName("redirect:/painel/");
             return modelo;
         }
@@ -326,11 +488,51 @@ public class PainelController {
         modelo.addObject("nomePagina", "Contatos");
 
         Contatos contatos = servContatos.getContatos();
-        if(contatos != null){
+        if (contatos != null) {
             modelo.addObject("contatos", contatos);
-        }else{
+        } else {
             modelo.addObject("contatos", new Contatos());
         }
+
+        return modelo;
+    }
+
+    @GetMapping("/comprovantes")
+    public ModelAndView comprovantes(@RequestParam(required = false, defaultValue = "") String mes)
+            throws InterruptedException, ExecutionException {
+        ModelAndView modelo = new ModelAndView("painel/comprovantes.html");
+
+        if (logado == null) {
+            modelo.setViewName("redirect:/painel/");
+            return modelo;
+        }
+
+        if (mes.isEmpty() || mes.equals("")) {
+            ArrayList<Comprovante> antigo = compServ.getComprovantesByMes(LocalDate.now().toString().substring(0, 6));
+            if (antigo != null) {
+                ArrayList<ComprovanteSpring> novo = new ArrayList<>();
+
+                for (Comprovante teste : antigo) {
+                    novo.add(ComprovanteParse.toSpring(teste));
+                }
+
+                modelo.addObject("comps", novo);
+            }
+        } else {
+            ArrayList<Comprovante> antigo = compServ.getComprovantesByMes(mes);
+            if (antigo != null) {
+                ArrayList<ComprovanteSpring> novo = new ArrayList<>();
+
+                for (Comprovante teste : antigo) {
+                    novo.add(ComprovanteParse.toSpring(teste));
+                }
+
+                modelo.addObject("comps", novo);
+            }
+        }
+
+        modelo.addObject("membro", logado);
+        modelo.addObject("nomePagina", "Comprovantes");
 
         return modelo;
     }

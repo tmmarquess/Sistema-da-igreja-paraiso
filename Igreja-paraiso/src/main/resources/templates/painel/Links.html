@@ -88,7 +88,7 @@
                     </div>
                         <div class="modal-body">
                             <p class="fw-bold">Tema: <span id="temaShow" style="font-weight: normal;"></span></p>
-                            <p class="fw-bold">Link: <a id="linkShow" style="font-weight: normal;"></a></p>
+                            <p class="fw-bold">Link: <a id="linkShow" target="_blank" style="font-weight: normal;"></a></p>
                             <p class="fw-bold">Data: <span id="dataShow" style="font-weight: normal;"></span></p>
                         </div>
                         <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
@@ -99,7 +99,6 @@
             </div>
         </div>
     </div>
-    <div th:replace="~{fragments/_footer :: footer}"></div>
 </body>
 <script src="../../static/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

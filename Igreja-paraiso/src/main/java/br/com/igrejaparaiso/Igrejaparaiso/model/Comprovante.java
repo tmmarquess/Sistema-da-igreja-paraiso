@@ -11,15 +11,18 @@ public class Comprovante {
 
     private String idMembro;
 
+    private String nomeMembro;
+
     private String arquivo;
 
     private String data;
 
     private String tipo;
 
-    public Comprovante(String id, String idMembro, String arquivo, String data, String tipo) {
+    public Comprovante(String id, String idMembro, String nomeMembro, String arquivo, String data, String tipo) {
         this.id = id;
         this.idMembro = idMembro;
+        this.nomeMembro = nomeMembro;
         this.arquivo = arquivo;
         this.data = data;
         this.tipo = tipo;
@@ -42,6 +45,14 @@ public class Comprovante {
 
     public void setIdMembro(String idMembro) {
         this.idMembro = idMembro;
+    }
+
+    public String getNomeMembro() {
+        return nomeMembro;
+    }
+
+    public void setNomeMembro(String nomeMembro) {
+        this.nomeMembro = nomeMembro;
     }
 
     public String getArquivo() {
@@ -98,7 +109,7 @@ public class Comprovante {
     @Override
     public String toString() {
         return "Comprovante [arquivo=" + arquivo + ", data=" + data + ", id=" + id + ", idMembro=" + idMembro
-                + ", tipo=" + tipo + "]";
+                + ", nomeMembro=" + nomeMembro + ", tipo=" + tipo + "]";
     }
 
     

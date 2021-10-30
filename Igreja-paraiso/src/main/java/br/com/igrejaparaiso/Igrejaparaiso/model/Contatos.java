@@ -71,7 +71,7 @@ public class Contatos {
     }
 
     public void setEnderecoPadrao(){
-        this.endereco = logradouro + ", "+numeroEnd+". "+bairro+". "+ (complemento !="" ? complemento+". ":"")+cidade+"/"+estado;
+        this.endereco = logradouro + ", "+numeroEnd+". "+bairro+". "+ (complemento.isEmpty() ? "":complemento+". ")+cidade+"/"+estado;
     }
 
     public String getTelefone() {

@@ -69,13 +69,13 @@ public class LinkController {
     }
 
     @PostMapping("/{id}/editar")
-    public ModelAndView editar(LinkDoCulto link){
+    public ModelAndView editar(LinkDoCulto link) throws InterruptedException{
         ModelAndView modelo = new ModelAndView("redirect:/painel/links");
 
         if(!link.getLink().startsWith("https://")){
             link.setLink("https://"+link.getLink());
         }
-
+        TimeUnit.SECONDS.sleep(2);
         service.editar(link);
 
         return modelo;
@@ -86,6 +86,7 @@ public class LinkController {
         ModelAndView modelo = new ModelAndView("redirect:/painel/links");
 
         service.apagar(id);
+        TimeUnit.SECONDS.sleep(2);
 
         return modelo;
     }

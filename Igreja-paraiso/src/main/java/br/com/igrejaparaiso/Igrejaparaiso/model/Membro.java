@@ -11,6 +11,8 @@ public class Membro {
     private String nome;
 
     private String imagem;
+    
+    private String endereco;
 
     private boolean adm;
 
@@ -36,15 +38,11 @@ public class Membro {
 
     private String cidade;
 
-
-    
-
-
-    public Membro(String id, String nome, String imagem, Boolean adm, String numero, String dataNasc, String email, String senha,
-        String cep, String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
+    public Membro(String id, String nome, String imagem, String endereco, Boolean adm, String numero, String dataNasc, String email, String senha, String cep, String logradouro, int numeroEnd, String complemento, String bairro, String estado, String cidade) {
     this.id = id;
     this.nome = nome;
     this.imagem = imagem;
+    this.endereco = endereco;
     this.adm = adm;
     this.numero = numero;
     this.dataNasc = dataNasc;
@@ -87,6 +85,19 @@ public class Membro {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public void setEnderecoPadrao(){
+        this.endereco = logradouro + ", "+numeroEnd+". "+bairro+". "+ (complemento.isEmpty() ? "":complemento+". ")+cidade+"/"+estado;
     }
 
     @Exclude

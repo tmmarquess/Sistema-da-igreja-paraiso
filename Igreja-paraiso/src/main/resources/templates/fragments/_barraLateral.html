@@ -1,4 +1,4 @@
-<div class="vh-86 d-flex flex-column flex-shrink-0 p-3 bg-light col-2" th:fragment="painel-lateral" style="box-shadow: 1px 1px 2px black;">
+<div class=" vh-93 d-flex flex-column flex-shrink-0 p-3 bg-light col-2" th:fragment="painel-lateral" style="box-shadow: 1px 1px 2px black;">
     <ul class="nav nav-pills flex-column mb-auto well">
       <li class="nav-item">
         <a th:href="@{/painel/agenda/}" th:class="${nomePagina == 'Agenda' ? 'nav-link' : 'nav-link link-dark'}">
@@ -42,6 +42,14 @@
         <li>
           <a th:href="@{/painel/membros}" th:class="${nomePagina == 'Membros' ? 'nav-link' : 'nav-link link-dark'}">
             Membros
+          </a>
+        </li>
+      </div>
+      <div sec:authorize="hasAuthority('ADMIN')">
+        <hr>
+        <li>
+          <a th:href="@{/painel/comprovantes}" th:class="${nomePagina == 'Comprovantes' ? 'nav-link' : 'nav-link link-dark'}">
+            Comprovantes
           </a>
         </li>
       </div>

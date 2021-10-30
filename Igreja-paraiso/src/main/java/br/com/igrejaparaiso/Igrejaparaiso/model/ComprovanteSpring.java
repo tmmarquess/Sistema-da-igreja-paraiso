@@ -10,15 +10,18 @@ public class ComprovanteSpring {
 
     private String idMembro;
 
+    private String nomeMembro;
+
     private byte[] arquivo;
 
     private LocalDate data;
 
     private String tipo;
 
-    public ComprovanteSpring(String id, String idMembro, String arquivo, String data, String tipo) {
+    public ComprovanteSpring(String id, String idMembro, String nomeMembro, String arquivo, String data, String tipo) {
         this.id = id;
         this.idMembro = idMembro;
+        this.nomeMembro = nomeMembro;
         setArquivoLocal(arquivo);
         setDataLocal(data);
         this.tipo = tipo;
@@ -41,6 +44,14 @@ public class ComprovanteSpring {
 
     public void setIdMembro(String idMembro) {
         this.idMembro = idMembro;
+    }
+
+    public String getNomeMembro() {
+        return nomeMembro;
+    }
+
+    public void setNomeMembro(String nomeMembro) {
+        this.nomeMembro = nomeMembro;
     }
 
     public byte[] getArquivo() {
@@ -94,7 +105,7 @@ public class ComprovanteSpring {
     @Override
     public String toString() {
         return "ComprovanteSpring [arquivo=" + Arrays.toString(arquivo) + ", data=" + data + ", id=" + id
-                + ", idMembro=" + idMembro + ", tipo=" + tipo + "]";
+                + ", idMembro=" + idMembro + ", nomeMembro=" + nomeMembro + ", tipo=" + tipo + "]";
     }
 
     

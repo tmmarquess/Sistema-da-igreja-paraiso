@@ -34,14 +34,15 @@
             <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
             <label for="data">Data de Nascimento:</label>
             <input type="date" name="data" id="data" th:field="*{dataNasc}">
-            <label for="adm"  th:if="${membro.adm == true}">Admnistrador?</label>
-            <select name="adm" id="adm" th:field="*{adm}" th:if="${membro.adm == true}">
+            <label for="adm"  th:if="${logado != null && logado.adm == true}">Admnistrador?</label>
+            <select name="adm" id="adm" th:field="*{adm}" th:if="${logado != null && logado.adm == true}">
                 <option value="true">Sim</option>
                 <option value="false">não</option>
             </select><br><br>
             <label for="foto">Foto de Perfil:</label>
-            <input type="file" id="foto" value="Choose a file" accept=".jpg" name="file" onchange="getValues()">
-            <label class="button btn btn-secondary" for="foto" id="labelFoto">Upload</label><br><br>
+            <input type="file" id="foto" value="Choose a file" accept=".jpg" name="file" onchange="showName(this)">
+            <label class="button btn btn-secondary" for="foto" id="labelFoto">Upload</label>
+            <input type="text" disabled name="" id="nomeFile" placeholder="Nome do arquivo"><br><br>
 
             <br>
             <h2>Endereço</h2><br>
@@ -81,5 +82,11 @@
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
 </body>
-
+<script>
+    function showName(file) {
+        let arquivo = file.files[0]
+        document.getElementById("nomeFile").value = arquivo.name
+        myModal.show()
+    }
+</script>
 </html>

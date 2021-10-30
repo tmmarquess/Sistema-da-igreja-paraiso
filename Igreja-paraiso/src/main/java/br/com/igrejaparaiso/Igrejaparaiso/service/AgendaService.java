@@ -11,7 +11,6 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
@@ -34,16 +33,10 @@ public class AgendaService {
     public ArrayList<ArrayList<Agenda>> getAllEvs() throws InterruptedException, ExecutionException{
         ArrayList<ArrayList<Agenda>> lista = new ArrayList<>();
 
-        ArrayList<String> dias = new ArrayList<>();
-        dias.add("Segunda");
-        dias.add("Terça");
-        dias.add("Quarta");
-        dias.add("Quinta");
-        dias.add("Sexta");
-        dias.add("Sabado");
-        dias.add("Domingo");
+        List<String> dias =  List.of("Segunda","Terça","Quarta","Quinta","Sexta","Sabado","Domingo");
 
         CollectionReference evs = conex.collection("Agenda");
+
         List<QueryDocumentSnapshot> querySnapshot;
         ArrayList<Agenda> eventos = new ArrayList<>();
 

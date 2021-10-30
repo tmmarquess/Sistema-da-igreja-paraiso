@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -75,7 +76,7 @@ public class MembroController {
             Files.write(path, membro.getImagem());
         }
 
-        TimeUnit.SECONDS.sleep(3);
+        TimeUnit.SECONDS.sleep(2);
 
         modelo.addObject("membro", membro);
 
@@ -90,7 +91,7 @@ public class MembroController {
     }
 
     @GetMapping("/cadastro")
-    public ModelAndView cadastrar() {
+    public ModelAndView cadastrar() throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("membros/formulario.html");
         modelo.addObject("membro", new Membro());
         modelo.addObject("emailrepetido", "");
@@ -103,6 +104,7 @@ public class MembroController {
         ModelAndView modelo = new ModelAndView("redirect:/membros/login/");
         
         cli.setAdm(false);
+        cli.setEnderecoPadrao();
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String senhaEncriptada = encoder.encode(cli.getSenha());
@@ -144,9 +146,12 @@ public class MembroController {
     }
 
     @GetMapping("/{id}/editar")
-    public ModelAndView editar(@PathVariable String id) throws InterruptedException, ExecutionException {
+    public ModelAndView editar(@PathVariable String id, Principal principal) throws InterruptedException, ExecutionException {
         ModelAndView modelo = new ModelAndView("membros/formulario.html");
         Membro membro = service.getMembroById(id);
+
+        Membro logado = service.getMembroByEmail(principal.getName());
+        modelo.addObject("logado", logado);
 
         modelo.addObject("membro", membro);
 
@@ -156,7 +161,9 @@ public class MembroController {
     @PostMapping("/{id}/editar")
     public ModelAndView editar(@RequestParam("file") MultipartFile file, Membro cli)
             throws InterruptedException, ExecutionException {
-        ModelAndView modelo = new ModelAndView("redirect:/painel/eventos/");
+        ModelAndView modelo = new ModelAndView("redirect:/painel/membros/");
+
+        cli.setEnderecoPadrao();
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String senhaEncriptada = encoder.encode(cli.getSenha());
@@ -190,7 +197,9 @@ public class MembroController {
                 e.printStackTrace();
             }
 
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(2);
+        }else{
+            cli.setImagem(service.getMembroById(cli.getId()).getImagem());
         }
         if (!service.editar(cli)) {
             modelo.setViewName("membros/formulario.html");

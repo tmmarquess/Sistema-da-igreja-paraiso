@@ -28,9 +28,9 @@
 <nav class="navbar navbar-light bg-light" th:fragment="nav-painel" style="box-shadow: 1px 1px 2px black;">
   <div class="container-fluid">
       <div class="col">
-          <a class="navbar-brand" th:href="@{/membros/{id}/ (id=${membro.id})}" style="margin-right:0px;">
-              <img th:src="@{/images/perfil.jpg}" alt="" width="32" height="32" class="rounded-circle me-2" th:if="membro.imagem != null">
-              <a th:href="@{/membros/{id}/ (id=${membro.id})}" th:text="${membro.nome}">editar Conta</a>
+          <a class="navbar-brand" th:href="@{/painel/eu/}" style="margin-right:0px;">
+              <img th:src="@{/images/perfil.jpg}" alt="" width="32" height="32" class="rounded-circle me-2" th:if="${membro.imagem != null}">
+              <a th:href="@{/painel/eu/}" th:text="${membro.nome}">editar Conta</a>
           </a>
       </div>
       <div class="col" th:text="${nomePagina}">

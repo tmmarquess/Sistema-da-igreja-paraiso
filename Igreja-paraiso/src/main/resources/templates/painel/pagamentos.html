@@ -43,29 +43,40 @@
                     <h5 class="modal-title" id="exampleModalLabel">Dados Bancários</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="my-form" id="formularioDados" method="post" th:action="@{/painel/pagamentos/editadados/}" th:object="${informacoes}">
+                <form class="my-form" id="formularioDados" method="post" th:action="@{/painel/pagamentos/editadados/}"
+                    th:object="${informacoes}" th:if="${membro.adm == true}">
                     <div class="modal-body">
                         <p class="fw-bold">Banco:
-                            <input type="text" th:if="${membro.adm == true}" th:field="*{banco}">
-                            <span th:unless="${membro.adm == true}" th:text="*{banco}" style="font-weight: normal;"></span>
+                            <input type="text" th:field="*{banco}">
                         </p>
                         <p class="fw-bold">Agencia:
-                            <input type="text" th:if="${membro.adm == true}" th:field="*{agencia}">
-                            <span th:unless="${membro.adm == true}" th:text="*{agencia}" style="font-weight: normal;"></span>
+                            <input type="text" th:field="*{agencia}">
                         </p>
                         <p class="fw-bold">Conta:
-                            <input type="text" th:if="${membro.adm == true}" th:field="*{conta}">
-                            <span th:unless="${membro.adm == true}" th:text="*{conta}" style="font-weight: normal;"></span>
+                            <input type="text" th:field="*{conta}">
                         </p>
-                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{pixCnpj}">
-                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{pixTel}">
-                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{pixEmail}">
+                        <input type="hidden" th:field="*{pixCnpj}">
+                        <input type="hidden" th:field="*{pixTel}">
+                        <input type="hidden" th:field="*{pixEmail}">
                     </div>
                     <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                         <button type="submit" class="btn btn-primary">Salvar modificações</button>
                     </div>
                 </form>
+                <div class="modal-body" th:if="${membro.adm == false}">
+                    <p class="fw-bold" th:unless="${#strings.isEmpty(informacoes.banco)}">Banco:
+                        <span th:text="${informacoes.banco}" style="font-weight: normal;"></span>
+                    </p>
+                    <p class="fw-bold" th:unless="${#strings.isEmpty(informacoes.agencia)}">Agencia:
+                        <span th:unless="${membro.adm == true}" th:text="${informacoes.agencia}"
+                            style="font-weight: normal;"></span>
+                    </p>
+                    <p class="fw-bold" th:unless="${#strings.isEmpty(informacoes.conta)}">Conta:
+                        <span th:unless="${membro.adm == true}" th:text="${informacoes.conta}"
+                            style="font-weight: normal;"></span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -77,31 +88,42 @@
                     <h5 class="modal-title" id="exampleModalLabel">Chaves Pix</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="my-form" id="formularioDados" method="post" th:action="@{/painel/pagamentos/editadados/}" th:object="${informacoes}">
-                <div class="modal-body">
-                    
+                <form class="my-form" id="formularioDados" method="post" th:action="@{/painel/pagamentos/editadados/}"
+                    th:object="${informacoes}" th:if="${membro.adm == true}">
+                    <div class="modal-body">
                         <p class="fw-bold">CNPJ:
-                            <input type="text" th:if="${membro.adm == true}" th:field="*{pixCnpj}">
-                            <span th:unless="${membro.adm == true}" th:text="*{pixCnpj}" style="font-weight: normal;"></span>
+                            <input type="text" th:field="*{pixCnpj}">
                         </p>
                         <p class="fw-bold">Telefone:
-                            <input type="text" th:if="${membro.adm == true}" th:field="*{pixTel}">
-                            <span th:unless="${membro.adm == true}" th:text="*{pixTel}" style="font-weight: normal;"></span>
+                            <input type="text" th:field="*{pixTel}">
                         </p>
                         <p class="fw-bold">Email:
-                            <input type="text" th:if="${membro.adm == true}" th:field="*{pixEmail}">
-                            <span th:unless="${membro.adm == true}" th:text="*{pixEmail}" style="font-weight: normal;"></span>
+                            <input type="text" th:field="*{pixEmail}">
                         </p>
-                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{banco}">
-                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{agencia}">
-                        <input type="hidden" th:if="${membro.adm == true}" th:field="*{conta}">
-                    
+                        <input type="hidden" th:field="*{banco}">
+                        <input type="hidden" th:field="*{agencia}">
+                        <input type="hidden" th:field="*{conta}">
+
+                    </div>
+                    <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar modificações</button>
+                    </div>
+                </form>
+                <div class="modal-body" th:if="${membro.adm == false}">
+
+                    <p class="fw-bold" th:unless="${#strings.isEmpty(informacoes.pixCnpj)}">CNPJ:
+                        <span th:text="${informacoes.pixCnpj}"
+                            style="font-weight: normal;"></span>
+                    </p>
+                    <p class="fw-bold" th:unless="${#strings.isEmpty(informacoes.pixTel)}">Telefone:
+                        <span th:text="${informacoes.pixTel}" style="font-weight: normal;"></span>
+                    </p>
+                    <p class="fw-bold" th:unless="${#strings.isEmpty(informacoes.pixEmail)}">Email:
+                        <span th:text="${informacoes.pixEmail}"
+                            style="font-weight: normal;"></span>
+                    </p>
                 </div>
-                <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary">Salvar modificações</button>
-                </div>
-            </form>
             </div>
         </div>
     </div>
@@ -161,7 +183,8 @@
                             <br>
                             <img th:src="@{/images/uploadIcon.png}" alt="" height="100px">
                             <p class="fw-bold">upload do comprovante</p>
-                            <input type="file" name="file" id="fileElem" accept="application/pdf" onchange="showModal(this)">
+                            <input type="file" name="file" id="fileElem" accept="application/pdf"
+                                onchange="showModal(this)">
                             <input type="hidden" id="tipoComp" th:field="*{tipo}">
                             <label class="button btn btn-secondary" for="fileElem">Fazer upload do comprovante</label>
                         </form>
@@ -174,14 +197,17 @@
                                 <tr>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Data</th>
+                                    <th scope="col">Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="comp : ${comprovantes}">
                                     <td>
-                                        <a th:href="@{/painel/pagamentos/{id}/ (id=${comp.id})}" th:text="${comp.tipo}"></a>
+                                        <a th:href="@{/painel/pagamentos/{id}/ (id=${comp.id})}" th:text="${comp.tipo}"
+                                            target="_blank"></a>
                                     </td>
                                     <td th:text="${#temporals.format(comp.data,'dd/MM/yyyy')}"></td>
+                                    <td><a th:href="@{/painel/pagamentos/{id}/apagar (id=${comp.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Apagar</a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -190,7 +216,6 @@
 
             </div>
         </div>
-        <div th:replace="~{fragments/_footer :: footer}"></div>
 </body>
 <script src="../../static/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -203,7 +228,7 @@
         focus: true
     })
 
-    function showModal(file){
+    function showModal(file) {
         let arquivo = file.files[0]
         document.getElementById("nomeFile").innerText = arquivo.name
         myModal.show()
@@ -212,12 +237,12 @@
     function submit() {
         tipo = document.getElementById("selectTipo").value
 
-        if(tipo == 'choose'){
+        if (tipo == 'choose') {
             alert("Escolha um tipo!")
-        }else{
+        } else {
             document.getElementById("tipoComp").value = tipo;
             document.getElementById("formulario").submit();
-        }        
+        }
     }
 </script>
 

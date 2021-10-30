@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-    <title>Links do Culto</title>
+    <title>Comprovantes</title>
 
     <style>
         #links {
@@ -20,6 +20,7 @@
             margin-top: 50px;
             box-shadow: 9px 8px 16px rgba(48, 46, 46, 0.671);
             overflow-y: auto;
+            padding: 10px;
         }
     </style>
 </head>
@@ -31,26 +32,36 @@
         <div class="row">
             <div th:replace="~{fragments/_barraLateral :: painel-lateral}"></div>
             <div id="links">
-                <table class="table" th:unless="${#lists.isEmpty(aniversariantes)}">
+                <form method="get">
+                    <h6>Mês: <input type="month" id="mes" name="mes"> &nbsp; <input type="submit" class="btn btn-success" value="Pesquisar"></h6>
+                </form>
+                <table class="table" th:if="${comps != null}">
                     <thead>
                         <tr>
-                            <th scope="col">nome</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Membro</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="aniversariante : ${aniversariantes}">
+                        <tr th:each="comp : ${comps}">
                             <td>
-                                <p th:text="${aniversariante.nome}" class="fw-bold"></p>
-                              </td>
+                                <a th:text="${comp.tipo}" th:href="@{/painel/pagamentos/{id} (id=${comp.id})}" th:id="${comp.id}" target="_blank"></a>
+                            </td>
+                            <td th:text="${#temporals.format(comp.data,'dd/MM/yyyy')}"></td>
+                            <td th:text="${comp.nomeMembro}"></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="align-self-center" th:if="${#lists.isEmpty(aniversariantes)}">
-                    <h4 style="color: black; margin-top: 45%;">Não há aniversariantes Hoje :(</h4>
+                <div th:unless="${comps != null}" class="align-self-center">
+                    <h4 style="color: black; margin-top: 45%;">Não há comprovantes neste mês</h4>
                 </div>
             </div>
-        </div>
     </div>
 </body>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+</script>
 
 </html>
