@@ -37,3 +37,7 @@ build/
 
 ### Imagem de perfil ###
 !**/src/main/resources/static/images/perfil.jpg
+
+Igreja-paraiso/src/main/resources/static/pdfs/comp.pdf
+Igreja-paraiso/src/main/resources/static/images/perfilShow.jpg
+Igreja-paraiso/src/main/resources/static/images/perfil.jpg
