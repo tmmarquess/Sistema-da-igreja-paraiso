@@ -165,9 +165,13 @@ public class MembroController {
 
         cli.setEnderecoPadrao();
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String senhaEncriptada = encoder.encode(cli.getSenha());
-        cli.setSenha(senhaEncriptada);
+        if(!cli.getSenha().isEmpty()){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String senhaEncriptada = encoder.encode(cli.getSenha());
+            cli.setSenha(senhaEncriptada);
+        }else{
+            cli.setSenha(service.getMembroById(cli.getId()).getSenha());
+        }
 
         if (!file.isEmpty()) {
             try {

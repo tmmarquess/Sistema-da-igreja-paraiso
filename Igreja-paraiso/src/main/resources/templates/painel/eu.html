@@ -36,7 +36,7 @@
                     <div class="container">
                         <div class="row"><a href="#" onclick="voltar()" style="text-align: left;"><i class="fa fa-arrow-left"></i></a></div>
                     </div>
-                    <img th:src="@{/images/perfilShow.jpg}" th:unless="${membroShow.imagem == null}" alt="" width="128" height="128" class="rounded-circle me-2">
+                    <img th:src="@{/images/perfil.jpg}" th:unless="${membroShow.imagem == null}" alt="" width="128" height="128" class="rounded-circle me-2">
                     <h3 th:text="${membroShow.nome}"></h3>
                     <br>
                     <p><i class="fa fa-envelope"></i> <span th:text="${membroShow.email}"></span></p>

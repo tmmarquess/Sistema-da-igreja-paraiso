@@ -207,7 +207,7 @@
                                             target="_blank"></a>
                                     </td>
                                     <td th:text="${#temporals.format(comp.data,'dd/MM/yyyy')}"></td>
-                                    <td><a th:href="@{/painel/pagamentos/{id}/apagar (id=${comp.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Apagar</a></td>
+                                    <td><a th:if="${comp != null}" th:href="@{/painel/pagamentos/{id}/apagar (id=${comp.id})}" class="btn btn-danger" onclick="return confirm('Tem certeza de que deseja excluí-lo?')">Apagar</a></td>
                                 </tr>
                             </tbody>
                         </table>

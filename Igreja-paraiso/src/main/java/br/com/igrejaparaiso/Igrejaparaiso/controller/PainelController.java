@@ -248,6 +248,8 @@ public class PainelController {
 
             comp.setIdMembro(logado.getId());
 
+            comp.setNomeMembro(logado.getNome());
+
             compServ.cadastrar(comp);
 
             TimeUnit.SECONDS.sleep(2);

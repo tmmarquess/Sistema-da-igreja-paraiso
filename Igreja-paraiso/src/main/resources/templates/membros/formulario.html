@@ -30,8 +30,8 @@
             <input type="text" size="20" placeholder=" Número de Membro" th:field="*{numero}" id="tel"><br><br>
             <label for="email">Email:</label>
             <input type="email" size="40" placeholder=" Endereço de Email" th:field="*{email}" id="email">
-            <label for="senha">Senha:</label>
-            <input type="password" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
+            <label for="senha" th:if="${logado == null || logado.id == membro.id}">Senha:</label>
+            <input th:type="${logado == null || logado.id == membro.id ? 'password':'hidden'}" placeholder=" No mínimo 8 caracteres" th:field="*{senha}" id="senha"> <br><br>
             <label for="data">Data de Nascimento:</label>
             <input type="date" name="data" id="data" th:field="*{dataNasc}">
             <label for="adm"  th:if="${logado != null && logado.adm == true}">Admnistrador?</label>

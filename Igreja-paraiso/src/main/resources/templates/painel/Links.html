@@ -122,6 +122,12 @@
     function abrirModalCad() {
         document.getElementById("tituloModalForm").innerText= "Cadastrar Evento"
         document.getElementById("formEditar").action = "[[@{/link/}]]cadastrar/"
+
+        document.getElementById("idForm").value = ""
+        document.getElementById("temaForm").value = ""
+        document.getElementById("linkForm").value = ""
+        document.getElementById("dataForm").value = ""
+
         modalForm.show()
     }
     function abrirModalEditar() {
