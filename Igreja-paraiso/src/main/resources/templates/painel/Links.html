@@ -92,8 +92,8 @@
                             <p class="fw-bold">Data: <span id="dataShow" style="font-weight: normal;"></span></p>
                         </div>
                         <div class="modal-footer" sec:authorize="hasAuthority('ADMIN')">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-primary" onclick="abrirModalEditar()">Editar</button>
+                            <a id="apagar" href="" class="btn btn-danger"   >apagar</a>
+                            <button type="button" class="btn btn-warning" onclick="abrirModalEditar()">Editar</button>
                         </div>
                 </div>
             </div>
@@ -151,6 +151,7 @@
         document.getElementById("linkShow").href = link
         document.getElementById("linkShow").innerText = link
         document.getElementById("dataShow").innerText = data
+        document.getElementById("apagar").href = `/link/${id}/excluir`
         modalShow.show()
     }
 </script>
